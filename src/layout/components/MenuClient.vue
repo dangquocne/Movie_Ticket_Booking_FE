@@ -71,16 +71,19 @@
 
                 </div>
                  <ul class="navbar-nav mb-2 mb-lg-0">
-                     
+                     <router-link to="/client/dang-nhap">
                                 <li class="nav-item">
                                     <a class="nav-link active fs-6" aria-current="page" href="/client/dang-nhap"> Login</a>
-
+                      
                                 </li>
+
+                         </router-link>    
+                         <router-link to="/client/dang-ky">
                                 <li class="nav-item">
                                     <a class="nav-link active fs-6" aria-current="page" href="/client/dang-ky">Register</a>
                                 </li>
-                    
-                  
+                           </router-link>
+
 
                  </ul>
 
