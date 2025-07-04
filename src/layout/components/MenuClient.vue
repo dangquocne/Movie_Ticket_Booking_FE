@@ -1,7 +1,8 @@
 <template>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark py-0" style="background-color: #000957;">
-            <div class="container"> <a class="navbar-brand fs-4 fw-bold" href="#"><span class="text-warning">DZ</span>Cinema</a>
+            <div class="container"> 
+                <a class="navbar-brand fs-4 fw-bold" href="#"><span class="text-warning">DZ</span>Cinema</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1"
                     aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
@@ -39,7 +40,7 @@
                             </li>
                         </router-link>
                     </ul>
-                    <div class="d-flex nav-search">
+                    <!-- <div class="d-flex nav-search">
                         <div class="my-2 border radius-30 ">
                             <div class="dropdown">
                                 <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret"
@@ -64,8 +65,25 @@
                             </div>
                         </div>
 
-                    </div>
+                    </div> -->
+
+                   
+
                 </div>
+                 <ul class="navbar-nav mb-2 mb-lg-0">
+                     
+                                <li class="nav-item">
+                                    <a class="nav-link active fs-6" aria-current="page" href="/client/dang-nhap"> Login</a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active fs-6" aria-current="page" href="/client/dang-ky">Register</a>
+                                </li>
+                    
+                  
+
+                 </ul>
+
             </div>
         </nav>
     </header>
