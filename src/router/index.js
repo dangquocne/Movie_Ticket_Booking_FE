@@ -51,7 +51,7 @@ const routes = [
         // beforeEnter: checkKhachHang
     },
     {
-        path: "/chi-tiet-phim/:id_phim",
+        path: "/chi-tiet-phim/",
         component: () => import("../components/Client/ChiTietPhim/index.vue"),
         meta: { layout: "client" },
         props: true,
@@ -73,11 +73,11 @@ const routes = [
         meta: { layout: "client" },
     },
     {
-        path: "/client/dat-ve/:id_suat_chieu",
+        path: "/client/dat-ve",
         component: () => import("../components/Client/DatVe/index.vue"),
         meta: { layout: "client" },
         props: true,
-        beforeEnter: checkKhachHang
+        // beforeEnter: checkKhachHang
     },
 
     {

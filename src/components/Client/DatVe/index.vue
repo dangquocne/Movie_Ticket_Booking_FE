@@ -1,4 +1,31 @@
-<template>
+<style>
+  /* .ghe {
+    padding: 10px;
+    margin: 5px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    width: 100px;
+  } */
+   .ghe{
+    cursor: pointer;
+   }
+
+  .ghe i {
+    color: #ccc;
+  }
+
+  .ghe.chon {
+    border-color: #f97316;
+    background-color: #fff7ed;
+  }
+
+  .ghe.chon i {
+    color: #f97316;
+  }
+</style>
+<template >
     <div class="container mt-4">
         <div class="row">
             <div class="col-lg-12">
@@ -15,37 +42,121 @@
                                         <p class="mt-5"></p>
                                     </th>
                                 </tr>
-                                <template v-for="(row, key) in taoGheChoPhong" :key="key">
-                                    <tr>
-                                        <template v-for="(value, index) in row" :key="index">
-                                            <th @click="chonGhe(value)" class="text-center">
-                                                <template v-if="value.id_don_hang > 0">
-                                                    <div class="border rounded shadow-sm p-2 bg-light"
-                                                        style="color: #d6d6d6;">
-                                                        <div class="fw-bold fs-6 ">{{ value.ten_ghe }} - {{
-                                                            formatVND(value.gia_ve) }}</div>
-                                                        <i class="fa-solid fa-couch  m-2" style="color: #d6d6d6;"></i>
-                                                    </div>
-                                                </template>
-                                                <template v-else-if="value.id_don_hang == 0">
-                                                    <div class="border border-dark rounded shadow-sm p-2 bg-light">
-                                                        <div class="fw-bold fs-6 text-secondary">{{
-                                                            value.ten_ghe }} - {{ formatVND(value.gia_ve) }}
-                                                        </div>
-                                                        <i class="fa-solid fa-couch  m-2 text-secondary"></i>
-                                                    </div>
-                                                </template>
-                                                <template v-else>
-                                                    <div class="border border-warning rounded shadow-sm p-2 bg-light">
-                                                        <div class="fw-bold fs-6 " style="color: #f97316;">{{
-                                                            value.ten_ghe }} - {{ formatVND(value.gia_ve) }}</div>
-                                                        <i class="fa-solid fa-couch  m-2" style="color: #f97316;"></i>
-                                                    </div>
-                                                </template>
-                                            </th>
-                                        </template>
-                                    </tr>
-                                </template>
+                                <!-- <template v-for="(row, key) in taoGheChoPhong" :key="key"> -->
+                                <!-- Hàng A -->
+                                <tr>
+                                    <th class="text-center"  onclick="chonGhe(this)">
+                                        <div class=" ghe border border-dark rounded shadow-sm p-2 bg-light" >
+                                            <div class="fw-bold fs-6 text-secondary">A1 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2 text-secondary"></i>
+                                        </div>
+                                    </th>
+                                    <th class="text-center" @click="chonGhe('A2')">
+                                        <div class="border border-warning rounded shadow-sm p-2 bg-light">
+                                            <div class="fw-bold fs-6" style="color: #f97316;">A2 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2" style="color: #f97316;"></i>
+                                        </div>
+                                    </th>
+                                    <th class="text-center" @click="chonGhe('A3')">
+                                        <div class="border rounded shadow-sm p-2 bg-light" style="color: #d6d6d6;">
+                                            <div class="fw-bold fs-6">A3 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2" style="color: #d6d6d6;"></i>
+                                        </div>
+                                    </th>
+                                     <th class="text-center" @click="chonGhe('A3')">
+                                        <div class="border rounded shadow-sm p-2 bg-light" style="color: #d6d6d6;">
+                                            <div class="fw-bold fs-6">A4 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2" style="color: #d6d6d6;"></i>
+                                        </div>
+                                    </th>
+                                    <!-- Ghế A4, A5, A6 tương tự -->
+                                </tr>
+
+                                <!-- Hàng B -->
+                                <tr>
+                                    <th class="text-center" @click="chonGhe('B1')">
+                                        <div class="ghe border border-dark rounded shadow-sm p-2 bg-light">
+                                            <div class="fw-bold fs-6 text-secondary">B1 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2 text-secondary"></i>
+                                        </div>
+                                    </th>
+                                    <!-- Ghế B2 đến B6 tương tự -->
+                                     <th class="text-center" @click="chonGhe('B1')">
+                                        <div class="border border-dark rounded shadow-sm p-2 bg-light">
+                                            <div class="fw-bold fs-6 text-secondary">B2 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2 text-secondary"></i>
+                                        </div>
+                                    </th>
+                                    <th class="text-center" @click="chonGhe('B1')">
+                                        <div class="border border-dark rounded shadow-sm p-2 bg-light">
+                                            <div class="fw-bold fs-6 text-secondary">B3 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2 text-secondary"></i>
+                                        </div>
+                                    </th>   
+                                    <th class="text-center" @click="chonGhe('B1')">
+                                        <div class="border border-dark rounded shadow-sm p-2 bg-light">
+                                            <div class="fw-bold fs-6 text-secondary">B4 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2 text-secondary"></i>
+                                        </div>
+                                    </th>
+                                </tr>
+
+                                <!-- Hàng C -->
+                                <tr>
+                                   
+                                   <th class="text-center" @click="chonGhe('B1')">
+                                        <div class="border border-dark rounded shadow-sm p-2 bg-light">
+                                            <div class="fw-bold fs-6 text-secondary">C1 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2 text-secondary"></i>
+                                        </div>
+                                    </th>
+                                    <th class="text-center" @click="chonGhe('B1')">
+                                        <div class="border border-dark rounded shadow-sm p-2 bg-light">
+                                            <div class="fw-bold fs-6 text-secondary">C2 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2 text-secondary"></i>
+                                        </div>
+                                    </th>
+                                    <th class="text-center" @click="chonGhe('B1')">
+                                        <div class="border border-dark rounded shadow-sm p-2 bg-light">
+                                            <div class="fw-bold fs-6 text-secondary">C3 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2 text-secondary"></i>
+                                        </div>
+                                    </th>
+                                    <th class="text-center" @click="chonGhe('B1')">
+                                        <div class="border border-dark rounded shadow-sm p-2 bg-light">
+                                            <div class="fw-bold fs-6 text-secondary">C4 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2 text-secondary"></i>
+                                        </div>
+                                    </th>
+                                </tr>
+
+                                <!-- Hàng D -->
+                                <tr>
+                                   <th class="text-center" @click="chonGhe('B1')">
+                                        <div class="border border-dark rounded shadow-sm p-2 bg-light">
+                                            <div class="fw-bold fs-6 text-secondary">D1 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2 text-secondary"></i>
+                                        </div>
+                                    </th>
+                                    <th class="text-center" @click="chonGhe('B1')">
+                                        <div class="border border-dark rounded shadow-sm p-2 bg-light">
+                                            <div class="fw-bold fs-6 text-secondary">D2 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2 text-secondary"></i>
+                                        </div>
+                                    </th>
+                                    <th class="text-center" @click="chonGhe('B1')">
+                                        <div class="border border-dark rounded shadow-sm p-2 bg-light">
+                                            <div class="fw-bold fs-6 text-secondary">D3 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2 text-secondary"></i>
+                                        </div>
+                                    </th>
+                                    <th class="text-center" @click="chonGhe('B1')">
+                                        <div class="border border-dark rounded shadow-sm p-2 bg-light">
+                                            <div class="fw-bold fs-6 text-secondary">D4 - 15.000</div>
+                                            <i class="fa-solid fa-couch m-2 text-secondary"></i>
+                                        </div>
+                                    </th>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -77,25 +188,49 @@
                         <div class="mb-3">
                             <h4>Danh Sách Dịch Vụ</h4>
                         </div>
-                        <div v-for="(value, index) in list_ben_trai" :key="index" class="card">
+                        <div class="card">
                             <div class="row g-0">
                                 <div class="col-md-4">
-                                    <img :src="value.hinh_anh" alt="..." class="card-img "
-                                        style="height: 180px; object-fit: cover;">
+                                    <img src="https://afamilycdn.com/Images/Uploaded/Share/2010/06/07/baprrang.jpg"
+                                        alt="..." class="card-img " style="height: 180px; object-fit: cover;">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ value.ten_dich_vu }}</h5>
-                                        <p class="card-text">{{ value.mo_ta }}</p>
+                                        <h5 class="card-title">Bắp Rang Bơ</h5>
+                                        <p class="card-text">Bắp rang bơ nóng hổi, giòn rụm, thơm lừng hương bơ - món ăn
+                                            vặt hoàn hảo cho mỗi buổi xem phim.</p>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <p class="card-text fw-bold mb-0">Giá: {{ formatVND(value.gia) }}</p>
+                                            <p class="card-text fw-bold mb-0">Giá: 45000</p>
                                             <button @click="themDichvu(value)" class="btn btn-outline-primary">Thêm dịch
                                                 vụ</button>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
+                        <div class="card">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="https://afamilycdn.com/Images/Uploaded/Share/2010/06/07/baprrang.jpg"
+                                        alt="..." class="card-img " style="height: 180px; object-fit: cover;">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Bắp Rang Bơ</h5>
+                                        <p class="card-text">Bắp rang bơ nóng hổi, giòn rụm, thơm lừng hương bơ - món ăn
+                                            vặt hoàn hảo cho mỗi buổi xem phim.</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="card-text fw-bold mb-0">Giá: 45000</p>
+                                            <button @click="themDichvu(value)" class="btn btn-outline-primary">Thêm dịch
+                                                vụ</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -182,7 +317,7 @@
                 </div>
                 <div class="modal-body">
                     <label for="">Phim</label>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -194,7 +329,12 @@
 
 
 </template>
+
 <script>
+  function chonGhe(element) {
+      element.classList.toggle('chon');
+    }
+
 import axios from 'axios'
 export default {
     props: ['id_suat_chieu'],

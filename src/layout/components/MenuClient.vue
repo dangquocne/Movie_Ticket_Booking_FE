@@ -83,6 +83,13 @@
                                     <a class="nav-link active fs-6" aria-current="page" href="/client/dang-ky">Register</a>
                                 </li>
                            </router-link>
+                           <router-link to="/admin/">
+                                <li class="nav-item">
+                                    <a class="ms-2  nav-link link-secondary fs-6"   href="/admin/"> Admin</a>
+
+                                </li>
+
+                         </router-link>   
 
 
                  </ul>
