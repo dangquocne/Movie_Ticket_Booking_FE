@@ -353,20 +353,33 @@ export default {
         return {
              list_phim: [
                 {id: 1,
-        ten_phim: "Avengers",
-        hinh_anh: "https://cdn.galaxycine.vn/media/2024/11/22/elio-500_1732249578811.jpg",
-        dao_dien: "Joss Whedon",
+        ten_phim: "Địa Đạo: Mặt Trời Trong Bóng Tối",
+        hinh_anh: "https://riocinemas.vn/Areas/Admin/Content/Fileuploads/images/poster%20web/2025/T4/SCDB.jpg",
+        dao_dien: "Bùi Thạc Chuyên",
+        tinh_trang: 2,
+        ngay_phat_hanh: "2025-04-04",
+        quoc_gia: "Việt Nam",
+        ngon_ngu: "Tiếng Việt - Phụ đề Tiếng Anh",
+        the_loai: "Lịch sử, Chiến tranh",
+        thoi_luong: 128,
+        dien_vien: "Thái Hòa; Quang Tuấn; Diễm Hằng Lamoon; Anh Tú Wilson; Hồ Thu Anh",
+        nha_san_xuat: "'Nhà sản xuất Nguyễn Trí Viễn",
+        trailer: "https://www.youtube.com/embed/xh6IDHjvytU?si=dTUhWz3bcqFJ2Jod",
+        noi_dung: "Địa Đạo: Mặt Trời Trong Bóng Tối là dự án điện ảnh kỷ niệm 50 năm hòa bình thống nhất đất nước, dự kiến khởi chiếu 30.04.2025. Phim do đạo diễn Bùi Thạc Chuyên cầm trịch, với sự tham gia của dàn diễn viên thực lực - Thái Hòa, Quang Tuấn và diễn viên trẻ Hồ Thu Anh. Vào năm 1967, chiến tranh Việt Nam ngày càng khốc liệt. Đội du kích 21 người do BẢY THEO chỉ huy tại căn cứ Bình An Đông trở thành mục tiêu mà quân đội Mỹ TÌM VÀ DIỆT số 1 khi nhận nhiệm vụ bằng mọi giá phải bảo vệ một nhóm thông tin tình báo chiến lược mới đến ẩn náu tại căn cứ. Các cuộc liên lạc vô tuyến điện từ với nhóm tình báo bị quân đội Mỹ phát hiện và định vị, lấy đi lợi thế duy nhất của đội du kích là sự vô hình trong hệ thống địa đạo rộng khắp, phức tạp và bí ẩn. Bộ phim là những câu chuyện đan xen giữa tình đồng đội, tình yêu và khát khao sống ở những người lính. Trên hết, vẫn là nghĩa vụ và sự hi sinh vì Tổ Quốc. Đạo diễn Bùi Thạc Chuyên nung nấu 10 năm trời để chuẩn bị cho phim điện ảnh Địa Đạo, đem câu chuyện huyền thoại về nhân dân miền Nam tài trí thông minh và tinh thần yêu nước ngoan cường ngày ấy lên màn ảnh rộng. Lịch sử đã chứng minh, dẫu cho trên đầu là bom rơi đạn nổ, dưới hầm là không khí đặc quánh đến hít thở cũng khó khăn, chỉ cần trong tim mỗi người chiến sĩ luôn hướng đến ánh sáng tự do của một dân tộc tự do trong tương lai, họ sẽ kiên trì đứng vững mà chiến đấu. Như có mặt trời trong bóng tối luôn soi sáng dẫn đường."},
+               {id: 2,
+        ten_phim: "Lật Mặt 8: Vòng Tay Nắng",
+        hinh_anh: "https://image-worker.momocdn.net/img/77210013985876184-lm81.png?size=M&referer=cinema.momocdn.net",
+        dao_dien: "Lý Hải",
         tinh_trang: 2,
         ngay_phat_hanh: "2025-07-05",
         quoc_gia: "Việt Nam",
         ngon_ngu: "Tiếng Việt",
         the_loai: "Hành Động",
         thoi_luong: 120,
-        dien_vien: "Robert Downey Jr, Chris Evans",
-        nha_san_xuat: "Marvel Studios",
-        trailer: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-        noi_dung: "Một đội siêu anh hùng chiến đấu bảo vệ Trái Đất"},
-                { ten_phim: "Inception", hinh_anh:"https://cdn.galaxycine.vn/media/2024/11/22/elio-500_1732249578811.jpg", dao_dien: "Christopher Nolan", tinh_trang: 1,ngay_phat_hanh:"16/07/2010",quoc_gia:"Mỹ" },
+        dien_vien: "Quốc Cường; Huy Khánh; Trần Kim Hải; Trúc Anh",
+        nha_san_xuat: "Hãng phim Lý Hải Production",
+        trailer: "https://www.youtube.com/embed/W_0AMP9yO1w?si=wkt6Dg7fNWqE4tJH",
+        noi_dung: "Lật Mặt 8: Vòng Tay Nắng kể về sự khác biệt quan điểm giữa ba thế hệ ông bà cha mẹ con cháu. Ai cũng đúng ở góc nhìn của mình nhưng đứng trước hoài bão của tuổi trẻ, cuối cùng thì ai sẽ là người phải nghe theo người còn lại? Và nếu ước mơ của những đứa trẻ bị cho là viển vông, thì cơ hội nào và bao giờ tuổi trẻ mới được tự quyết định tương lai của mình?"},
     ],
             obj_phim_chi_tiet: {},
             create_phim: {},
@@ -434,6 +447,7 @@ export default {
     doiTrangThai(item) {
     // Chuyển trạng thái: 0 -> 1 -> 2 -> 0
     item.tinh_trang = (item.tinh_trang + 1) % 3;
+     localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
   },
 
 

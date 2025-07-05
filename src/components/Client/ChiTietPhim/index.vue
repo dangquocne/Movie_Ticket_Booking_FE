@@ -1,8 +1,11 @@
 <template>
     <!-- Trailer Section -->
+     <div v-if="phim">
+
     <div class="">
         <div class="ratio ratio-16x9 shadow-lg overflow-hidden" style="height: 450px; object-fit: cover; ">
-            <iframe src="https://www.youtube.com/embed/xh6IDHjvytU?si=dTUhWz3bcqFJ2Jod" 
+            <!-- <input type="hidden" v-model="phim.id"> -->
+            <iframe :src="phim.trailer" 
             title="YouTube video player" allowfullscreen></iframe>
         </div>
     </div>
@@ -12,7 +15,7 @@
         <div class="row g-4">
             <!-- Poster Section -->
             <div class="col-md-4">
-                <img src="https://riocinemas.vn/Areas/Admin/Content/Fileuploads/images/poster%20web/2025/T4/SCDB.jpg" alt="Movie Poster" class="img-fluid rounded shadow-lg mb-4">
+                <img :src="phim.hinh_anh" alt="Movie Poster" class="img-fluid rounded shadow-lg mb-4">
                 <div class="d-grid gap-3">
                     <button class="btn btn-warning py-3 fw-bold" data-bs-toggle="modal"
                         data-bs-target="#buyTicketModal">
@@ -24,11 +27,11 @@
             <!-- Movie Information Section -->
             <div class="col-md-8">
                 <div class="mb-4">
-                    <h1 class="fw-bold text-dark mb-3">Địa Đạo: Mặt Trời Trong Bóng Tối  </h1>
+                    <h1 class="fw-bold text-dark mb-3">{{ phim.ten_phim }}</h1>
                     <div class="d-flex flex-wrap gap-2 mb-3">
                         <span 
                             class="badge bg-primary rounded-pill px-3 py-2">
-                            Lịch sử, Chiến tranh
+                           {{ phim.the_loai }}
                         </span>
                     </div>
                 </div>
@@ -41,23 +44,23 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between mb-2 border-bottom pb-2">
                                     <span class="fw-bold text-dark">Đạo diễn:</span>
-                                    <span>Bùi Thạc Chuyên</span>
+                                    <span>{{ phim.dao_dien }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2 border-bottom pb-2">
                                     <span class="fw-bold text-dark">Quốc gia:</span>
-                                    <span>Việt Nam</span>
+                                    <span>{{ phim.quoc_gia }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2 border-bottom pb-2">
                                     <span class="fw-bold text-dark">Ngày phát hành:</span>
-                                    <span>2025-04-04</span>
+                                    <span>{{ phim.ngay_phat_hanh }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2 border-bottom pb-2">
                                     <span class="fw-bold text-dark">Ngôn ngữ:</span>
-                                    <span>Tiếng Việt - Phụ đề Tiếng Anh</span>
+                                    <span>{{ phim.ngon_ngu }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <span class="fw-bold text-dark">Thời lượng:</span>
-                                    <span>128 phút </span>
+                                    <span>{{ phim.thoi_luong }} phút</span>
                                 </div>
                             </div>
                         </div>
@@ -68,13 +71,13 @@
                         <h4 class="fw-bold mb-3 border-bottom pb-2">Diễn viên chính</h4>
                         <div class="card shadow-sm mb-4">
                             <div class="card-body">
-                                <p class="mb-0">Thái Hòa; Quang Tuấn; Diễm Hằng Lamoon; Anh Tú Wilson; Hồ Thu Anh</p>
+                                <p class="mb-0">{{ phim.dien_vien }}</p>
                             </div>
                         </div>
                         <h4 class="fw-bold mb-3 border-bottom pb-2">Nhà sản xuất</h4>
                         <div class="card shadow-sm">
                             <div class="card-body">
-                                <p class="mb-0">Nhà sản xuất Nguyễn Trí Viễn</p>
+                                <p class="mb-0">Nhà sản xuất {{ phim.nha_san_xuat }}</p>
                             </div>
                         </div>
                     </div>
@@ -86,14 +89,15 @@
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <p class="fs-7 lh-base text-dark text-justify">
-                                Địa Đạo: Mặt Trời Trong Bóng Tối là dự án điện ảnh kỷ niệm 50 năm hòa bình thống nhất đất nước, dự kiến khởi chiếu 30.04.2025. Phim do đạo diễn Bùi Thạc Chuyên cầm trịch, với sự tham gia của dàn diễn viên thực lực - Thái Hòa, Quang Tuấn và diễn viên trẻ Hồ Thu Anh. Vào năm 1967, chiến tranh Việt Nam ngày càng khốc liệt. Đội du kích 21 người do BẢY THEO chỉ huy tại căn cứ Bình An Đông trở thành mục tiêu mà quân đội Mỹ TÌM VÀ DIỆT số 1 khi nhận nhiệm vụ bằng mọi giá phải bảo vệ một nhóm thông tin tình báo chiến lược mới đến ẩn náu tại căn cứ. Các cuộc liên lạc vô tuyến điện từ với nhóm tình báo bị quân đội Mỹ phát hiện và định vị, lấy đi lợi thế duy nhất của đội du kích là sự vô hình trong hệ thống địa đạo rộng khắp, phức tạp và bí ẩn. Bộ phim là những câu chuyện đan xen giữa tình đồng đội, tình yêu và khát khao sống ở những người lính. Trên hết, vẫn là nghĩa vụ và sự hi sinh vì Tổ Quốc. Đạo diễn Bùi Thạc Chuyên nung nấu 10 năm trời để chuẩn bị cho phim điện ảnh Địa Đạo, đem câu chuyện huyền thoại về nhân dân miền Nam tài trí thông minh và tinh thần yêu nước ngoan cường ngày ấy lên màn ảnh rộng. Lịch sử đã chứng minh, dẫu cho trên đầu là bom rơi đạn nổ, dưới hầm là không khí đặc quánh đến hít thở cũng khó khăn, chỉ cần trong tim mỗi người chiến sĩ luôn hướng đến ánh sáng tự do của một dân tộc tự do trong tương lai, họ sẽ kiên trì đứng vững mà chiến đấu. Như có mặt trời trong bóng tối luôn soi sáng dẫn đường.
+                                {{ phim.noi_dung }}
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
+ </div>
+</div>  
         <!-- Comments and Ratings Section -->
         <div class="row g-4 mt-5">
             <!-- Comment Section -->
@@ -150,8 +154,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
+           </div>
+ 
             <!-- Ratings Section -->
             <div class="col-lg-4">
                 <div class="bg-white rounded shadow-sm p-4 h-100">
@@ -273,7 +277,7 @@
                 </div>
             </div>
         </div>
-    </div>
+  
 
     <!-- Modal Ticket (unchanged) -->
     <div class="modal fade" id="buyTicketModal" tabindex="-1" aria-labelledby="movieScheduleModalLabel"
@@ -318,48 +322,63 @@
             </div>
         </div>
     </div>
+     
 </template>
 <script>
 import axios from 'axios';
 
 export default {
-    props: ["id_phim"],
-    data() {
-        return {
-            // id_phim: this.$route.params.id_phim,
-            chi_tiet_phim: {},
-            suat_chieu_phim: [],
-            selectedDate: false,
-        }
-    },
-    computed: {
-        ngayChieu() {
-            if (!this.suat_chieu_phim || this.suat_chieu_phim.length === 0) {
-                return [];
-            }
-            // Lấy danh sách ngày chiếu
-            const allDates = this.suat_chieu_phim.map(item => item.ngay_chieu);
-            // Lọc bỏ trùng
-            const uniqueDates = Array.from(new Set(allDates));
-            // Trả về đúng định dạng
-            return uniqueDates.map(date => ({ ngay_chieu: date }));
-        },
-        suatChieuTheoNgay() {
-            return this.selectedDate ? this.suat_chieu_phim.filter(item => item.ngay_chieu === this.selectedDate)
-                : [];
-        }
-    },
+
+      data() {
+    return {
+      phim: null,
+    };
+  },
+  mounted() {
+    const id = this.$route.params.id;
+    const stored = localStorage.getItem('list_phim');
+    if (stored) {
+      const list = JSON.parse(stored);
+      this.phim = list.find(p => p.id == id);
+    }
+  }
+    // props: ["id_phim"],
+    // data() {
+    //     return {
+    //         // id_phim: this.$route.params.id_phim,
+    //         chi_tiet_phim: {},
+    //         suat_chieu_phim: [],
+    //         selectedDate: false,
+    //     }
+    // },
+    // computed: {
+    //     ngayChieu() {
+    //         if (!this.suat_chieu_phim || this.suat_chieu_phim.length === 0) {
+    //             return [];
+    //         }
+    //         // Lấy danh sách ngày chiếu
+    //         const allDates = this.suat_chieu_phim.map(item => item.ngay_chieu);
+    //         // Lọc bỏ trùng
+    //         const uniqueDates = Array.from(new Set(allDates));
+    //         // Trả về đúng định dạng
+    //         return uniqueDates.map(date => ({ ngay_chieu: date }));
+    //     },
+    //     suatChieuTheoNgay() {
+    //         return this.selectedDate ? this.suat_chieu_phim.filter(item => item.ngay_chieu === this.selectedDate)
+    //             : [];
+    //     }
+    // },
     // mounted() {
     //     this.loadChiTietPhim();
-    // },
-    methods: {
-        formatTime(time) {
-            return time.slice(0, 5); // Convert HH:MM:SS to HH:MM
-        },
-        formatDate(date) {
-            const d = new Date(date);
-            return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
-        },
+    // // },
+    // methods: {
+    //     formatTime(time) {
+    //         return time.slice(0, 5); // Convert HH:MM:SS to HH:MM
+    //     },
+    //     formatDate(date) {
+    //         const d = new Date(date);
+    //         return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+    //     },
         // loadChiTietPhim() {
         //     var payload = {
         //         id: this.id_phim
@@ -377,6 +396,5 @@ export default {
         //             }
         //         });
         // },
-    },
-}
+    }
 </script>

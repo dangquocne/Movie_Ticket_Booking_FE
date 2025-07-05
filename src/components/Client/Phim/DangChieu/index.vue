@@ -31,7 +31,7 @@
                 <h4 class="text-uppercase fs-3 text-dark">Phim Đang Chiếu</h4>
             </div>
             <template v-for="(value, index) in list_phim" :key="index">
-            <!-- <template v-if="value.tinh_trang == 2"> -->
+            <template v-if="value.tinh_trang == 2">
             <div class="col-lg-3 col-md-4 rounded mb-3" style="flex: 0 0 auto;">
                 <div class="card rounded position-relative"
                     style="transition: transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden; height: 100%;"
@@ -45,7 +45,7 @@
 
                     <div class="btn-overlay text-center position-absolute w-100"
                         style="top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.3s ease;">
-                        <router-link to="/chi-tiet-phim/">
+                        <router-link :to="`/chi-tiet-phim/${value.id}`">
                             <button class="btn btn-warning p-2 " style="width: 170px;"><i
                                     class="fa-solid fa-ticket"></i>Mua
                                 vé</button>
@@ -60,7 +60,7 @@
                 </div>
             </div>
             </template>
-            <!-- </template> -->
+            </template>
            
            
 

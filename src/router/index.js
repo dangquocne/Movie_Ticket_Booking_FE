@@ -51,7 +51,7 @@ const routes = [
         // beforeEnter: checkKhachHang
     },
     {
-        path: "/chi-tiet-phim/",
+        path: "/chi-tiet-phim/:id",
         component: () => import("../components/Client/ChiTietPhim/index.vue"),
         meta: { layout: "client" },
         props: true,
