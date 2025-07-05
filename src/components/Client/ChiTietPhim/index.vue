@@ -290,20 +290,20 @@
                     <div class="mb-4">
                         <h5 class="fw-semibold mb-3 text-dark">Chọn ngày xem</h5>
                         <div class="d-flex flex-wrap gap-2 overflow-auto pb-2">
-                            <button v-for="(value, index) in ngayChieu" :key="index"
+                            <button 
                                 class="btn btn-outline-secondary btn-sm px-3 py-2"
-                                :class="{ 'btn-primary': selectedDate === value.ngay_chieu }"
+                              
                                 @click="selectedDate = value.ngay_chieu">
-                                {{ formatDate(value.ngay_chieu) }}
+                                <!-- {{ formatDate(value.ngay_chieu) }} -->
                             </button>
                         </div>
                     </div>
                     <div>
                         <h5 class="fw-semibold mb-3 text-dark">Suất chiếu</h5>
                         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
-                            <div class="col" v-for="(value, index) in suatChieuTheoNgay" :key="index">
+                            <div class="col" >
                                 <button class="btn btn-outline-primary w-100 py-2">
-                                    {{ formatTime(value.thoi_gian_bat_dau) }}
+                                    <!-- {{ formatTime(value.thoi_gian_bat_dau) }} -->
                                 </button>
                             </div>
                         </div>
@@ -326,7 +326,7 @@ export default {
     props: ["id_phim"],
     data() {
         return {
-            id_phim: this.$route.params.id_phim,
+            // id_phim: this.$route.params.id_phim,
             chi_tiet_phim: {},
             suat_chieu_phim: [],
             selectedDate: false,
@@ -349,9 +349,9 @@ export default {
                 : [];
         }
     },
-    mounted() {
-        this.loadChiTietPhim();
-    },
+    // mounted() {
+    //     this.loadChiTietPhim();
+    // },
     methods: {
         formatTime(time) {
             return time.slice(0, 5); // Convert HH:MM:SS to HH:MM
@@ -360,23 +360,23 @@ export default {
             const d = new Date(date);
             return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
         },
-        loadChiTietPhim() {
-            var payload = {
-                id: this.id_phim
-            }
-            axios.post('http://127.0.0.1:8000/api/client/chi-tiet-phim/get-data', payload)
-                .then((res) => {
-                    if (res.data.status) {
-                        this.chi_tiet_phim = res.data.data_phim;
-                        this.suat_chieu_phim = res.data.data_suat_chieu;
-                        console.log(this.suat_chieu_phim);
+        // loadChiTietPhim() {
+        //     var payload = {
+        //         id: this.id_phim
+        //     }
+        //     axios.post('http://127.0.0.1:8000/api/client/chi-tiet-phim/get-data', payload)
+        //         .then((res) => {
+        //             if (res.data.status) {
+        //                 this.chi_tiet_phim = res.data.data_phim;
+        //                 this.suat_chieu_phim = res.data.data_suat_chieu;
+        //                 console.log(this.suat_chieu_phim);
 
-                    } else {
-                        this.$toast.error(res.data.message);
-                        this.$router.push('/');
-                    }
-                });
-        },
+        //             } else {
+        //                 this.$toast.error(res.data.message);
+        //                 this.$router.push('/');
+        //             }
+        //         });
+        // },
     },
 }
 </script>

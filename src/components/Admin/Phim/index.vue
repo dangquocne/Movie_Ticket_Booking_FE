@@ -36,9 +36,9 @@
                                             <img :src="item.hinh_anh" alt="Hình Ảnh" class="img-fluid"
                                                 style="width: 100px; height: 100px; object-fit: cover;">
                                         </td>
-                                        <td class="align-middle">{{ item.dao_dien }}</td>
-                                        <td class="align-middle text-center">{{ item.ngay_phat_hanh }}</td>
-                                        <td class="align-middle text-center">{{ item.quoc_gia }}</td>
+                                        <td class="align-middle">{{item.dao_dien}}</td>
+                                        <td class="align-middle text-center">{{item.ngay_phat_hanh}}</td>
+                                        <td class="align-middle text-center">{{item.quoc_gia}}</td>
                                         <td @click="doiTrangThai(item)" class="align-middle text-center text-nowrap"
                                             style="width: 140px;">
                                             <!-- Ví dụ: 1 = Sắp chiếu, 2 = Đang chiếu, 0 = Ngừng chiếu -->
@@ -50,7 +50,7 @@
                                                 style="color: white;">
                                                 Sắp Chiếu
                                             </button>
-                                            <button v-if="item.tinh_trang == 2" class="btn btn-success w-100"
+                                            <button v-if="item.tinh_trang == 2" class="btn btn-warning w-100"
                                                 style="color: white;">
                                                 Đang Chiếu
                                             </button>
@@ -155,7 +155,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Đóng
                     </button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" v-on:click="themPhim()">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="themPhim">
                         Thêm mới
                     </button>
                 </div>
@@ -261,7 +261,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Đóng
                     </button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" v-on:click="xoaPhim()">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="xoaPhim()">
                         Xác nhận
                     </button>
                 </div>
@@ -345,11 +345,29 @@
 </template>
 
 <script>
+
 import axios from 'axios';
 export default {
+    
     data() {
         return {
-            list_phim: [],
+             list_phim: [
+                {id: 1,
+        ten_phim: "Avengers",
+        hinh_anh: "https://cdn.galaxycine.vn/media/2024/11/22/elio-500_1732249578811.jpg",
+        dao_dien: "Joss Whedon",
+        tinh_trang: 2,
+        ngay_phat_hanh: "2025-07-05",
+        quoc_gia: "Việt Nam",
+        ngon_ngu: "Tiếng Việt",
+        the_loai: "Hành Động",
+        thoi_luong: 120,
+        dien_vien: "Robert Downey Jr, Chris Evans",
+        nha_san_xuat: "Marvel Studios",
+        trailer: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        noi_dung: "Một đội siêu anh hùng chiến đấu bảo vệ Trái Đất"},
+                { ten_phim: "Inception", hinh_anh:"https://cdn.galaxycine.vn/media/2024/11/22/elio-500_1732249578811.jpg", dao_dien: "Christopher Nolan", tinh_trang: 1,ngay_phat_hanh:"16/07/2010",quoc_gia:"Mỹ" },
+    ],
             obj_phim_chi_tiet: {},
             create_phim: {},
             edit_phim: {},
@@ -357,53 +375,86 @@ export default {
         };
     },
     mounted() {
-        this.getPhim();
+        // this.list_phim;
+        const stored = localStorage.getItem('list_phim');
+  if (stored) {
+    this.list_phim = JSON.parse(stored);
+  }
     },
     methods: {
-        getPhim() {
-            axios
-                .get('http://127.0.0.1:8000/api/admin/phim/get-data')
-                .then((res) => {
-                    this.list_phim = res.data.data;
-                })
-        },
-        themPhim() {
-            axios.post('http://127.0.0.1:8000/api/admin/phim/add-data', this.create_phim)
-                .then((res) => {
-                    if (res.data.status) {
-                        this.$toast.success(res.data.message);
-                        this.create_phim = {};
-                        this.getPhim();
-                    }
-                });
-        },
-        capNhatPhim() {
-            axios.post('http://127.0.0.1:8000/api/admin/phim/update', this.edit_phim)
-                .then((res) => {
-                    if (res.data.status) {
-                        this.$toast.success(res.data.message);
-                        this.getPhim();
-                    }
-                });
-        },
-        xoaPhim() {
-            axios.post('http://127.0.0.1:8000/api/admin/phim/delete', this.del_phim)
-                .then((res) => {
-                    if (res.data.status) {
-                        this.$toast.success(res.data.message);
-                        this.getPhim();
-                    }
-                });
-        },
-        doiTrangThai(value) {
-            axios.post('http://127.0.0.1:8000/api/admin/phim/change-status', value)
-                .then((res) => {
-                    if (res.data.status) {
-                        this.$toast.success(res.data.message);
-                        this.getPhim();
-                    }
-                });
+      themPhim() {
+        // Kiểm tra thông tin cơ bản
+        if (!this.create_phim.ten_phim || !this.create_phim.hinh_anh) {
+            alert("Vui lòng nhập đầy đủ tên phim và hình ảnh!");
+            return;
         }
+
+        // Tạo bản sao của phim vừa nhập, kèm ID tạm
+        const newPhim = {
+            ...this.create_phim,
+            id: Date.now(), // ID giả, để phân biệt
+        };
+
+        // Thêm phim vào danh sách
+        this.list_phim.push(newPhim);
+
+         // Lưu vào localStorage
+        localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
+
+        // Reset form nhập
+        this.create_phim = {};
+
+        // Ẩn modal (nếu dùng Bootstrap)
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
+        modal?.hide?.();
+
+        // Thông báo đơn giản
+        this.$toast.success("Phim đã được thêm thành công!");
+        console.log("Phim đã được thêm:", newPhim);
+    },
+
+
+     xoaPhim() {
+        // Kiểm tra xem del_phim có tồn tại trong list không
+        const index = this.list_phim.findIndex(phim => phim.ten_phim === this.del_phim.ten_phim);
+
+        // Nếu tìm thấy, xóa phim khỏi danh sách
+        if (index !== -1) {
+            this.list_phim.splice(index, 1); // Xóa tại vị trí index
+            localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
+            this.$toast?.success?.("Đã xóa phim khỏi danh sách!");
+            
+        } else {
+            alert("⚠ Không tìm thấy phim để xóa.");
+        }
+
+        // Reset lại del_phim
+        this.del_phim = {};
+    },
+    doiTrangThai(item) {
+    // Chuyển trạng thái: 0 -> 1 -> 2 -> 0
+    item.tinh_trang = (item.tinh_trang + 1) % 3;
+  },
+
+
+
+      capNhatPhim() {
+    // Tìm vị trí phim cần cập nhật trong list_phim bằng id
+    const index = this.list_phim.findIndex(phim => phim.id === this.edit_phim.id);
+    
+    if (index !== -1) {
+      // Cập nhật lại toàn bộ thông tin
+      this.list_phim[index] = { ...this.edit_phim };
+
+       localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
+      this.$toast?.success?.("Cập nhật phim thành công!");
+    } else {
+      alert("⚠ Không tìm thấy phim để cập nhật.");
+    }
+
+    // Xóa form tạm nếu cần
+    this.edit_phim = {};
+  }
     },
 };
 </script>

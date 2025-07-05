@@ -91,27 +91,27 @@
 
 </template>
 <script>
-import axios from 'axios';
-export default {
-    data() {
-        return {
-            list_phim: []
-        }
-    },
-    mounted() {
-        this.getPhim();
-    },
-    methods: {
-        getPhim() {
-            axios
-                .get('http://127.0.0.1:8000/api/client/phim/get-data')
-                .then((res) => {
-                    if (res.data.status) {
-                        this.list_phim = res.data.data;
-                    }
-                })
-        }
-    },
-};
+// import axios from 'axios';
+// export default {
+//     data() {
+//         return {
+//             list_phim: []
+//         }
+//     },
+//     mounted() {
+//         this.getPhim();
+//     },
+//     methods: {
+//         getPhim() {
+//             axios
+//                 .get('http://127.0.0.1:8000/api/client/phim/get-data')
+//                 .then((res) => {
+//                     if (res.data.status) {
+//                         this.list_phim = res.data.data;
+//                     }
+//                 })
+//         }
+//     },
+// };
 </script>
 <style></style>
