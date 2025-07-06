@@ -106,7 +106,7 @@ const routes = [
     {
         path: "/admin/phong-chieu",
         component: () => import("../components/Admin/PhongChieu/index.vue"),
-        beforeEnter: checkAdmin,
+        // beforeEnter: checkAdmin,
     },
     {
         path: "/admin/dich-vu",

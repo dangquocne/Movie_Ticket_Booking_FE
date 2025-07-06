@@ -20,7 +20,7 @@
                         <label>Phòng Chiếu</label>
                         <select class="form-select mt-1" v-model="create_ghe.id_phong_chieu">
                             <option value="">Chọn Phòng Chiếu</option>
-                            <template v-for="(value, index) in list_phong" :key="index">
+                            <template v-for="(value, index) in list_phong_chieu" :key="index">
                                 <option :value="value.id">{{ value.ten_phong }}</option>
                             </template>
                         </select>
@@ -66,7 +66,7 @@
                                         <th class="align-middle text-center" style="width: 30px;">{{ index + 1 }}</th>
                                         <td class="align-middle text-center">{{ item.ten_ghe }}</td>
                                         <td class="align-middle text-center">{{ item.gia_ghe }}</td>
-                                        <td class="align-middle">{{ item.ten_phong }}</td>
+                                        <td class="align-middle">{{ getTenPhong(item.id_phong_chieu) }}</td>
                                         <td @click="doiTrangThai(item)" class="align-middle text-center"
                                             style="width: 150px;">
                                             <button v-if="item.tinh_trang == 1" class="btn  btn-success w-100"
@@ -120,7 +120,7 @@
                         <label>Phòng Chiếu</label>
                         <select class="form-select mt-1" v-model="edit_ghe.id_phong_chieu">
                             <option value="">Chọn Phòng Chiếu</option>
-                            <template v-for="(value, index) in list_phong" :key="index">
+                            <template v-for="(value, index) in list_phong_chieu" :key="index">
                                 <option :value="value.id">{{ value.ten_phong }}</option>
                             </template>
                         </select>
@@ -177,8 +177,16 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            list_ghe: [],
-            list_phong: [],
+            list_phong_chieu: [],
+            list_ghe: [{
+                id: 1,
+                ten_ghe: 'A1',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            }],
+
             create_ghe: {
                 tinh_trang: '1'
             },
@@ -186,65 +194,102 @@ export default {
             del_ghe: {},
         };
     },
+
     mounted() {
-        this.layDataGhe();
-        this.layDataPhong();
+        // this.layDataGhe();
+        // this.layDataPhong();
+        //lấy danh sách phòng từ localStorage
+        const stored = localStorage.getItem('list_phong_chieu');
+        if (stored) {
+            this.list_phong_chieu = JSON.parse(stored);
+        }
+
+        //lấy danh sách ghế từ localStorage
+        const storedGhe = localStorage.getItem('list_ghe');
+        if (storedGhe) {
+            this.list_ghe = JSON.parse(storedGhe);
+        }
     },
     methods: {
-        layDataGhe() {
-            axios
-                .get('http://127.0.0.1:8000/api/admin/ghe/get-data')
-                .then(response => {
-                    this.list_ghe = response.data.data;
-                })
-        },
-        layDataPhong() {
-            axios
-                .get('http://127.0.0.1:8000/api/admin/phong-chieu/get-data')
-                .then(response => {
-                    this.list_phong = response.data.data;
-                })
-        },
+
         themGhe() {
-            axios
-                .post('http://127.0.0.1:8000/api/admin/ghe/add-data', this.create_ghe)
-                .then(response => {
-                    if (response.data.status) {
-                        this.layDataGhe();
-                        this.create_ghe = {};
-                        this.$toast.success(response.data.message);
-                    }
-                })
+            // Kiểm tra thông tin cơ bản
+            if (!this.create_ghe.ten_ghe) {
+                alert("Vui lòng nhập đầy đủ tên ghế!");
+                return;
+            }
+
+            // Tạo bản sao của ghế vừa nhập, kèm ID tạm
+            const newGhe = {
+                ...this.create_ghe,
+                id: Date.now(), // ID giả, để phân biệt
+            };
+
+            // Thêm ghế vào danh sách
+            this.list_ghe.push(newGhe);
+
+            // Lưu vào localStorage
+            localStorage.setItem('list_ghe', JSON.stringify(this.list_ghe));
+
+            // Reset form nhập
+            this.create_ghe = {};
+
+            // Ẩn modal (nếu dùng Bootstrap)
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
+            modal?.hide?.();
+
+            // Thông báo đơn giản
+            this.$toast.success("Ghế đã được thêm thành công!");
+            console.log("Ghế đã được thêm:", newGhe);
         },
+
+        getTenPhong(id) {
+            const phong = this.list_phong_chieu.find(p => p.id === id);
+            return phong ? phong.ten_phong : "Không rõ";
+        },
+
         capNhatGhe() {
-            axios
-                .post('http://127.0.0.1:8000/api/admin/ghe/update', this.edit_ghe)
-                .then(response => {
-                    if (response.data.status) {
-                        this.layDataGhe();
-                        this.$toast.success(response.data.message);
-                    }
-                })
+            // Tìm vị trí ghế cần cập nhật trong list_ghe bằng id
+            const index = this.list_ghe.findIndex(ghe => ghe.id === this.edit_ghe.id);
+
+            if (index !== -1) {
+                // Cập nhật lại toàn bộ thông tin
+                this.list_ghe[index] = { ...this.edit_ghe };
+
+                localStorage.setItem('list_ghe', JSON.stringify(this.list_ghe));
+                this.$toast?.success?.("Cập nhật ghế thành công!");
+            } else {
+                alert("⚠ Không tìm thấy ghế để cập nhật.");
+            }
+
+            // Xóa form tạm nếu cần
+            this.edit_ghe = {};
         },
+
         xoaGhe() {
-            axios
-                .post('http://127.0.0.1:8000/api/admin/ghe/delete', this.del_ghe)
-                .then(response => {
-                    if (response.data.status) {
-                        this.layDataGhe();
-                        this.$toast.success(response.data.message);
-                    }
-                })
+            // Kiểm tra xem del_ghe có tồn tại trong list không
+            const index = this.list_ghe.findIndex(ghe => ghe.id === this.del_ghe.id);
+
+            // Nếu tìm thấy, xóa ghế khỏi danh sách
+            if (index !== -1) {
+                this.list_ghe.splice(index, 1); // Xóa tại vị trí index
+                localStorage.setItem('list_ghe', JSON.stringify(this.list_ghe));
+                this.$toast?.success?.("Đã xóa ghế khỏi danh sách!");
+
+            } else {
+                alert("⚠ Không tìm thấy ghế để xóa.");
+            }
+
+            // Reset lại del_ghe
+            this.del_ghe = {};
         },
-        doiTrangThai(payload) {
-            axios.post('http://127.0.0.1:8000/api/admin/ghe/change-status', payload)
-                .then((res) => {
-                    if (res.data.status) {
-                        this.$toast.success(res.data.message);
-                        this.layDataGhe();
-                    }
-                });
-        }
+        doiTrangThai(item) {
+            // Chuyển trạng thái: 0 -> 1 -> 2 -> 0
+            item.tinh_trang = (item.tinh_trang + 1) % 2;
+            localStorage.setItem('list_ghe', JSON.stringify(this.list_ghe));
+        },
+
+
     },
 };
 </script>

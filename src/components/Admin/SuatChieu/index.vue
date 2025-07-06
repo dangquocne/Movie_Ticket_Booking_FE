@@ -31,8 +31,8 @@
                                 <template v-for="(item, index) in list_suat_chieu" :key="index">
                                     <tr class="text-nowrap">
                                         <th class="align-middle text-center">{{ index + 1 }}</th>
-                                        <td class="align-middle text-wrap">{{ item.ten_phim }}</td>
-                                        <td class="align-middle text-center">{{ item.ten_phong }}</td>
+                                        <td class="align-middle text-wrap">{{ getTenPhim(item.id_phim) }}</td>
+                                        <td class="align-middle text-center">{{ getTenPhong(item.id_phong_chieu) }}</td>
                                         <td class="align-middle text-center">{{ item.ngay_chieu }}</td>
                                         <td class="align-middle text-center">{{ item.thoi_gian_bat_dau }}</td>
                                         <td class="align-middle text-center">{{ item.thoi_gian_ket_thuc }}</td>
@@ -89,8 +89,8 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Phòng Chiếu</label>
                             <select class="form-select" v-model="create_suat_chieu.id_phong_chieu">
-                                <option v-for="phong in list_phong" :key="phong.id" :value="phong.id">{{ phong.ten_phong
-                                    }}
+                                <option v-for="phong in list_phong_chieu" :key="phong.id" :value="phong.id">{{ phong.ten_phong
+                                }}
                                 </option>
                             </select>
                         </div>
@@ -147,8 +147,8 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Phòng Chiếu</label>
                             <select class="form-select" v-model="edit_suat_chieu.id_phong_chieu">
-                                <option v-for="phong in list_phong" :key="phong.id" :value="phong.id">{{ phong.ten_phong
-                                    }}
+                                <option v-for="phong in list_phong_chieu" :key="phong.id" :value="phong.id">{{ phong.ten_phong
+                                }}
                                 </option>
                             </select>
                         </div>
@@ -198,7 +198,7 @@
                     <div class="alert alert-danger" role="alert">
                         Bạn có chắc chắn muốn xóa suất chiếu phim
                         <strong>{{ del_suat_chieu.ten_phim }}</strong> vào ngày <strong>{{ del_suat_chieu.ngay_chieu
-                            }}</strong>?
+                        }}</strong>?
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -225,7 +225,7 @@
                     <div class="alert alert-danger" role="alert">
                         Bạn có chắc chắn muốn tạo vé cho phim
                         <strong>{{ info_ve.ten_phim }}</strong> vào ngày <strong>{{ info_ve.ngay_chieu
-                            }}</strong>?
+                        }}</strong>?
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -246,9 +246,22 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            list_suat_chieu: [],
+            list_suat_chieu: [
+                {
+                    id: 1,
+                    id_phim: 1,
+                    ten_phim: 'Phim A',
+                    id_phong_chieu: 1,
+                    ten_phong: 'Phòng 1',
+                    ngay_chieu: '2023-10-01',
+                    thoi_gian_bat_dau: '10:00',
+                    thoi_gian_ket_thuc: '12:00',
+                    gia_ve: 100000,
+                    tinh_trang: 1
+                }
+            ],
             list_phim: [],
-            list_phong: [],
+            list_phong_chieu: [],
             create_suat_chieu: {
                 id_phim: '',
                 id_phong_chieu: '',
@@ -264,102 +277,101 @@ export default {
         };
     },
     mounted() {
-        this.layDataSuatChieu();
-        this.layDataPhim();
-        this.layDataPhong();
-    },
-    methods: {
-        taoVeAuto() {
-            axios
-                .post('http://127.0.0.1:8000/api/admin/suat-chieu/tao-ve-auto', this.info_ve)
-                .then(response => {
-                    if (response.data.status) {
-                        this.$toast.success(response.data.message);
-                        this.layDataSuatChieu();
-                    } else {
-                        this.$toast.error(response.data.message);
-                    }
-                })
-        },
-        layDataSuatChieu() {
-            axios
-                .get('http://127.0.0.1:8000/api/admin/suat-chieu/get-data')
-                .then(response => {
-                    this.list_suat_chieu = response.data.data;
-                })
-        },
-        layDataPhim() {
-            axios
-                .get('http://127.0.0.1:8000/api/admin/phim/get-data')
-                .then(response => {
-                    this.list_phim = response.data.data;
-                })
-        },
-        layDataPhong() {
-            axios
-                .get('http://127.0.0.1:8000/api/admin/phong-chieu/get-data')
-                .then(response => {
-                    this.list_phong = response.data.data;
-                })
-        },
-        themSuatChieu() {
-            axios
-                .post('http://127.0.0.1:8000/api/admin/suat-chieu/add-data', this.create_suat_chieu)
-                .then(response => {
-                    if (response.data.status) {
-                        this.layDataSuatChieu();
-                        this.create_suat_chieu = {
-                            id_phim: '',
-                            id_phong_chieu: '',
-                            ngay_chieu: '',
-                            thoi_gian_bat_dau: '',
-                            thoi_gian_ket_thuc: '',
-                            gia_ve: '',
-                            tinh_trang: 1
-                        };
-                        this.$toast.success(response.data.message);
-                    } else {
-                        this.$toast.error(response.data.message);
-                    }
-                })
-        },
-        capNhatSuatChieu() {
-            axios
-                .post('http://127.0.0.1:8000/api/admin/suat-chieu/update', this.edit_suat_chieu)
-                .then(response => {
-                    if (response.data.status) {
-                        this.$toast.success(response.data.message);
-                        this.layDataSuatChieu();
-                    } else {
-                        this.$toast.error(response.data.message);
-                    }
-                })
-        },
-        xoaSuatChieu() {
-            axios
-                .post('http://127.0.0.1:8000/api/admin/suat-chieu/delete', this.del_suat_chieu)
-                .then(response => {
-                    if (response.data.status) {
-                        this.layDataSuatChieu();
-                        this.$toast.success(response.data.message);
-                    } else {
-                        this.$toast.error(response.data.message);
-                    }
-                })
-        },
-        doiTrangThaiSuatChieu(item) {
-            axios
-                .post('http://127.0.0.1:8000/api/admin/suat-chieu/change-status', item)
-                .then(response => {
-                    if (response.data.status) {
-                        this.layDataSuatChieu();
-                        this.$toast.success(response.data.message);
-                    } else {
-                        this.$toast.error(response.data.message);
-                    }
-                })
+
+        //lấy danh sách suất chiếu từ localStorage
+        const storedSuatChieu = localStorage.getItem('list_suat_chieu');
+        if (storedSuatChieu) {
+            this.list_suat_chieu = JSON.parse(storedSuatChieu);
         }
 
+        //lấy danh sách phòng chiếu từ localStorage
+        const storedPhong = localStorage.getItem('list_phong_chieu');
+        if (storedPhong) {
+            this.list_phong_chieu = JSON.parse(storedPhong);
+        }
+
+        //lấy danh sách ghế từ localStorage
+        const storedphim = localStorage.getItem('list_phim');
+        if (storedphim) {
+            this.list_phim = JSON.parse(storedphim);
+        }
+    },
+    methods: {
+        themSuatChieu() {
+            // Kiểm tra thông tin cơ bản
+            // if (!this.create_suat_chieu.id_phim || !this.create_suat_chieu.id_phong_chieu || !this.create_suat_chieu.ngay_chieu || !this.create_suat_chieu.thoi_gian_bat_dau || !this.create_suat_chieu.thoi_gian_ket_thuc || !this.create_suat_chieu.gia_ve) {
+            //     alert("Vui lòng nhập đầy đủ thông tin suất chiếu!");
+            //     return;
+            // }
+
+            // Tạo bản sao của suất chiếu vừa nhập, kèm ID tạm
+            const newSuatChieu = {
+                ...this.create_suat_chieu,
+                id: Date.now(), // ID giả, để phân biệt
+            };
+
+            // Thêm suất chiếu vào danh sách
+            this.list_suat_chieu.push(newSuatChieu);
+
+            // Lưu vào localStorage
+            localStorage.setItem('list_suat_chieu', JSON.stringify(this.list_suat_chieu));
+
+            // Reset form nhập
+            this.create_suat_chieu = {};
+
+            // Ẩn modal (nếu dùng Bootstrap)
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
+            modal?.hide?.();
+
+            // Thông báo đơn giản
+            this.$toast.success("Suất chiếu đã được thêm thành công!");
+            console.log("Suất chiếu đã được thêm:", newSuatChieu);
+        },
+
+        getTenPhong(id) {
+            const phong = this.list_phong_chieu.find(p => p.id === id);
+            return phong ? phong.ten_phong : "Không rõ";
+        },
+        getTenPhim(id) {
+            const phim = this.list_phim.find(p => p.id === id);
+            return phim ? phim.ten_phim : "Không rõ";
+        },
+
+        capNhatSuatChieu() {
+            // Tìm vị trí suất chiếu cần cập nhật trong list_suat_chieu bằng id
+            const index = this.list_suat_chieu.findIndex(suatChieu => suatChieu.id === this.edit_suat_chieu.id);
+
+            if (index !== -1) {
+                // Cập nhật lại toàn bộ thông tin
+                this.list_suat_chieu[index] = { ...this.edit_suat_chieu };
+
+                localStorage.setItem('list_suat_chieu', JSON.stringify(this.list_suat_chieu));
+                this.$toast?.success?.("Cập nhật suất chiếu thành công!");
+            } else {
+                alert("⚠ Không tìm thấy suất chiếu để cập nhật.");
+            }
+
+            // Xóa form tạm nếu cần
+            this.edit_suat_chieu = {};
+        },
+
+        xoaSuatChieu() {
+            // Kiểm tra xem del_suat_chieu có tồn tại trong list không
+            const index = this.list_suat_chieu.findIndex(suatChieu => suatChieu.id === this.del_suat_chieu.id);
+
+            // Nếu tìm thấy, xóa suất chiếu khỏi danh sách
+            if (index !== -1) {
+                this.list_suat_chieu.splice(index, 1); // Xóa tại vị trí index
+                localStorage.setItem('list_suat_chieu', JSON.stringify(this.list_suat_chieu));
+                this.$toast?.success?.("Đã xóa suất chiếu khỏi danh sách!");
+
+            } else {
+                alert("⚠ Không tìm thấy suất chiếu để xóa.");
+            }
+
+            // Reset lại del_suat_chieu
+            this.del_suat_chieu = {};
+        },
     },
 };
 </script>
