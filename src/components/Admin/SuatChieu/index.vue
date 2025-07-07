@@ -248,7 +248,7 @@ export default {
         return {
             list_suat_chieu: [
                 {
-                    id: 1,
+                    id: 4,
                     id_phim: 3,
                     ten_phim: 'Thám Tử Kiên: Kỳ Án Không Đầu',
                     id_phong_chieu: 1,
