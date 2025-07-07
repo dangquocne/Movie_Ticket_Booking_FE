@@ -97,7 +97,7 @@
             </div>
         </div>
  </div>
-</div>  
+
         <!-- Comments and Ratings Section -->
         <div class="row g-4 mt-5">
             <!-- Comment Section -->
@@ -279,14 +279,14 @@
         </div>
   
 
-    <!-- Modal Ticket (unchanged) -->
+     <!-- Modal Ticket (unchanged) -->
     <div class="modal fade" id="buyTicketModal" tabindex="-1" aria-labelledby="movieScheduleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-light border-bottom">
                     <h4 class="modal-title fs-3 fw-bold text-dark" id="movieScheduleModalLabel">
-                        Lịch chiếu: Địa Đạo: Mặt Trời Trong Bóng Tối    
+                        Lịch chiếu: {{ phim.ten_phim }}
                     </h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -294,20 +294,20 @@
                     <div class="mb-4">
                         <h5 class="fw-semibold mb-3 text-dark">Chọn ngày xem</h5>
                         <div class="d-flex flex-wrap gap-2 overflow-auto pb-2">
-                            <button 
+                            <button v-for="(value, index) in ngayChieu" :key="index"
                                 class="btn btn-outline-secondary btn-sm px-3 py-2"
-                              
+                                :class="{ 'btn-primary': selectedDate === value.ngay_chieu }"
                                 @click="selectedDate = value.ngay_chieu">
-                                <!-- {{ formatDate(value.ngay_chieu) }} -->
+                                {{ formatDate(value.ngay_chieu) }}
                             </button>
                         </div>
                     </div>
                     <div>
                         <h5 class="fw-semibold mb-3 text-dark">Suất chiếu</h5>
                         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
-                            <div class="col" >
+                            <div class="col" v-for="(value, index) in suatChieuTheoNgay" :key="index">
                                 <button class="btn btn-outline-primary w-100 py-2">
-                                    <!-- {{ formatTime(value.thoi_gian_bat_dau) }} -->
+                                {{ formatTime(value.thoi_gian_bat_dau) }} - {{ formatTime(value.thoi_gian_ket_thuc) }}
                                 </button>
                             </div>
                         </div>
@@ -315,14 +315,14 @@
                 </div>
                 <div class="modal-footer border-top">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <router-link to="/client/dat-ve">
-                        <button type="button" class="btn btn-primary">Tiếp tục đặt vé</button>
+                     <router-link to="/client/dat-ve">
+                    <button type="button" class="btn btn-primary">Tiếp tục đặt vé</button>
                     </router-link>
                 </div>
             </div>
         </div>
     </div>
-     
+     </div>  
 </template>
 <script>
 import axios from 'axios';
@@ -331,7 +331,13 @@ export default {
 
       data() {
     return {
-      phim: null,
+        list_suat_chieu: [],
+        phim: {},
+        ngayChieu: [],
+      suatChieuTheoNgay: [],
+      selectedDate: null,
+      selectedSuatChieu: null
+
     };
   },
   mounted() {
@@ -341,60 +347,46 @@ export default {
       const list = JSON.parse(stored);
       this.phim = list.find(p => p.id == id);
     }
-  }
-    // props: ["id_phim"],
-    // data() {
-    //     return {
-    //         // id_phim: this.$route.params.id_phim,
-    //         chi_tiet_phim: {},
-    //         suat_chieu_phim: [],
-    //         selectedDate: false,
-    //     }
-    // },
-    // computed: {
-    //     ngayChieu() {
-    //         if (!this.suat_chieu_phim || this.suat_chieu_phim.length === 0) {
-    //             return [];
-    //         }
-    //         // Lấy danh sách ngày chiếu
-    //         const allDates = this.suat_chieu_phim.map(item => item.ngay_chieu);
-    //         // Lọc bỏ trùng
-    //         const uniqueDates = Array.from(new Set(allDates));
-    //         // Trả về đúng định dạng
-    //         return uniqueDates.map(date => ({ ngay_chieu: date }));
-    //     },
-    //     suatChieuTheoNgay() {
-    //         return this.selectedDate ? this.suat_chieu_phim.filter(item => item.ngay_chieu === this.selectedDate)
-    //             : [];
-    //     }
-    // },
-    // mounted() {
-    //     this.loadChiTietPhim();
-    // // },
-    // methods: {
-    //     formatTime(time) {
-    //         return time.slice(0, 5); // Convert HH:MM:SS to HH:MM
-    //     },
-    //     formatDate(date) {
-    //         const d = new Date(date);
-    //         return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
-    //     },
-        // loadChiTietPhim() {
-        //     var payload = {
-        //         id: this.id_phim
-        //     }
-        //     axios.post('http://127.0.0.1:8000/api/client/chi-tiet-phim/get-data', payload)
-        //         .then((res) => {
-        //             if (res.data.status) {
-        //                 this.chi_tiet_phim = res.data.data_phim;
-        //                 this.suat_chieu_phim = res.data.data_suat_chieu;
-        //                 console.log(this.suat_chieu_phim);
 
-        //             } else {
-        //                 this.$toast.error(res.data.message);
-        //                 this.$router.push('/');
-        //             }
-        //         });
-        // },
+      //lấy danh sách suất chiếu từ localStorage
+        const storedSuatChieu = localStorage.getItem('list_suat_chieu');
+        if (storedSuatChieu) {
+            this.list_suat_chieu = JSON.parse(storedSuatChieu);
+        }
+
+   // Lọc ngày chiếu duy nhất của phim hiện tại
+      const ngaySet = new Set();
+      this.list_suat_chieu.forEach(sc => {
+        if (sc.id_phim == this.phim.id) {
+          ngaySet.add(sc.ngay_chieu);
+        }
+      });
+      this.ngayChieu = Array.from(ngaySet).map(ngay => ({ ngay_chieu: ngay }));
+    
+  },
+   watch: {
+    selectedDate(newDate) {
+      // Khi chọn ngày, lọc lại danh sách suất chiếu theo ngày đó và theo phim hiện tại
+      this.suatChieuTheoNgay = this.list_suat_chieu.filter(
+        sc => sc.ngay_chieu === newDate && sc.id_phim === this.phim.id
+      );
+    },
+      selectedSuatChieu(newSuatChieu) {
+      // Khi chọn suất chiếu, lưu lại suất chiếu đã chọn
+      this.selectedSuatChieu = newSuatChieu;
+    }
+  },
+     methods: {
+
+       formatDate(dateStr) {
+      return new Date(dateStr).toLocaleDateString("vi-VN");
+    },
+    formatTime(timeStr) {
+      return timeStr.slice(0, 5);
+    },
+
+
+  
+         },
     }
 </script>

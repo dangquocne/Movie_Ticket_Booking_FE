@@ -250,10 +250,10 @@ export default {
                 {
                     id: 1,
                     id_phim: 1,
-                    ten_phim: 'Phim A',
+                    ten_phim: 'Địa Đạo: Mặt Trời Trong Bóng Tối',
                     id_phong_chieu: 1,
                     ten_phong: 'Phòng 1',
-                    ngay_chieu: '2023-10-01',
+                    ngay_chieu: '2025-06-29',
                     thoi_gian_bat_dau: '10:00',
                     thoi_gian_ket_thuc: '12:00',
                     gia_ve: 100000,

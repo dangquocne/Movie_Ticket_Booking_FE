@@ -84,15 +84,7 @@ export default {
   }
     },
     methods: {
-        // getPhim() {
-        //     axios
-        //         .get('http://127.0.0.1:8000/api/client/phim/get-data')
-        //         .then((res) => {
-        //             if (res.data.status) {
-        //                 this.list_phim = res.data.data;
-        //             }
-        //         })
-        // }
+      
     },
 };
 </script>
