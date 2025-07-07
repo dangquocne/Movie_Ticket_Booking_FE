@@ -88,7 +88,22 @@ export default {
         nha_san_xuat: "CJ HK Entertainment",
         trailer: "https://www.youtube.com/embed/xh6IDHjvytU?si=dTUhWz3bcqFJ2Jod",
         noi_dung: "Thám Tử Kiên là một nhân vật được yêu thích trong tác phẩm điện của ăn khách Người Vợ Cuối Cùng của Victor Vũ, Thám Tử Kiên: Kỳ Không Đầu sẽ là một phim Victor Vũ trở về với thể loại sở trường Kinh Dị - Trinh Thám sau những tác phẩm tình cảm lãng mạn trước đó. Với slogan đầy ám ảnh: “Kẻ chết không siêu thoát, người sống không lối thoát”, Thám Tử Kiên: Kỳ Án Không Đầu ẩn chứa muôn vàn bí ẩn. Một chuỗi án mạng kinh hoàng tại một ngôi làng hẻo lánh - nơi liên tiếp xảy ra tám vụ giết người với cùng một đặc điểm rợn người: tất cả nạn nhân đều không còn đầu.  Thám Tử Kiên phải đối mặt với vụ án khủng khiếp gây hoang mang tột độ cho dân làng. Ai sẽ là nạn nhân tiếp theo trong chuỗi án mạng rùng rợn? Kiên có tìm ra mấu chốt để lần theo dấu vết hung thủ? Thuộc thể loại tâm linh - ly kỳ - phá án, Thám Tử Kiên: Kỳ Án Không Đầu được đạo diễn Victor Vũ kì công nhào nặn, ghi hình tại Tuyên Quang và Cao Bằng cực kì kĩ lưỡng. Dàn diễn viên chính trong phim bao gồm: Quốc Huy vai Thám tử Kiên, Đinh Ngọc Diệp vai Hai Mẫn, Quốc Anh vai Thạc, Anh Phạm vai Tuyết và Minh Anh vai Nga, NSƯT Xuân Trang trong vai Quan Liêm, NSND Mỹ Uyên trong vai Bà Vượng (vợ quan Liêm)."},]
-        }
+   ,    
+    list_suat_chieu: [
+                {
+                    id: 5,
+                    id_phim: 3,
+                    ten_phim: 'Thám Tử Kiên: Kỳ Án Không Đầu',
+                    id_phong_chieu: 1,
+                    ten_phong: 'Phòng 1',
+                    ngay_chieu: '2025-07-09',
+                    thoi_gian_bat_dau: '15:20',
+                    thoi_gian_ket_thuc: '17:17',
+                    gia_ve: 450000,
+                    tinh_trang: 1
+                }
+            ],
+    }
     },
     mounted() {
        const stored = localStorage.getItem('list_phim');
@@ -106,6 +121,23 @@ export default {
     this.list_phim = merged;
     localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
     }
+
+      const storedSuatChieu = localStorage.getItem('list_suat_chieu');
+  if (storedSuatChieu) {
+    const storedList = JSON.parse(storedSuatChieu);
+
+    // Hợp nhất dữ liệu mặc định + dữ liệu từ localStorage
+    const defaultList = this.list_suat_chieu;
+
+    // Loại bỏ các phim trùng id (tránh lặp)
+    const merged = [...defaultList, ...storedList.filter(storedItem => {
+      return !defaultList.some(defaultItem => defaultItem.id === storedItem.id);
+    })];
+
+    this.list_suat_chieu = merged;
+    localStorage.setItem('list_suat_chieu', JSON.stringify(this.list_suat_chieu));
+    }
+
     },
     methods: {
       
