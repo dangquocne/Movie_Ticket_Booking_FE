@@ -26,6 +26,7 @@
   }
 </style>
 <template >
+     <div v-if="ready">\
     <div class="container mt-4">
         <div class="row">
             <div class="col-lg-12">
@@ -326,7 +327,7 @@
             </div>
         </div>
     </div>
-
+</div>
 
 </template>
 
@@ -340,144 +341,21 @@ import axios from 'axios'
 export default {
 
 
-
-
-
-//     props: ['id_suat_chieu'],
-//     data() {
-//         return {
-//             id_suat_chieu: this.$route.params.id_suat_chieu,
-//             list_ve: [],
-//             thong_tin_phim: {},
-//             hang_ngang_phong: null,
-//             list_ben_phai: [],
-//             list_ben_trai: [],
-//             ma_voucher: '',
-//             kq_voucher: {},
-//         }
-//     },
-//     mounted() {
-//         this.getVe();
-//         this.getDichVu();
-//     },
-//     computed: {
-//         taoGheChoPhong() {
-//             let a = [];
-//             for (let i = 0; i < this.list_ve.length; i += this.hang_ngang_phong) {
-//                 a.push(this.list_ve.slice(i, i + this.hang_ngang_phong));
-//             }
-//             return a;
-//         },
-//         tongCong() {
-//             let tong = 0;
-//             let tien_giam_gia = 0;
-//             for (let i = 0; i < this.list_ben_phai.length; i++) {
-//                 tong += this.list_ben_phai[i].gia_ve;
-//             }
-
-//             if (tong >= this.kq_voucher.so_tien_toi_da) {
-//                 tien_giam_gia = tong * this.kq_voucher.so_giam_gia;
-//                 if (tien_giam_gia > this.kq_voucher.so_tien_giam_gia) {
-//                     tien_giam_gia = this.kq_voucher.so_tien_giam_gia;
-//                 }
-//             }
-
-//             return tong - tien_giam_gia;
-//         }
-//     },
-//     methods: {
-//         thanhToan() {
-//             var payload = {
-//                 'list_ben_phai': this.list_ben_phai,
-//                 'ma_code': this.ma_voucher
-//             }
-//             axios.post("http://127.0.0.1:8000/api/client/dat-ve/thanh-toan", payload, {
-//                 headers: {
-//                     Authorization: "Bearer " + localStorage.getItem('key_client')
-//                 }
-//             })
-//                 .then((res) => {
-//                     if (res.data.status) {
-//                         this.$toast.success(res.data.message);
-//                         this.list_ben_phai = [];
-//                         this.ma_voucher = '';
-//                     } else {
-//                         this.$toast.error(res.data.message);
-//                     }
-//                 })
-//         },
-//         thongTinVoucher() {
-//             var payload = {
-//                 ma_code: this.ma_voucher,
-//             }
-//             axios.post("http://127.0.0.1:8000/api/client/ap-voucher", payload)
-//                 .then((res) => {
-//                     if (res.data.status) {
-//                         this.$toast.success(res.data.message);
-//                         this.kq_voucher = res.data.data;
-//                     } else {
-//                         this.$toast.error(res.data.message);
-//                     }
-//                 })
-
-//         },
-//         xoaBo(value) {
-//             value.id_don_hang = 0;
-//             this.list_ben_phai = this.list_ben_phai.filter(item => !(item.id === value.id && item.type === value.type));
-//         },
-//         themDichvu(value) {
-//             value.ten_ghe = value.ten_dich_vu;
-//             value.gia_ve = value.gia;
-//             value.type = 2;
-//             this.list_ben_phai.push(value);
-//         },
-//         getDichVu() {
-//             axios.get("http://127.0.0.1:8000/api/client/dich-vu/get-data")
-//                 .then((res) => {
-//                     this.list_ben_trai = res.data.data;
-//                 })
-//         },
-//         chonGhe(value) {
-//             if (value.id_don_hang > 0) return;
-//             else if (value.id_don_hang == 0) {
-//                 value.id_don_hang = -1;
-//                 value.type = 1;
-//                 this.list_ben_phai.push(value);
-//             }
-//             else {
-//                 value.id_don_hang = 0;
-//                 this.list_ben_phai = this.list_ben_phai.reduce((acc, item) => {
-//                     if (!(item.id === value.id && item.type === 1)) {
-//                         acc.push(item);
-//                     }
-//                     return acc;
-//                 }, []);
-//             };
-//         },
-//         getVe() {
-//             axios.get("http://127.0.0.1:8000/api/client/dat-ve/" + this.id_suat_chieu)
-//                 .then((res) => {
-//                     if (res.data.status) {
-//                         this.list_ve = res.data.data;
-//                         this.thong_tin_phim = res.data.thong_tin_phim;
-
-//                         this.hang_ngang_phong = res.data.hang_ngang;
-//                     } else {
-//                         this.$toast.error(res.data.message);
-//                         this.$router.push('/');
-//                     }
-//                 })
-//         },
-//         formatVND(number) {
-//             return new Intl.NumberFormat("vi-VI", { style: "currency", currency: "VND" }).format(number,);
-//         },
-//         formatDate(date) {
-//             const thuVN = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
-//             const d = new Date(date);
-//             return `${thuVN[d.getDay()]}, ngày ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
-//         }
-
-//     },
+ 
+   data() {
+    return {
+      ready: false,
+    };
+  },
+  mounted() {
+    // Giả lập dữ liệu hoặc luôn bật ready để test giao diện
+    this.ready = true;
+  },
 }
+
+
+
+
+//    
 </script>
 <style></style>

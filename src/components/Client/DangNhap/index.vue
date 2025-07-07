@@ -79,21 +79,26 @@ export default {
         }
     },
     methods: {
-        dangNhap() {
-            axios.post('http://127.0.0.1:8000/api/client/dang-nhap', this.thong_tin_dang_nhap)
-                .then((res) => {
-                    if (res.data.status) {
-                        this.$toast.success(res.data.message);
-                        console.log(res.data.data);
-                        
-                        localStorage.setItem('key_client', res.data.token)
-                        
-                        this.$router.push('/')
-                    } else {
-                        this.$toast.error(res.data.message);
-                    }
-                });
-        }
+       dangNhap() {
+  const danhSachNguoiDung = JSON.parse(localStorage.getItem('list_user')) || [];
+
+  // Tìm người dùng khớp email + password
+  const nguoiDung = danhSachNguoiDung.find(u => 
+    u.email === this.thong_tin_dang_nhap.email && u.password === this.thong_tin_dang_nhap.password
+  );
+
+  if (nguoiDung) {
+      this.$toast.success("Đăng nhập thành công!");
+
+    // Lưu user đã đăng nhập vào localStorage (để biết người nào đang đăng nhập)
+    localStorage.setItem('user_login', JSON.stringify(nguoiDung));
+
+    // Chuyển trang
+    this.$router.push('/');
+  } else {
+    this.$toast.error("Email hoặc mật khẩu không đúng!");
+  }
+}
     },
 }
 </script>

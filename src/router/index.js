@@ -76,7 +76,7 @@ const routes = [
         path: "/client/dat-ve",
         component: () => import("../components/Client/DatVe/index.vue"),
         meta: { layout: "client" },
-        props: true,
+        // props: true,
         // beforeEnter: checkKhachHang
     },
 

@@ -37,12 +37,14 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <label class="form-label">Ngày Sinh</label>
-                                            <input v-model="user.ngay_sinh" type="date" class="form-control" min="1900-01-01" max="2025-12-31">
+                                            <input v-model="user.ngay_sinh" type="date" class="form-control"
+                                                min="1900-01-01" max="2025-12-31">
                                         </div>
                                         <div class="col-6">
                                             <label class="form-label">Mật khẩu</label>
                                             <div class="input-group" id="show_hide_password">
-                                                <input v-model="user.password" type="password" class="form-control border-end-0">
+                                                <input v-model="user.password" type="password"
+                                                    class="form-control border-end-0">
                                                 <a href="javascript:;" class="input-group-text bg-transparent">
                                                     <i class="bx bx-hide"></i>
                                                 </a>
@@ -51,7 +53,8 @@
                                         <div class="col-6">
                                             <label class="form-label">Nhập Lại Mật khẩu</label>
                                             <div class="input-group" id="show_hide_password">
-                                                <input v-model="user.re_password" type="password" class="form-control border-end-0">
+                                                <input v-model="user.re_password" type="password"
+                                                    class="form-control border-end-0">
                                                 <a href="javascript:;" class="input-group-text bg-transparent">
                                                     <i class="bx bx-hide"></i>
                                                 </a>
@@ -68,8 +71,8 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="d-grid">
-                                                <button @click="dangKyTaiKhoan()" type="submit" class="btn btn-success text-uppercase"><i
-                                                        class="bx bx-user"></i>
+                                                <button @click="dangKyTaiKhoan()" type="submit"
+                                                    class="btn btn-success text-uppercase"><i class="bx bx-user"></i>
                                                     Đăng Ký</button>
                                             </div>
                                         </div>
@@ -89,20 +92,54 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            user : {}
+            list_user: JSON.parse(localStorage.getItem('list_user')) || [],
+            // Danh sách người dùng, nếu không có thì khởi tạo mảng rỗ
+            user: {}
         }
     },
     methods: {
-        dangKyTaiKhoan(){
-            axios.post('http://127.0.0.1:8000/api/client/dang-ky', this.user)
-                .then((res) => {
-                    if (res.data.status) {
-                        this.$toast.success(res.data.message);
-                    } else {
-                        this.$toast.error('Đăng ký tài khoản thất bại');
-                    }
-                });
-        }
+        dangKyTaiKhoan() {
+
+            // Kiểm tra thông tin cơ bản
+            if (
+                !this.user.ho_va_ten ||
+                !this.user.cccd ||
+                !this.user.ngay_sinh ||
+                !this.user.password ||
+                !this.user.re_password ||
+                !this.user.email ||
+                !this.user.so_dien_thoai
+            ) {
+
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+
+
+            // Tạo bản sao của phim vừa nhập, kèm ID tạm
+            const newUser = {
+                ...this.user,
+                id: Date.now(), // ID giả, để phân biệt
+            };
+
+            // Thêm người dùng vào danh sách
+            this.list_user.push(newUser);
+
+            // Lưu vào localStorage
+            localStorage.setItem('list_user', JSON.stringify(this.list_user));
+
+            // Reset form nhập
+            this.user = {};
+
+            // Ẩn modal (nếu dùng Bootstrap)
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
+            modal?.hide?.();
+
+            // Thông báo đơn giản
+            this.$toast.success("Người dùng đã được thêm thành công!");
+            console.log("Người dùng đã được thêm:", newUser);
+        },
+
     },
 }
 </script>
