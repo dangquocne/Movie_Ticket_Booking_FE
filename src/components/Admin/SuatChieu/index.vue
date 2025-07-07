@@ -249,14 +249,14 @@ export default {
             list_suat_chieu: [
                 {
                     id: 1,
-                    id_phim: 1,
-                    ten_phim: 'Địa Đạo: Mặt Trời Trong Bóng Tối',
+                    id_phim: 3,
+                    ten_phim: 'Thám Tử Kiên: Kỳ Án Không Đầu',
                     id_phong_chieu: 1,
                     ten_phong: 'Phòng 1',
-                    ngay_chieu: '2025-06-29',
-                    thoi_gian_bat_dau: '10:00',
-                    thoi_gian_ket_thuc: '12:00',
-                    gia_ve: 100000,
+                    ngay_chieu: '2025-07-08',
+                    thoi_gian_bat_dau: '13:20',
+                    thoi_gian_ket_thuc: '15:17',
+                    gia_ve: 450000,
                     tinh_trang: 1
                 }
             ],
@@ -280,9 +280,21 @@ export default {
 
         //lấy danh sách suất chiếu từ localStorage
         const storedSuatChieu = localStorage.getItem('list_suat_chieu');
-        if (storedSuatChieu) {
-            this.list_suat_chieu = JSON.parse(storedSuatChieu);
-        }
+  if (storedSuatChieu) {
+    const storedList = JSON.parse(storedSuatChieu);
+
+    // Hợp nhất dữ liệu mặc định + dữ liệu từ localStorage
+    const defaultList = this.list_suat_chieu;
+
+    // Loại bỏ các phim trùng id (tránh lặp)
+    const merged = [...defaultList, ...storedList.filter(storedItem => {
+      return !defaultList.some(defaultItem => defaultItem.id === storedItem.id);
+    })];
+
+    this.list_suat_chieu = merged;
+    localStorage.setItem('list_suat_chieu', JSON.stringify(this.list_suat_chieu));
+    }
+
 
         //lấy danh sách phòng chiếu từ localStorage
         const storedPhong = localStorage.getItem('list_phong_chieu');

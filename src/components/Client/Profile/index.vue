@@ -1,4 +1,5 @@
 <template>
+
 	<div class="container mt-5">
 		<div class="row">
 			<div class="col-lg-4">
@@ -7,7 +8,7 @@
 						<div class="d-flex  justify-content-start text-center">
 							<img src="https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-avatar-cute-58.jpg"
 								alt="Admin" class="rounded-circle p-1 bg-primary ms-5" width="100">
-							<div class="fs-4 fw-bold mt-4 ms-3">John Doe</div>
+							<div class="fs-4 fw-bold mt-4 ms-3">{{ user.ho_va_ten || 'Không có tên!' }}</div>
 						</div>
 						<hr>
 						<div class="fs-6">Tổng chi tiêu 2025</div>
@@ -118,10 +119,31 @@
 			</div>
 		</div>
 	</div>
+
 </template>
 <script>
 export default {
+	  props: ['id'],
+ data() {
+    return {
+        user: {},
+       
 
+    };
+  },
+  mounted() {
+      const storedUser = JSON.parse(localStorage.getItem('user_login'));
+    if (storedUser) {
+      // Gán trực tiếp vì storedUser là object
+      this.user = storedUser;
+
+      // Kiểm tra trong console
+      console.log("User Profile:", this.user);
+    } else {
+      console.warn("Không tìm thấy user_login trong localStorage");
+    }
+  
+}
 }
 </script>
 <style></style>
