@@ -123,7 +123,7 @@
 </template>
 <script>
 export default {
-	  props: ['id'],
+	  props: ['email'],
  data() {
     return {
         user: {},

@@ -55,7 +55,7 @@
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <router-link :to="`/client/profile/${user_login.id}`">
+                                    <router-link :to="`/client/profile/${user_login.email}`">
                                         <li><a class="dropdown-item" href="javascript:;"><i
                                                     class="bx bx-user"></i><span>Profile</span></a>
                                         </li>

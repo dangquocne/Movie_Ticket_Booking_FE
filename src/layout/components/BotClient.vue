@@ -41,7 +41,7 @@
                 <div class="row text-start">
                     <!-- Brand Name -->
                     <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                        <h5 class="text-uppercase fw-bold mb-3 text-light">DZCinema</h5>
+                        <h5 class="text-uppercase fw-bold mb-3 text-light">OIZOIOI Cinema</h5>
                         <p>
                             Đặt vé xem phim dễ dàng, nhanh chóng với trải nghiệm tuyệt vời!
                         </p>
@@ -86,7 +86,7 @@
                     <div class="col-lg-5 col-md-6 mb-4 mb-md-0">
                         <h6 class="fw-bold mb-3 text-light">Thông tin công ty</h6>
                         <p>
-                            CÔNG TY TNHH DZCINEMA<br>
+                            CÔNG TY TNHH OIZOIOI CINEMA<br>
                             Số ĐKKD: 0317891234<br>
                             Nơi cấp: Sở Kế hoạch và Đầu tư Tp. Hồ Chí Minh<br>
                             Ngày đăng ký: 15/06/2021<br>
