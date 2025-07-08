@@ -2,7 +2,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark py-0" style="background-color: #000957;">
             <div class="container"> 
-                <a class="navbar-brand fs-4 fw-bold" href="#"><span class="text-warning">OIZOIOI</span>Cinema</a>
+                <a class="navbar-brand fs-4 fw-bold" href="#"><span class="text-warning">OIZOIOI </span>Cinema</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1"
                     aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
@@ -77,14 +77,14 @@
                             
                      <router-link to="/client/dang-nhap">
                                 <li class="nav-item">
-                                    <a class="nav-link active fs-6" aria-current="page" href="/client/dang-nhap"> Login</a>
+                                    <a class="nav-link active fs-6" aria-current="page" href="/client/dang-nhap"> Đăng Nhập</a>
                       
                                 </li>
 
                          </router-link>    
                          <router-link to="/client/dang-ky">
                                 <li class="nav-item">
-                                    <a class="nav-link active fs-6" aria-current="page" href="/client/dang-ky">Register</a>
+                                    <a class="nav-link active fs-6" aria-current="page" href="/client/dang-ky">Đăng Ký</a>
                                 </li>
                            </router-link>
                            <router-link to="/admin/">

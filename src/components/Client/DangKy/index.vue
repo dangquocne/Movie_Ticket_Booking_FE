@@ -9,7 +9,7 @@
                         <div class="card-body flex-full">
                             <div class="border p-4 rounded">
                                 <div class="text-center">
-                                    <h3 class="text-uppercase ">Đăng ký tài khoản <b class="text-primary">dzcinema</b>
+                                    <h3 class="text-uppercase ">Đăng ký tài khoản <b class="text-primary">oizoioi cinema</b>
                                     </h3>
                                     <p>Bạn đã có tài khoản?
                                         <router-link to="/client/dang-nhap">
@@ -111,8 +111,14 @@ export default {
                 !this.user.so_dien_thoai
             ) {
 
-                alert("Vui lòng nhập đầy đủ thông tin!");
+                this.$toast.warning("Vui lòng nhập đầy đủ thông tin!");
                 return;
+            }
+
+            if(this.user.email==this.list_user.find(user => user.email === this.user.email)?.email) {
+                this.$toast.error("Email đã được sử dụng, vui lòng nhập email khác!");
+                return;
+
             }
 
 

@@ -6,8 +6,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 text-white">
-                        <h2 class="display-4 fw-bold text-light">Chào mừng đến với DZCinema</h2>
-                        <p class="lead">Nơi những thước phim trở nên sống động với công nghệ hình ảnh và âm thanh đỉnh
+                        <h2 class="display-4 fw-bold text-light">Chào mừng đến với OIZOIOI Cinema</h2>
+                        <p class="lead">Trình là gì mà là trình ai chấm .Nơi những thước phim trở nên sống động với công nghệ hình ảnh và âm thanh đỉnh
                             cao</p>
                         <button class="btn btn-danger btn-lg">Khám phá ngay</button>
                     </div>
@@ -21,13 +21,13 @@
         <div class="container">
             <div class="row mb-4">
                 <div class="col-12 text-center">
-                    <h2 class="fw-bold">Về DZCinema</h2>
+                    <h2 class="fw-bold">Về OIZOIOI Cinema</h2>
                     <div class="d-inline-block bg-danger" style="width: 60px; height: 3px; margin-bottom: 30px;"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <p>DZCinema là chuỗi rạp chiếu phim cao cấp được thành lập vào năm 2023, mang đến trải nghiệm điện
+                    <p>OIZOIOI Cinema trình là gì mà là trình ai chấm  là chuỗi rạp chiếu phim cao cấp được thành lập vào năm 2023, mang đến trải nghiệm điện
                         ảnh đẳng cấp quốc tế với công nghệ chiếu phim tiên tiến nhất hiện nay.</p>
                     <p>Với sứ mệnh "Nâng tầm trải nghiệm điện ảnh Việt Nam", chúng tôi không ngừng đầu tư vào cơ sở vật
                         chất, dịch vụ khách hàng và công nghệ để mang đến những giây phút giải trí tuyệt vời nhất cho

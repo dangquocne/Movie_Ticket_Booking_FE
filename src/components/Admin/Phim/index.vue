@@ -361,11 +361,11 @@ export default {
         };
     },
     mounted() {
-        // this.list_phim;
-//         const stored = localStorage.getItem('list_phim');
-//   if (stored) {
-//     this.list_phim = JSON.parse(stored);
-//   }
+            // this.list_phim;
+    //         const stored = localStorage.getItem('list_phim');
+    //   if (stored) {
+    //     this.list_phim = JSON.parse(stored);
+    //   }
   const stored = localStorage.getItem('list_phim');
   if (stored) {
     const storedList = JSON.parse(stored);

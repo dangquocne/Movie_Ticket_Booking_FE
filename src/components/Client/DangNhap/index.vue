@@ -8,7 +8,7 @@
                             <div class="border p-4 rounded">
                                 <div class="text-center">
                                     <h3 class="text-uppercase">Đăng Nhập <span
-                                            class="text-primary fw-bold">DZCinema</span></h3>
+                                            class="text-primary fw-bold">OIZOIOI Cinema</span></h3>
                                     <p>Bạn chưa có tài khoản?
                                         <router-link to="/client/dang-ky">
                                             <a href="/client/dang-ky">Đăng ký ngay</a>
