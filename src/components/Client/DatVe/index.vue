@@ -24,7 +24,7 @@
                                                     :class="{ chon: gheDaChon(ghe) }">
                                                     <div class="fw-bold fs-6 text-secondary">{{ ghe.ten_ghe }} - {{
                                                         ghe.gia_ghe }}</div>
-                                                    <i class="fa-solid fa-couch m-2 text-secondary" ></i>
+                                                    <i class="fa-solid fa-couch m-2 text-secondary"></i>
                                                 </div>
                                             </th>
                                         </template>
@@ -110,35 +110,35 @@
                     </div>
                 </div>
             </div>
+            <!-- Poster + Tên phim -->
             <div class="col-lg-6">
                 <div class="card radius-10 border-top border-0 border-5 border-warning">
                     <div class="card-body">
-                        <div class="d-flex mb-2">
-                            <img src="https://riocinemas.vn/Areas/Admin/Content/Fileuploads/images/poster%20web/2025/T4/SCDB.jpg"
-                                alt="Poster phim" class="img-fluid rounded me-3"
+                        <div class="d-flex mb-2" v-if="phimDangChon">
+                            <img :src="phimDangChon.hinh_anh" alt="Poster phim" class="img-fluid rounded me-3"
                                 style="width: 150px; height: 270px; object-fit: cover;">
                             <div>
-                                <h6 class="mb-1 fw-bold">Địa Đạo: Mặt Trời Trong Bóng Tối </h6>
-                                <p class="mb-1 text-muted small">Tiếng Việt - Phụ đề Tiếng Anh</p>
+                                <h6 class="mb-1 fw-bold">{{ phimDangChon.ten_phim }}</h6>
+                                <p class="mb-1 text-muted small">{{ phimDangChon.ngon_ngu }}</p>
                             </div>
                         </div>
-                        <p class="mb-3">Suất chiếu: <strong>19:20</strong> -
-                            <strong>2025-04-04</strong>
+                        <p class="mb-3" v-if="suatChieuDangChon">
+                            Suất chiếu: <strong>{{ formatTime(suatChieuDangChon.thoi_gian_bat_dau) }}-{{
+                                formatTime(suatChieuDangChon.thoi_gian_ket_thuc) }}</strong> -
+                            <strong>{{ formatDate(suatChieuDangChon.ngay_chieu) }}</strong>
                         </p>
                         <hr class="my-2" style="border: 1px dashed;">
                         <!-- v-for ghế  -->
-                        <!-- <template v-for="(value, index) in list_ben_phai" :key="index"> -->
-                        <!-- <template v-if="value.type == 1"> -->
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>Ghế A3</div>
-                            <div class="d-flex align-items-center">
-                                <div class="me-2">15000VND</div>
-                                <i @click="xoaBo(value)" class="fa-solid fa-rectangle-xmark fa-2x text-danger"></i>
+                        <template v-for="(ghe, index) in list_ghe_chon" :key="index">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>Ghế: {{ ghe.ten_ghe }}</div>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-2">{{ formatVND(ghe.gia_ghe) }}</div>
+                                    <i @click="xoaBo(ghe)" class="fa-solid fa-rectangle-xmark fa-2x text-danger"></i>
+                                </div>
                             </div>
-                        </div>
-                        <hr class="my-2" style="border: 1px dashed;">
-                        <!-- </template>
-                        </template> -->
+                            <hr class="my-2" style="border: 1px dashed;">
+                        </template>
 
                         <!-- v-for dịch vụ -->
                         <!-- <template v-for="(value, index) in list_ben_phai" :key="index">
@@ -162,7 +162,7 @@
                         <hr class="my-2" style="border: 1px dashed;">
                         <div class="d-flex justify-content-between">
                             <strong>Tổng cộng</strong>
-                            <strong class="text-danger">15000VND</strong>
+                            <strong class="text-danger">{{ formatVND(tongTien) }}</strong>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -214,26 +214,30 @@ function chonGhe(element) {
 import axios from 'axios'
 export default {
 
-    props:["id_suat_chieu"],
+    props: ["id_suat_chieu"],
 
     data() {
         return {
-            //   ready: false,
-            list_ghe: [
-            ],
+
+
+            list_ghe: [],
             list_phong_chieu: [],
             idPhongDangChon: null, // ID của phòng đang chọn
+            suatChieuDangChon: null, // Suất chiếu đang chọn
+            phimDangChon: null, // Phim đang chọn
             list_ghe_chon: [], // ← ghế được chọn
 
         };
     },
     mounted() {
-        // Giả lập dữ liệu hoặc luôn bật ready để test giao diện
+
+
+        // Lấy danh sách phòng chiếu từ localStorage
         const storedPhong = localStorage.getItem('list_phong_chieu');
         if (storedPhong) {
             this.list_phong_chieu = JSON.parse(storedPhong);
             if (this.list_phong_chieu.length > 0) {
-                this.idPhongDangChon = this.list_phong_chieu[0].id; // lấy phòng đầu tiên
+                // this.idPhongDangChon = this.list_phong_chieu[0].id; // lấy phòng đầu tiên
             }
         }
 
@@ -242,9 +246,41 @@ export default {
         if (storedGhe) {
             this.list_ghe = JSON.parse(storedGhe);
         }
+
+        //lấy danh sách phim từ localStorage
+        const listPhim = JSON.parse(localStorage.getItem("list_phim") || "[]");
+
+        //Lấy danh sách suất chiếu từ localStorage
+        // và tìm ID suất chiếu hiện tại để lấy ID phòng đang chọn
+        // Và tìm suất chiếu hiện tại
+        const storedSuatChieu = localStorage.getItem("list_suat_chieu");
+        if (storedSuatChieu) {
+            const list = JSON.parse(storedSuatChieu);
+            const suat = list.find(s => s.id == this.id_suat_chieu);
+            if (suat) {
+                this.suatChieuDangChon = suat;
+                this.idPhongDangChon = suat.id_phong_chieu;
+
+                // 👇 tìm phim theo id_phim
+                const phim = listPhim.find(p => p.id == suat.id_phim);
+                if (phim) {
+                    this.phimDangChon = phim;
+                }
+            }
+        }
         console.log("ID suất chiếu được chọn:", this.id_suat_chieu);
+
+
+
+
+        //De tat modal khi load trang
+        document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+        document.body.classList.remove('modal-open');
+        document.body.style = '';
     },
     computed: {
+
+        // Lấy danh sách ghế theo hàng ngang
         gheTheoHang() {
             const phong = this.list_phong_chieu.find(p => p.id == this.idPhongDangChon);
             if (!phong) return [];
@@ -260,21 +296,41 @@ export default {
             return result;
 
 
-        }
+        },
+
+       //tinh tổng tiền từ danh sách ghế đã chọn
+        tongTien() {
+            return this.list_ghe_chon.reduce((total, ghe) => total + ghe.gia_ghe, 0);
+
+        },
     },
     methods: {
-       gheDaChon(ghe) {
-    return this.list_ghe_chon.includes(ghe);
-  },
-  chonGhe(ghe) {
-    const index = this.list_ghe_chon.indexOf(ghe);
-    if (index === -1) {
-      this.list_ghe_chon.push(ghe);
-    } else {
-      this.list_ghe_chon.splice(index, 1);
-    }
-    console.log(this.list_ghe_chon);
-  }
+        gheDaChon(ghe) {
+            return this.list_ghe_chon.includes(ghe);
+        },
+        chonGhe(ghe) {
+            const index = this.list_ghe_chon.indexOf(ghe);
+            if (index === -1) {
+                this.list_ghe_chon.push(ghe);
+            } else {
+                this.list_ghe_chon.splice(index, 1);
+            }
+            console.log(this.list_ghe_chon);
+        },
+
+
+        formatDate(dateStr) {
+            return new Date(dateStr).toLocaleDateString("vi-VN");
+        },
+        formatTime(timeStr) {
+            return timeStr.slice(0, 5);
+        },
+        formatVND(value) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(value);
+        }
     },
 }
 
@@ -283,17 +339,19 @@ export default {
 
 //    
 </script>
-<style >
+<style>
 .ghe {
-  cursor: pointer;
-  background-color: #f1f1f1;
-  transition: 0.3s;
+    cursor: pointer;
+    background-color: #f1f1f1;
+    transition: 0.3s;
 }
+
 .ghe.chon {
-  border: 2px solid #f97316 !important;
-  background-color: #fff7ed !important;
+    border: 2px solid #f97316 !important;
+    background-color: #fff7ed !important;
 }
+
 .ghe.chon i {
-  color: #f97316 !important;
+    color: #f97316 !important;
 }
 </style>

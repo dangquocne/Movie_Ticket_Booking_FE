@@ -8,6 +8,7 @@ import 'v-calendar/style.css';
 import Toaster from "@meforma/vue-toaster"
 
 
+
 const app = createApp(App)
 
 app.use(router)

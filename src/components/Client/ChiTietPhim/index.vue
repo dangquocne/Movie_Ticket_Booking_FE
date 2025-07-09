@@ -13,13 +13,26 @@
         <div class="container py-5">
             <div class="row g-4">
                 <!-- Poster Section -->
-                <div class="col-md-4">
+                 
+                <div class="col-md-4" v-if="user_login!== null">
                     <img :src="phim.hinh_anh" alt="Movie Poster" class="img-fluid rounded shadow-lg mb-4">
                     <div class="d-grid gap-3">
                         <button class="btn btn-warning py-3 fw-bold" data-bs-toggle="modal"
                             data-bs-target="#buyTicketModal">
                             <i class="fa-solid fa-ticket"></i> Mua Vé
                         </button>
+                    </div>
+                </div>
+
+                <div class="col-md-4" v-if="user_login===null">
+                    <img :src="phim.hinh_anh" alt="Movie Poster" class="img-fluid rounded shadow-lg mb-4">
+                    <div class="d-grid gap-3">
+                        <router-link to="/client/dang-nhap">
+                        <button class="btn btn-warning py-3 fw-bold" data-bs-toggle="modal"
+                            >
+                            <i class="fa-solid fa-ticket"></i> Mua Vé
+                        </button>
+                        </router-link>
                     </div>
                 </div>
 
@@ -333,6 +346,9 @@ export default {
 
     data() {
         return {
+            // Danh sách người dùng, nếu không có thì khởi tạo mảng rỗ
+            user_login: null,
+
             list_suat_chieu: [],
             phim: {},
             ngayChieu: [],
@@ -390,8 +406,19 @@ export default {
                 ,],
 
         };
+
     },
     mounted() {
+
+        // Lấy thông tin người dùng từ localStorage
+        // this.list_phim;
+        const user = localStorage.getItem("user_login");
+        if (user) {
+            this.user_login = JSON.parse(user);
+        }
+
+        //lay thông tin phim từ localStorage
+        // Lấy ID phim từ route params
         const id = this.$route.params.id;
         const stored = localStorage.getItem('list_phim');
         if (stored) {
