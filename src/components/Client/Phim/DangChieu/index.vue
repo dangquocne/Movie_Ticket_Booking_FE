@@ -167,6 +167,7 @@ export default {
     }
     },
     mounted() {
+        //luu danh sách phim vào localStorage nếu chưa có
       const stored = localStorage.getItem('list_phim');
 
   const defaultList = this.list_phim.slice(); // clone ra
