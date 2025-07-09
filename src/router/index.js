@@ -73,10 +73,10 @@ const routes = [
         meta: { layout: "client" },
     },
     {
-        path: "/client/dat-ve",
+        path: "/client/dat-ve/:id_suat_chieu",
         component: () => import("../components/Client/DatVe/index.vue"),
         meta: { layout: "client" },
-        // props: true,
+        props: true,
         // beforeEnter: checkKhachHang
     },
 

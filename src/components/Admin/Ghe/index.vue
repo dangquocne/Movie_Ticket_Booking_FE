@@ -209,6 +209,8 @@ export default {
         if (storedGhe) {
             this.list_ghe = JSON.parse(storedGhe);
         }
+
+        
     },
     methods: {
 

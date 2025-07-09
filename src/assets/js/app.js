@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     "use strict";
 
     // Hàm kiểm tra xem một phần tử có class đã được tạo ra hay chưa
@@ -77,11 +77,20 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Tạo sự kiện scroll cho window để hiển thị nút back-to-top
+    // window.addEventListener("scroll", function () {
+    //     if (window.pageYOffset > 300) {
+    //         document.querySelector('.back-to-top').style.display = "block";
+    //     } else {
+    //         document.querySelector('.back-to-top').style.display = "none";
+    //     }
+    // });
     window.addEventListener("scroll", function () {
+        const btn = document.querySelector('.back-to-top');
+        if (!btn) return;
         if (window.pageYOffset > 300) {
-            document.querySelector('.back-to-top').style.display = "block";
+            btn.style.display = "block";
         } else {
-            document.querySelector('.back-to-top').style.display = "none";
+            btn.style.display = "none";
         }
     });
 
@@ -159,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Xử lý các sự kiện click cho các mục chọn chế độ giao diện
     const themeButtons = document.querySelectorAll(".theme-button");
-    themeButtons.forEach(function(button) {
+    themeButtons.forEach(function (button) {
         button.addEventListener("click", function () {
             const theme = this.dataset.theme;
             document.documentElement.setAttribute('class', theme);
@@ -168,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Xử lý các sự kiện click cho các mục chọn màu header
     const headerColorButtons = document.querySelectorAll(".header-color-button");
-    headerColorButtons.forEach(function(button) {
+    headerColorButtons.forEach(function (button) {
         button.addEventListener("click", function () {
             const colorClass = this.dataset.color;
             document.documentElement.className = document.documentElement.className.replace(/\bcolor-header-\S+/g, '');
