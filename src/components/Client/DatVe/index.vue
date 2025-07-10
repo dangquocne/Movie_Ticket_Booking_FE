@@ -19,9 +19,13 @@
                                 <template v-for="(row, rowIndex) in gheTheoHang" :key="rowIndex">
                                     <tr>
                                         <template v-for="(ghe, colIndex) in row" :key="colIndex">
-                                            <th class="text-center" @click="chonGhe(ghe)">
+                                            <th class="text-center" @click="!gheBiDat(ghe) && chonGhe(ghe)">
                                                 <div class="ghe border border-dark rounded shadow-sm p-2 bg-light"
-                                                    :class="{ chon: gheDaChon(ghe) }">
+                                                    :class="{
+                                                        chon: gheDaChon(ghe),
+                                                        'bg-light text-secondary': !gheBiDat(ghe),
+                                                        'bg-warning text-white': gheBiDat(ghe)
+                                                    }">
                                                     <div class="fw-bold fs-6 text-secondary">{{ ghe.ten_ghe }} - {{
                                                         ghe.gia_ghe }}</div>
                                                     <i class="fa-solid fa-couch m-2 text-secondary"></i>
@@ -42,7 +46,7 @@
                     <div class="col-lg-4">
                         <div class="d-flex align-items-center gap-3 mt-3">
                             <div class="d-flex align-items-center">
-                                <div class="rounded me-2" style="width: 20px; height: 20px; background-color: #d6d6d6;">
+                                <div class="rounded me-2" style="width: 20px; height: 20px; background-color: #092665;">
                                 </div>
                                 <span>Ghế đã bán</span>
                             </div>
@@ -128,6 +132,7 @@
                             <strong>{{ formatDate(suatChieuDangChon.ngay_chieu) }}</strong>
                         </p>
                         <hr class="my-2" style="border: 1px dashed;">
+
                         <!-- v-for ghế  -->
                         <template v-for="(ghe, index) in list_ghe_chon" :key="index">
                             <div class="d-flex justify-content-between align-items-center">
@@ -168,7 +173,9 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-lg-6">
-                                <button class="btn btn-outline-dark w-100 me-2"> Quay Lại</button>
+                                <router-link to="/">
+                                    <button class="btn btn-outline-dark w-100 me-2"> Quay Lại</button>
+                                </router-link>
                             </div>
                             <div class="col-lg-6">
                                 <button v-on:click="thanhToan()" class="btn btn-warning w-100" data-bs-toggle="modal"
@@ -182,33 +189,107 @@
     </div>
 
 
+
+
     <!-- Modal Thanh Toán-->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Thông Tin Đặt Vé</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header bg-primary text-white rounded-top-4">
+                    <h5 class="modal-title fw-bold text-white">THANH TOÁN</h5>
+                    <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <label for="">Phim</label>
+
+                <div class="modal-body px-4 py-3">
+                    <h6 class="fw-semibold mb-3 text-dark">Thông tin đặt vé</h6>
+
+                    <div class="row mb-2">
+                        <div class="col-5 text-muted">Tên Phim:</div>
+                        <div class="col-7 text-end fw-semibold" v-if="phimDangChon">{{ phimDangChon?.ten_phim ||
+                            "Khôngcó"
+                        }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-5 text-muted">Suất Chiếu:</div>
+                        <div class="col-7 text-end fw-semibold" v-if="suatChieuDangChon">
+                            {{ formatTime(suatChieuDangChon?.thoi_gian_bat_dau) }} - {{
+                                formatTime(suatChieuDangChon?.thoi_gian_ket_thuc) }} -
+                            {{ formatDate(suatChieuDangChon.ngay_chieu) }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-5 text-muted">Rạp:</div>
+                        <div class="col-7 text-end">OIZOIOI Cinema</div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-5 text-muted">Số lượng vé:</div>
+                        <div class="col-7 text-end">Ghế: <strong>{{ danhSachGheChon }}</strong></div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-5 text-muted">Chi phí:</div>
+                        <div class="col-7 text-end text-orange fw-semibold">{{ formatVND(tongTien) }}</div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-5 text-muted">Giảm giá:</div>
+                        <div class="col-7 text-end">0 VNĐ</div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-5 text-muted">Tổng Thanh Toán:</div>
+                        <div class="col-7 text-end text-success fw-bold">{{ formatVND(tongTien) }}</div>
+                    </div>
+
+                    <hr class="my-3" />
+                    <h6 class="fw-semibold mt-3 text-dark">Phương thức thanh toán</h6>
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="radio" name="pttt" id="tienmat" value="Tiền mặt"
+                            v-model="phuongThucThanhToan">
+                        <label class="form-check-label" for="tienmat">
+                            <img src="https://media.istockphoto.com/id/953963418/vi/vec-to/tay-c%E1%BA%A7m-ti%E1%BB%81n-%C4%91%C6%B0a-ti%E1%BB%81n-gi%E1%BA%A5y-bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-thanh-to%C3%A1n-b%E1%BA%B1ng-ti%E1%BB%81n-m%E1%BA%B7t.jpg?s=612x612&w=0&k=20&c=RqAmWavXOiJQj1S-I0vjfCnAPIVXJ3aL8aAv1OEId8c="
+                                width="24" class="me-1" />
+                            Thanh toán bằng tiền mặt
+                        </label>
+                    </div>
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="radio" name="pttt" id="banking" value="Banking"
+                            v-model="phuongThucThanhToan">
+                        <label class="form-check-label" for="banking">
+                            <img src="https://img.icons8.com/color/48/000000/bank-cards.png" width="24" class="me-1" />
+                            Internet Banking / Thẻ tín dụng
+                        </label>
+                    </div>
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="radio" name="pttt" id="momo" value="MoMo"
+                            v-model="phuongThucThanhToan">
+                        <label class="form-check-label" for="metiz">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcw-qI8sQ7DqG05x0-uQ2EhrqHggZuzIMorw&s"
+                                width="24" class="me-1" />
+                            Thanh toán qua MoMo QR
+                        </label>
+                    </div>
 
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+
+                <div class="modal-footer px-4 py-3">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
+                    <button type="button" class="btn btn-warning px-4" @click="xuLyThanhToan">TIẾP TỤC</button>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- </div> -->
 
 </template>
 
 <script>
-function chonGhe(element) {
-    element.classList.toggle('chon');
-}
 
 
 import axios from 'axios'
@@ -226,11 +307,23 @@ export default {
             suatChieuDangChon: null, // Suất chiếu đang chọn
             phimDangChon: null, // Phim đang chọn
             list_ghe_chon: [], // ← ghế được chọn
+            phuongThucThanhToan: "Tiền mặt", // Mặc định
+            user_login: null,
+            daDatVe: false, // Biến để kiểm tra đã đặt vé hay chưa
+            gheDaDat: [],
 
         };
     },
     mounted() {
 
+        this.loadGheDaDat(); // Tải danh sách ghế đã đặt từ localStorage
+
+        // Lấy thông tin người dùng từ localStorage
+
+        const user = localStorage.getItem("user_login");
+        if (user) {
+            this.user_login = JSON.parse(user);
+        }
 
         // Lấy danh sách phòng chiếu từ localStorage
         const storedPhong = localStorage.getItem('list_phong_chieu');
@@ -298,16 +391,37 @@ export default {
 
         },
 
-       //tinh tổng tiền từ danh sách ghế đã chọn
+        //tinh tổng tiền từ danh sách ghế đã chọn
         tongTien() {
             return this.list_ghe_chon.reduce((total, ghe) => total + ghe.gia_ghe, 0);
 
         },
+
+
+        // Lấy danh sách ghế đã chọn
+        danhSachGheChon() {
+            const gheChon = this.list_ghe.filter(g => this.list_ghe_chon.includes(g));
+            return gheChon.map(g => g.ten_ghe).join(",");
+        },
+
+
+    },
+    watch: {
+        // Theo dõi sự thay đổi của id_suat_chieu
+        suatChieuDangChon(newVal) {
+            if (newVal && newVal.id) {
+                this.loadGheDaDat();
+            }
+        }
     },
     methods: {
+
+        //hien thị danh sách ghế đã chọn
         gheDaChon(ghe) {
             return this.list_ghe_chon.includes(ghe);
         },
+
+        //chon ghế
         chonGhe(ghe) {
             const index = this.list_ghe_chon.indexOf(ghe);
             if (index === -1) {
@@ -330,6 +444,82 @@ export default {
                 style: 'currency',
                 currency: 'VND'
             }).format(value);
+        },
+
+
+        //thanh toán
+        thanhToan() {
+
+            if (!this.list_ghe_chon || this.list_ghe_chon.length === 0) {
+                alert("Vui lòng chọn ghế trước khi thanh toán!");
+                return;
+            }
+
+            const ve = {
+                ma_ve: "VE" + new Date().getTime(), // Mã vé là timestamp
+                khach_hang: this.user_login, // Tùy theo hệ thống
+                ten_phim: this.phimDangChon?.ten_phim || "Không rõ",
+                id_suat_chieu: this.suatChieuDangChon.id,
+                suat_chieu: this.suatChieuDangChon
+                    ? `${this.formatTime(this.suatChieuDangChon.thoi_gian_bat_dau)} - ${this.formatTime(this.suatChieuDangChon.thoi_gian_ket_thuc)} - ${this.formatDate(this.suatChieuDangChon.ngay_chieu)}`
+                    : "Không rõ",
+                ghe: this.list_ghe_chon.map(g => g.ten_ghe).join(", "),
+                gia_ve: this.tongTien,
+                ngay_dat: new Date().toLocaleString(),
+                trang_thai: this.phuongThucThanhToan === "Tiền mặt" ? "Chưa thanh toán" : "Đã thanh toán",
+                phuong_thuc: this.phuongThucThanhToan,
+
+            };
+
+            // Lưu vào localStorage
+            let danhSachVe = JSON.parse(localStorage.getItem("list_ve")) || [];
+            danhSachVe.push(ve);
+            localStorage.setItem("list_ve", JSON.stringify(danhSachVe));
+            this.daDatVe = true;
+
+
+            // Optional: close modal, chuyển trang, v.v.
+        },
+
+        //xu li thanh toán khi nhấn nút "Tiếp tục"
+        xuLyThanhToan() {
+            this.thanhToan();
+
+            // Đợi modal đóng (nếu cần), sau đó mới thông báo
+            setTimeout(() => {
+                if (this.daDatVe) {
+                    alert("Đặt vé thành công!");
+                    this.daDatVe = false; // reset flag nếu cần
+                    // Optional: redirect hoặc làm gì đó
+                }
+            }, 300); // delay nhẹ để không bị chồng giao diện
+        },
+
+        //Hiển thị ghế đã đặt theo suất chiếu
+        loadGheDaDat() {
+            const danhSachVe = JSON.parse(localStorage.getItem("list_ve")) || [];
+            let gheDaDat = [];
+
+            if (!this.suatChieuDangChon || !this.suatChieuDangChon.id) {
+                this.gheDaDat = [];
+                return;
+            }
+
+            const idSuat = this.suatChieuDangChon.id;
+
+            danhSachVe.forEach(ve => {
+                if (ve.id_suat_chieu === idSuat) {
+                    const gheTrongVe = ve.ghe.split(",").map(g => g.trim());
+                    gheDaDat = gheDaDat.concat(gheTrongVe);
+                }
+            });
+
+            this.gheDaDat = [...new Set(gheDaDat)];
+        },
+
+        // Cập nhật trạng thái ghế đã đặt
+        gheBiDat(ghe) {
+            return this.gheDaDat.includes(ghe.ten_ghe);
         }
     },
 }
@@ -353,5 +543,9 @@ export default {
 
 .ghe.chon i {
     color: #f97316 !important;
+}
+
+.bg-warning {
+    background-color: #092665 !important;
 }
 </style>

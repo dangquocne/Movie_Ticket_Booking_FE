@@ -448,6 +448,7 @@ export default {
                     gia_ve: 450000,
                     tinh_trang: 1
                 },
+                  
                 {
                     id: 7,
                     id_phim: 4,

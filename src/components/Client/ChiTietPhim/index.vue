@@ -13,8 +13,8 @@
         <div class="container py-5">
             <div class="row g-4">
                 <!-- Poster Section -->
-                 
-                <div class="col-md-4" v-if="user_login!== null">
+
+                <div class="col-md-4" v-if="user_login !== null">
                     <img :src="phim.hinh_anh" alt="Movie Poster" class="img-fluid rounded shadow-lg mb-4">
                     <div class="d-grid gap-3">
                         <button class="btn btn-warning py-3 fw-bold" data-bs-toggle="modal"
@@ -24,14 +24,13 @@
                     </div>
                 </div>
 
-                <div class="col-md-4" v-if="user_login===null">
+                <div class="col-md-4" v-if="user_login === null">
                     <img :src="phim.hinh_anh" alt="Movie Poster" class="img-fluid rounded shadow-lg mb-4">
                     <div class="d-grid gap-3">
                         <router-link to="/client/dang-nhap">
-                        <button class="btn btn-warning py-3 fw-bold" data-bs-toggle="modal"
-                            >
-                            <i class="fa-solid fa-ticket"></i> Mua Vé
-                        </button>
+                            <button class="btn btn-warning py-3 fw-bold" data-bs-toggle="modal">
+                                <i class="fa-solid fa-ticket"></i> Mua Vé
+                            </button>
                         </router-link>
                     </div>
                 </div>
@@ -397,13 +396,79 @@ export default {
             },
             {
                 id: 4,
-                ten_ghe: 'B1',
+                ten_ghe: 'A4',
                 gia_ghe: 45000,
                 id_phong_chieu: 1,
                 // ten_phong: 'Phòng 1',
                 tinh_trang: '1'
             }
-                ,],
+                ,
+            
+            {
+                id: 5,
+                ten_ghe: 'B1',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+             {
+                id: 6,
+                ten_ghe: 'B2',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 7,
+                ten_ghe: 'B3',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 8,
+                ten_ghe: 'B4',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 9,
+                ten_ghe: 'C1',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 10,
+                ten_ghe: 'C2',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 11,
+                ten_ghe: 'C3',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 12,
+                ten_ghe: 'C4',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            }
+            ],
 
         };
 
@@ -411,7 +476,7 @@ export default {
     mounted() {
 
         // Lấy thông tin người dùng từ localStorage
-        // this.list_phim;
+
         const user = localStorage.getItem("user_login");
         if (user) {
             this.user_login = JSON.parse(user);
@@ -461,6 +526,7 @@ export default {
             localStorage.setItem('list_phong_chieu', JSON.stringify(this.list_phong_chieu));
         }
 
+
         // Lấy danh sách ghế từ localStorage
         const storedGhe = localStorage.getItem('list_ghe');
 
@@ -478,9 +544,19 @@ export default {
             // localStorage rỗng → lưu list mặc định
             localStorage.setItem('list_ghe', JSON.stringify(this.list_ghe));
         }
+
+        const modal = document.getElementById('buyTicketModal'); // ID của modal của bạn
+        if (modal) {
+            modal.addEventListener('hidden.bs.modal', () => {
+                this.selectedSuatChieu = null; // ✅ reset khi modal bị đóng
+            });
+
+        }
     },
     watch: {
         selectedDate(newDate) {
+          
+             this.selectedSuatChieu = null;
             // Khi chọn ngày, lọc lại danh sách suất chiếu theo ngày đó và theo phim hiện tại
             this.suatChieuTheoNgay = this.list_suat_chieu.filter(
                 sc => sc.ngay_chieu === newDate && sc.id_phim === this.phim.id
@@ -489,7 +565,8 @@ export default {
         selectedSuatChieu(newSuatChieu) {
             // Khi chọn suất chiếu, lưu lại suất chiếu đã chọn
             this.selectedSuatChieu = newSuatChieu;
-        }
+        },
+       
     },
     methods: {
 
