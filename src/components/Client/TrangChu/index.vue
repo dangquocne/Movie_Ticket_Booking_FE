@@ -544,4 +544,4 @@ export default {
 }
 </script>
 
-<style></style>
+<style></style>Allowance resets July 18, 2025

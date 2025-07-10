@@ -178,7 +178,7 @@
                                 </router-link>
                             </div>
                             <div class="col-lg-6">
-                                <button v-on:click="thanhToan()" class="btn btn-warning w-100" data-bs-toggle="modal"
+                                <button  class="btn btn-warning w-100" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">Thanh Toán </button>
                             </div>
                         </div>
@@ -227,7 +227,7 @@
                     </div>
 
                     <div class="row mb-2">
-                        <div class="col-5 text-muted">Số lượng vé:</div>
+                        <div class="col-5 text-muted">Số lượng vé: {{list_ghe_chon.length}}</div>
                         <div class="col-7 text-end">Ghế: <strong>{{ danhSachGheChon }}</strong></div>
                     </div>
 
@@ -279,7 +279,7 @@
 
                 <div class="modal-footer px-4 py-3">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
-                    <button type="button" class="btn btn-warning px-4" @click="xuLyThanhToan">TIẾP TỤC</button>
+                    <button type="button" class="btn btn-warning px-4" @click="xuLyThanhToan">Tiếp tục</button>
                 </div>
             </div>
         </div>

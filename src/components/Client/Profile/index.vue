@@ -100,18 +100,44 @@
 								</div>
 							</div>
 							<div class="tab-pane fade" id="history" role="tabpanel">
-								<p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's
-									organic
-									lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify
-									pitchfork
-									tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie
-									helvetica.
-									DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork.
-									Williamsburg banh
-									mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice
-									blog.
-									Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown.
-									Pitchfork sustainable tofu synth chambray yr.</p>
+								<template v-for="(item, index) in listVeTheoNguoiDung" :key="index">
+									<div class="container my-4">
+										<div class="d-flex bg-white p-3 rounded border align-items-start"
+											style="max-width: 600px;">
+											<!-- Poster -->
+											<img :src="item.hinh_anh"
+												alt="Poster" class="me-3 rounded"
+												style="width: 120px; height: 180px; object-fit: cover;">
+
+											<!-- Thông tin vé -->
+											<div class="flex-grow-1 small text-dark">
+												<hr class="mt-0 mb-2" />
+												<p class="mb-1"><strong>Ngày đặt:</strong> {{ item.ngay_dat }}</p>
+												<p class="mb-1"><strong>Mã đặt vé:</strong> {{ item.ma_ve }}</p>
+												<p class="mb-1">
+													<strong>Trạng thái:</strong>
+													<span
+														:class="item.trang_thai === 'Đặt vé thành công' ? 'text-success' : 'text-warning'"
+														class="fw-semibold">
+														{{ item.trang_thai }}
+													</span>
+												</p>
+												<p class="mb-1"><strong>Chi phí:</strong> {{ formatVND(item.gia_ve) }}
+												</p>
+												<p class="mb-0">
+													<strong>Mô tả đặt vé:</strong> Phim: <strong>{{ item.ten_phim
+													}}</strong>,<br />
+													Suất chiếu: <strong>{{ item.suat_chieu }}</strong>,<br />
+													Ghế: <strong>[{{ item.ghe }}]</strong>,<br />
+													Rạp: <strong>OIZOIOI Cinema</strong>.
+												</p>
+											</div>
+										</div>
+									</div>
+								</template>
+
+
+
 							</div>
 						</div>
 					</div>
@@ -123,27 +149,60 @@
 </template>
 <script>
 export default {
-	  props: ['email'],
- data() {
-    return {
-        user: {},
-       
+	props: ['email'],
+	data() {
+		return {
+			user: {},
 
-    };
-  },
-  mounted() {
-      const storedUser = JSON.parse(localStorage.getItem('user_login'));
-    if (storedUser) {
-      // Gán trực tiếp vì storedUser là object
-      this.user = storedUser;
+			list_ve: [],
+			listVeTheoNguoiDung: [],
 
-      // Kiểm tra trong console
-      console.log("User Profile:", this.user);
-    } else {
-      console.warn("Không tìm thấy user_login trong localStorage");
-    }
-  
-}
+
+
+		};
+	},
+	mounted() {
+		const user = JSON.parse(localStorage.getItem('user_login'));
+		const listSuatChieu = JSON.parse(localStorage.getItem("list_suat_chieu") || "[]");
+		const listPhim = JSON.parse(localStorage.getItem("list_phim") || "[]");
+		if (user) {
+			// Gán trực tiếp vì storedUser là object
+			this.user = user;
+
+			// Kiểm tra trong console
+			console.log("User Profile:", this.user);
+		} else {
+			console.warn("Không tìm thấy user_login trong localStorage");
+		}
+
+		const allVe = JSON.parse(localStorage.getItem("list_ve") || "[]");
+		if (user) {
+			this.listVeTheoNguoiDung = allVe.filter(v => v.khach_hang?.email === user.email) .map(v => {
+        const suat = listSuatChieu.find(s => s.id == v.id_suat_chieu);
+        if (suat) {
+          const phim = listPhim.find(p => p.id == suat.id_phim);
+          if (phim) {
+            v.hinh_anh = phim.hinh_anh; // ← Gán hình ảnh phim
+            v.ten_phim = phim.ten_phim; // ← Nếu cần
+          }
+        }
+        return v;
+      });
+		}
+	},
+	// computed: {
+	// 	listVeTheoNguoiDung() {
+	// 		return this.list_ve.filter(ve => ve.khach_hang?.email == this.user.email);
+	// 	},
+	// },
+	methods: {
+		formatVND(value) {
+			return new Intl.NumberFormat('vi-VN', {
+				style: 'currency',
+				currency: 'VND'
+			}).format(value);
+		},
+	}
 }
 </script>
 <style></style>
