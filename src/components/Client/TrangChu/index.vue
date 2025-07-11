@@ -87,7 +87,7 @@
                         <img :src="value.hinh_anh" class="card-img-top" alt=""
                             style="height: 400px; object-fit: cover;">
                         <div class="card-body">
-                            <h6 class="card-title text-warning fw-bold">{{ value.ten_phim }}</h6>
+                            <h6 class="text-truncate card-title text-warning fw-bold">{{ value.ten_phim }}</h6>
                             <p class="text-muted mb-1">{{ value.the_loai }}</p>
                             <div class="d-flex align-items-center mb-2">
                                 <span class="text-warning me-1">
@@ -485,7 +485,31 @@ export default {
                     thoi_gian_ket_thuc: '23:30',
                     gia_ve: 450000,
                     tinh_trang: 1
-                }
+                },
+                 {
+                    id: 10,
+                    id_phim: 3,
+                    ten_phim: 'Thám Tử Kiên: Kỳ Án Không Đầu',
+                    id_phong_chieu: 1,
+                    ten_phong: 'Phòng 1',
+                    ngay_chieu: '2025-07-12',
+                    thoi_gian_bat_dau: '20:30',
+                    thoi_gian_ket_thuc: '22:30',
+                    gia_ve: 450000,
+                    tinh_trang: 1
+                },
+                {
+                    id: 10,
+                    id_phim: 3,
+                    ten_phim: 'Thám Tử Kiên: Kỳ Án Không Đầu',
+                    id_phong_chieu: 1,
+                    ten_phong: 'Phòng 1',
+                    ngay_chieu: '2025-07-12',
+                    thoi_gian_bat_dau: '22:30',
+                    thoi_gian_ket_thuc: '00:30',
+                    gia_ve: 450000,
+                    tinh_trang: 1
+                },
             ],
         }
     },

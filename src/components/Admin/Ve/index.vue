@@ -33,26 +33,25 @@
                                 <tr class="text-nowrap">
                                     <th class="align-middle text-center">{{ index + 1 }}</th>
                                     <td class="align-middle text-wrap">{{ item.ma_ve }}</td>
-                                    <td class="align-middle">{{ item.ho_va_ten }}</td>
+                                    <td class="align-middle">{{ layKhachHang(item).ho_va_ten }}</td>
                                     <td class="align-middle text-wrap">{{ item.ten_phim }}</td>
-                                    <td class="align-middle text-center">{{ item.ngay_chieu }} - {{
-                                        item.thoi_gian_bat_dau }}</td>
-                                    <td class="align-middle text-center">{{ item.ten_ghe }}</td>
+                                    <td class="align-middle text-center">{{ laySuat(item)?.ngay_chieu }} - {{
+                                        laySuat(item).thoi_gian_bat_dau }}- {{laySuat(item).thoi_gian_ket_thuc }}</td>
+                                    <td class="align-middle text-center">{{ item.ghe }}</td>
                                     <td class="align-middle text-center">{{ formatVND(item.gia_ve) }}</td>
                                     <td class="align-middle text-center">{{ item.ngay_dat }}</td>
                                     <td @click="doiTrangThai(item)" class="align-middle text-center"
                                         style="width: 180px;">
-                                        <button v-if="item.tinh_trang == 1" class="btn btn-warning w-100 btn-sm"
-                                            style="color: white;">
-                                            Chưa Thanh Toán
+                                        <button class="btn btn-warning w-100 btn-sm" style="color: white;">
+                                            {{ item.trang_thai }}
                                         </button>
-                                        <button v-else-if="item.tinh_trang == 2" class="btn btn-success w-100 btn-sm"
+                                        <!-- <button v-else-if="item.tinh_trang == 2" class="btn btn-success w-100 btn-sm"
                                             style="color: white;">
                                             Đã Thanh Toán
                                         </button>
                                         <button v-else class="btn btn-danger w-100 btn-sm" style="color: white;">
                                             Đã Hủy
-                                        </button>
+                                        </button> -->
                                     </td>
                                     <td class="align-middle text-center">
                                         <button class="btn btn-info text-light me-2 btn-sm" data-bs-toggle="modal"
@@ -85,10 +84,10 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Khách Hàng</label>
-                            <select class="form-select" v-model="create_ve.id_khach_hang">
+                            <!-- <select class="form-select" v-model="create_ve.id_khach_hang">
                                 <option v-for="khach in list_khach_hang" :key="khach.id" :value="khach.id">{{
                                     khach.ho_va_ten }}</option>
-                            </select>
+                            </select> -->
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Suất Chiếu</label>
@@ -138,10 +137,10 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Khách Hàng</label>
-                            <select class="form-select" v-model="edit_ve.id_khach_hang">
+                            <!-- <select class="form-select" v-model="edit_ve.id_khach_hang">
                                 <option v-for="khach in list_khach_hang" :key="khach.id" :value="khach.id">{{
                                     khach.ho_va_ten }}</option>
-                            </select>
+                            </select> -->
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Suất Chiếu</label>
@@ -213,7 +212,8 @@ export default {
     data() {
         return {
             list_ve: [],
-            list_khach_hang: [],
+            list_user: [],
+            userDangChon: null,
             list_suat_chieu: [],
             list_ghe: [],
             list_ghe_edit: [],
@@ -229,96 +229,41 @@ export default {
         };
     },
     mounted() {
-        this.layDataVe();
-        this.layDataKhachHang();
-        this.layDataSuatChieu();
+
+        const listUser = localStorage.getItem("list_user");
+          if (listUser) {
+            this.list_user = JSON.parse(listUser);
+        }
+        const listPhim = localStorage.getItem("list_phim");
+
+        const listSuatChieu = localStorage.getItem("list_suat_chieu");
+          if (listSuatChieu) {
+            this.list_suat_chieu = JSON.parse(listSuatChieu);
+        }
+
+        const listVe = localStorage.getItem('list_ve');
+
+        if (listVe) {
+            this.list_ve = JSON.parse(listVe);
+        }
+
+        console.log("ve:", this.list_ve)
+
+
     },
     methods: {
-        formatVND(number) {
-            return new Intl.NumberFormat("vi-VI", { style: "currency", currency: "VND" }).format(number,);
+        laySuat(item) {
+            return this.list_suat_chieu.find(sc => sc.id === item.id_suat_chieu);
         },
-        layDataVe() {
-            axios
-                .get('http://127.0.0.1:8000/api/admin/ve/get-data')
-                .then(response => {
-                    this.list_ve = response.data.data;
-                })
+         layKhachHang(item) {
+            return this.list_user.find(sc => sc.id === item.khach_hang?.id);
         },
-        layDataKhachHang() {
-            axios
-                .get('http://127.0.0.1:8000/api/admin/khach-hang/get-data')
-                .then(response => {
-                    this.list_khach_hang = response.data.data;
-                })
+           formatVND(value) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(value);
         },
-        layDataSuatChieu() {
-            axios
-                .get('http://127.0.0.1:8000/api/admin/suat-chieu/get-data')
-                .then(response => {
-                    this.list_suat_chieu = response.data.data;
-                })
-        },
-        layDanhSachGhe() {
-            if (this.create_ve.id_suat_chieu) {
-                axios
-                    .get('http://127.0.0.1:8000/api/admin/ghe/get-ghe-trong/' + this.create_ve.id_suat_chieu)
-                    .then(response => {
-                        this.list_ghe = response.data.data;
-                    })
-            }
-        },
-        layDanhSachGheEdit() {
-            if (this.edit_ve.id_suat_chieu) {
-                axios
-                    .get('http://127.0.0.1:8000/api/admin/ghe/get-ghe-trong/' + this.edit_ve.id_suat_chieu)
-                    .then(response => {
-                        this.list_ghe_edit = response.data.data;
-                    })
-            }
-        },
-        themVe() {
-            axios
-                .post('http://127.0.0.1:8000/api/admin/ve/create', this.create_ve)
-                .then(response => {
-                    if (response.data.status) {
-                        this.layDataVe();
-                        this.create_ve = {
-                            id_khach_hang: '',
-                            id_suat_chieu: '',
-                            id_ghe: '',
-                            ma_ve: '',
-                            tinh_trang: '0'
-                        };
-                        this.$toast.success(response.data.message);
-                    } else {
-                        this.$toast.error(response.data.message);
-                    }
-                })
-        },
-        capNhatVe() {
-            axios
-                .post('http://127.0.0.1:8000/api/admin/ve/update', this.edit_ve)
-                .then(response => {
-                    if (response.data.status) {
-                        this.layDataVe();
-                        this.$toast.success(response.data.message);
-                    } else {
-                        this.$toast.error(response.data.message);
-                    }
-                })
-        },
-        xoaVe() {
-            axios
-                .post('http://127.0.0.1:8000/api/admin/ve/delete', this.del_ve)
-                .then(response => {
-                    if (response.data.status) {
-                        this.layDataVe();
-                        this.$toast.success(response.data.message);
-                    } else {
-                        this.$toast.error(response.data.message);
-                    }
-                })
-        }
     },
 };
 </script>

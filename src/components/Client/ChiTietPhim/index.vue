@@ -545,6 +545,7 @@ export default {
             localStorage.setItem('list_ghe', JSON.stringify(this.list_ghe));
         }
 
+       
         const modal = document.getElementById('buyTicketModal'); // ID của modal của bạn
         if (modal) {
             modal.addEventListener('hidden.bs.modal', () => {

@@ -56,7 +56,7 @@
                                 class="fa-solid fa-circle-play"></i>Trailer</button>
                         </router-link>
                     </div>
-                    <span class="text-truncate fs-6 fw-bold px-2 pt-2 pb-0">{{ value.ten_phim }}</span>
+                    <span class="text-truncate fs-6 fw-bold px-2 pt-2 pb-0" >{{ value.ten_phim }}</span>
                 </div>
             </div>
             </template>
