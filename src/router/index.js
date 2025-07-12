@@ -85,6 +85,17 @@ const routes = [
         component: () => import("../components/Client/DonHang/index.vue"),
         meta: { layout: "client" },
     },
+     {
+        path: "/thanh-toan-momo",
+        component: () => import("../components/Client/ThanhToanMoMoQR/index.vue"),
+        meta: { layout: "client" },
+    },
+      {
+        path: "/chi-tiet-don-hang",
+        component: () => import("../components/Client/ChiTietDonHang/index.vue"),
+        meta: { layout: "client" },
+    },
+
 
 
     // ============= Admin ==================

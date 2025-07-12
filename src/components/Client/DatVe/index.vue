@@ -178,7 +178,7 @@
                                 </router-link>
                             </div>
                             <div class="col-lg-6">
-                                <button  class="btn btn-warning w-100" data-bs-toggle="modal"
+                                <button class="btn btn-warning w-100" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">Thanh Toán </button>
                             </div>
                         </div>
@@ -208,7 +208,7 @@
                         <div class="col-5 text-muted">Tên Phim:</div>
                         <div class="col-7 text-end fw-semibold" v-if="phimDangChon">{{ phimDangChon?.ten_phim ||
                             "Khôngcó"
-                        }}
+                            }}
                         </div>
                     </div>
 
@@ -227,7 +227,7 @@
                     </div>
 
                     <div class="row mb-2">
-                        <div class="col-5 text-muted">Số lượng vé: {{list_ghe_chon.length}}</div>
+                        <div class="col-5 text-muted">Số lượng vé: {{ list_ghe_chon.length }}</div>
                         <div class="col-7 text-end">Ghế: <strong>{{ danhSachGheChon }}</strong></div>
                     </div>
 
@@ -268,7 +268,7 @@
                     <div class="form-check mt-2">
                         <input class="form-check-input" type="radio" name="pttt" id="momo" value="MoMo"
                             v-model="phuongThucThanhToan">
-                        <label class="form-check-label" for="metiz">
+                        <label class="form-check-label" for="momo">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcw-qI8sQ7DqG05x0-uQ2EhrqHggZuzIMorw&s"
                                 width="24" class="me-1" />
                             Thanh toán qua MoMo QR
@@ -279,7 +279,7 @@
 
                 <div class="modal-footer px-4 py-3">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
-                    <button type="button" class="btn btn-warning px-4" @click="xuLyThanhToan">Tiếp tục</button>
+                    <button type="button" class="btn btn-warning px-4" @click="thanhToan">Tiếp tục</button>
                 </div>
             </div>
         </div>
@@ -467,7 +467,7 @@ export default {
                 gia_ve: this.tongTien,
                 ngay_dat: new Date().toLocaleString(),
                 // trang_thai: this.phuongThucThanhToan === "Tiền mặt" ? "Chưa thanh toán" : "Đã thanh toán",
-                 tinh_trang: this.phuongThucThanhToan === "Tiền mặt" ? 0 : 1,
+                tinh_trang: this.phuongThucThanhToan === "Tiền mặt" ? 0 : 1,
                 phuong_thuc: this.phuongThucThanhToan,
 
             };
@@ -479,22 +479,32 @@ export default {
             this.daDatVe = true;
 
 
-            // Optional: close modal, chuyển trang, v.v.
-        },
+            // Optional: thông báo và điều hướng
+            if (this.phuongThucThanhToan === "Tiền mặt") {
+                this.$toast.success("Đặt vé thành công. Vui lòng thanh toán tại quầy!");
 
-        //xu li thanh toán khi nhấn nút "Tiếp tục"
-        xuLyThanhToan() {
-            this.thanhToan();
 
-            // Đợi modal đóng (nếu cần), sau đó mới thông báo
-            setTimeout(() => {
-                if (this.daDatVe) {
-                    alert("Đặt vé thành công!");
-                    this.daDatVe = false; // reset flag nếu cần
-                    // Optional: redirect hoặc làm gì đó
+                // Đóng modal
+                const modalEl = document.getElementById('exampleModal');
+                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                if (modalInstance) {
+                    modalInstance.hide();
                 }
-            }, 300); // delay nhẹ để không bị chồng giao diện
+
+            } else if (this.phuongThucThanhToan === "MoMo") {
+                // Điều hướng sang giao diện quét mã
+                this.$router.push({
+                    path: '/thanh-toan-momo',
+                    query: {
+                        maVe: ve.ma_ve,
+                        tongTien: ve.gia_ve,
+                        moTa: ve.ten_phim,
+
+                    }
+                });
+            }
         },
+
 
         //Hiển thị ghế đã đặt theo suất chiếu
         loadGheDaDat() {
@@ -521,6 +531,11 @@ export default {
         // Cập nhật trạng thái ghế đã đặt
         gheBiDat(ghe) {
             return this.gheDaDat.includes(ghe.ten_ghe);
+        },
+
+        
+        xoaBo(ghe) {
+            this.list_ghe_chon = this.list_ghe_chon.filter(g => g.ten_ghe !== ghe.ten_ghe);
         }
     },
 }

@@ -475,6 +475,103 @@ export default {
                 id_phong_chieu: 1,
                 // ten_phong: 'Phòng 1',
                 tinh_trang: '1'
+            },
+             {
+                id: 14,
+                ten_ghe: 'A1',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+
+                tinh_trang: '1'
+            }, {
+                id: 15,
+                ten_ghe: 'A2',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 16,
+                ten_ghe: 'A3',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 17,
+                ten_ghe: 'A4',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            }
+                ,
+
+            {
+                id: 18,
+                ten_ghe: 'B1',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 19,
+                ten_ghe: 'B2',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 20,
+                ten_ghe: 'B3',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 21,
+                ten_ghe: 'B4',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 22,
+                ten_ghe: 'C1',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 23,
+                ten_ghe: 'C2',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 24,
+                ten_ghe: 'C3',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 25,
+                ten_ghe: 'C4',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
             }
             ],
 
