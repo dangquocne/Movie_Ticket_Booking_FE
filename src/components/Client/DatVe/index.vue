@@ -466,7 +466,8 @@ export default {
                 ghe: this.list_ghe_chon.map(g => g.ten_ghe).join(", "),
                 gia_ve: this.tongTien,
                 ngay_dat: new Date().toLocaleString(),
-                trang_thai: this.phuongThucThanhToan === "Tiền mặt" ? "Chưa thanh toán" : "Đã thanh toán",
+                // trang_thai: this.phuongThucThanhToan === "Tiền mặt" ? "Chưa thanh toán" : "Đã thanh toán",
+                 tinh_trang: this.phuongThucThanhToan === "Tiền mặt" ? 0 : 1,
                 phuong_thuc: this.phuongThucThanhToan,
 
             };

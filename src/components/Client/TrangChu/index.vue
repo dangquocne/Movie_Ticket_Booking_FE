@@ -436,18 +436,7 @@ export default {
             ,
             list_bv: [],
              list_suat_chieu: [
-                {
-                    id: 5,
-                    id_phim: 3,
-                    ten_phim: 'Thám Tử Kiên: Kỳ Án Không Đầu',
-                    id_phong_chieu: 1,
-                    ten_phong: 'Phòng 1',
-                    ngay_chieu: '2025-07-09',
-                    thoi_gian_bat_dau: '15:20',
-                    thoi_gian_ket_thuc: '17:17',
-                    gia_ve: 450000,
-                    tinh_trang: 1
-                },
+            
                   
                 {
                     id: 7,
@@ -455,7 +444,7 @@ export default {
                     ten_phim: 'Yadang: Ba Mặt Lật Kèo',
                     id_phong_chieu: 2,
                     ten_phong: 'Phòng 2',
-                    ngay_chieu: '2025-07-09',
+                    ngay_chieu: '2025-07-15',
                     thoi_gian_bat_dau: '15:20',
                     thoi_gian_ket_thuc: '17:17',
                     gia_ve: 450000,
@@ -467,7 +456,7 @@ export default {
                     ten_phim: 'Phim Điện Ảnh Doraemon: Nobita Và Cuộc Phiêu Lưu Vào Thế Giới Trong Tranh',
                     id_phong_chieu: 2,
                     ten_phong: 'Phòng 2',
-                    ngay_chieu: '2025-07-10',
+                    ngay_chieu: '2025-07-16',
                     thoi_gian_bat_dau: '19:30',
                     thoi_gian_ket_thuc: '21:00',
                     gia_ve: 450000,
@@ -480,7 +469,7 @@ export default {
                     ten_phim: 'Lật Mặt 8: Vòng Tay Nắng',
                     id_phong_chieu: 1,
                     ten_phong: 'Phòng 1',
-                    ngay_chieu: '2025-07-10',
+                    ngay_chieu: '2025-07-16',
                     thoi_gian_bat_dau: '21:30',
                     thoi_gian_ket_thuc: '23:30',
                     gia_ve: 450000,
@@ -507,6 +496,30 @@ export default {
                     ngay_chieu: '2025-07-12',
                     thoi_gian_bat_dau: '22:30',
                     thoi_gian_ket_thuc: '00:30',
+                    gia_ve: 450000,
+                    tinh_trang: 1
+                },
+                {
+                    id: 12,
+                    id_phim: 3,
+                    ten_phim: 'Thám Tử Kiên: Kỳ Án Không Đầu',
+                    id_phong_chieu: 1,
+                    ten_phong: 'Phòng 1',
+                    ngay_chieu: '2025-07-15',
+                    thoi_gian_bat_dau: '15:20',
+                    thoi_gian_ket_thuc: '17:17',
+                    gia_ve: 450000,
+                    tinh_trang: 1
+                },
+                {
+                    id: 12,
+                    id_phim: 3,
+                    ten_phim: 'Thám Tử Kiên: Kỳ Án Không Đầu',
+                    id_phong_chieu: 1,
+                    ten_phong: 'Phòng 1',
+                    ngay_chieu: '2025-07-15',
+                    thoi_gian_bat_dau: '20:20',
+                    thoi_gian_ket_thuc: '22:17',
                     gia_ve: 450000,
                     tinh_trang: 1
                 },

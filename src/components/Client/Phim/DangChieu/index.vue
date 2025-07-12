@@ -138,32 +138,7 @@ export default {
     
    ,    
    
-    list_suat_chieu: [
-                {
-                    id: 5,
-                    id_phim: 3,
-                    ten_phim: 'Thám Tử Kiên: Kỳ Án Không Đầu',
-                    id_phong_chieu: 1,
-                    ten_phong: 'Phòng 1',
-                    ngay_chieu: '2025-07-09',
-                    thoi_gian_bat_dau: '15:20',
-                    thoi_gian_ket_thuc: '17:17',
-                    gia_ve: 450000,
-                    tinh_trang: 1
-                },
-                {
-                    id: 7,
-                    id_phim: 4,
-                    ten_phim: 'Yadang: Ba Mặt Lật Kèo',
-                    id_phong_chieu: 1,
-                    ten_phong: 'Phòng 2',
-                    ngay_chieu: '2025-07-09',
-                    thoi_gian_bat_dau: '15:20',
-                    thoi_gian_ket_thuc: '17:17',
-                    gia_ve: 450000,
-                    tinh_trang: 1
-                }
-            ],
+    list_suat_chieu: [ ],
     }
     },
     mounted() {

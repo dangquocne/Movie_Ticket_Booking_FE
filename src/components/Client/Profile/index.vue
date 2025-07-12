@@ -54,15 +54,65 @@
 						</ul>
 						<div class="tab-content py-3">
 							<div class="tab-pane fade active show" id="profile" role="tabpanel">
-								<p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu
-									stumptown
-									aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles
-									vegan
-									helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu
-									banh
-									mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone.
-									Seitan
-									aliquip quis cardigan american apparel, butcher voluptate nisi.</p>
+								<!--  -->
+								<div class="card">
+									<div class="row g-0">
+										<div class="col-lg-6 ">
+											<div class="card-body">
+												<div class="">
+													<div class="mb-3 mt-2">
+														<input v-model="user.id" type="text" class="form-control" hidden="true"
+															placeholder="Nhập Họ tên" >
+														<label class="form-label">Họ tên</label>
+														<input v-model="user.ho_va_ten" type="text" class="form-control"
+															placeholder="Nhập Họ tên">
+													</div>
+													<div class="mb-3 mt-2">
+														<label class="form-label">Ngày sinh</label>
+														<input v-model="user.ngay_sinh" type="date" class="form-control"
+															placeholder="Nhập mật khẩu mới">
+													</div>
+													<div class="mb-3">
+														<label class="form-label">Email</label>
+														<input v-model="user.email" type="text" class="form-control text-secondary" readonly
+															placeholder="Xác Nhận Mật Khẩu">
+													</div>
+
+												</div>
+											</div>
+
+										</div>
+										<div class="col-lg-6 ">
+											<div class="card-body">
+												<div class="">
+													<div class="mb-3 mt-2">
+														<label class="form-label">Só điện thoại</label>
+														<input v-model="user.so_dien_thoai" type="text"
+															class="form-control" placeholder="Nhập mật khẩu cũ">
+													</div>
+													<div class="mb-3 mt-2">
+														<label class="form-label">Số CCCD</label>
+														<input v-model="user.cccd" type="text" class="form-control"
+															placeholder="Nhập mật khẩu mới">
+													</div>
+													<div class="mb-3">
+														<label class="form-label">Quê quán</label>
+														<input v-model="user.que_quan" type="text" class="form-control"
+															placeholder="Nhập quê quán">
+													</div>
+
+
+												</div>
+											</div>
+
+										</div>
+										<div class="d-grid gap-2">
+											<button type="button" class="btn btn-primary" @click="capNhatUser">Lưu</button>
+										</div>
+
+									</div>
+								</div>
+								<!--  -->
 							</div>
 							<div class="tab-pane fade" id="changepassword" role="tabpanel">
 								<div class="card">
@@ -105,8 +155,7 @@
 										<div class="d-flex bg-white p-3 rounded border align-items-start"
 											style="max-width: 600px;">
 											<!-- Poster -->
-											<img :src="item.hinh_anh"
-												alt="Poster" class="me-3 rounded"
+											<img :src="item.hinh_anh" alt="Poster" class="me-3 rounded"
 												style="width: 120px; height: 180px; object-fit: cover;">
 
 											<!-- Thông tin vé -->
@@ -116,10 +165,17 @@
 												<p class="mb-1"><strong>Mã đặt vé:</strong> {{ item.ma_ve }}</p>
 												<p class="mb-1">
 													<strong>Trạng thái:</strong>
-													<span
-														:class="item.trang_thai === 'Đặt vé thành công' ? 'text-success' : 'text-warning'"
-														class="fw-semibold">
-														{{ item.trang_thai }}
+
+													<span v-if="item.tinh_trang == 0" class="text-warning fw-semibold"
+														style="color: white;">
+														Chưa thanh toán
+													</span>
+													<span v-else-if="item.tinh_trang == 1"
+														class="text-success fw-semibold" style="color: white;">
+														Đã thanh toán
+													</span>
+													<span v-else class="text-danger fw-semibold" style="color: white;">
+														Đã huỷ
 													</span>
 												</p>
 												<p class="mb-1"><strong>Chi phí:</strong> {{ formatVND(item.gia_ve) }}
@@ -153,7 +209,7 @@ export default {
 	data() {
 		return {
 			user: {},
-
+            user_login:[],
 			list_ve: [],
 			listVeTheoNguoiDung: [],
 
@@ -162,12 +218,16 @@ export default {
 		};
 	},
 	mounted() {
-		const user = JSON.parse(localStorage.getItem('user_login'));
+
+	  
+
 		const listSuatChieu = JSON.parse(localStorage.getItem("list_suat_chieu") || "[]");
 		const listPhim = JSON.parse(localStorage.getItem("list_phim") || "[]");
-		if (user) {
+		const userlogin = JSON.parse(localStorage.getItem('user_login'));
+		
+		if (userlogin) {
 			// Gán trực tiếp vì storedUser là object
-			this.user = user;
+			this.user = userlogin;
 
 			// Kiểm tra trong console
 			console.log("User Profile:", this.user);
@@ -175,19 +235,20 @@ export default {
 			console.warn("Không tìm thấy user_login trong localStorage");
 		}
 
+		// lấy thong tin vé theo người dùng
 		const allVe = JSON.parse(localStorage.getItem("list_ve") || "[]");
-		if (user) {
-			this.listVeTheoNguoiDung = allVe.filter(v => v.khach_hang?.email === user.email) .map(v => {
-        const suat = listSuatChieu.find(s => s.id == v.id_suat_chieu);
-        if (suat) {
-          const phim = listPhim.find(p => p.id == suat.id_phim);
-          if (phim) {
-            v.hinh_anh = phim.hinh_anh; // ← Gán hình ảnh phim
-            v.ten_phim = phim.ten_phim; // ← Nếu cần
-          }
-        }
-        return v;
-      });
+		if (userlogin) {
+			this.listVeTheoNguoiDung = allVe.filter(v => v.khach_hang?.email === userlogin.email).map(v => {
+				const suat = listSuatChieu.find(s => s.id == v.id_suat_chieu);
+				if (suat) {
+					const phim = listPhim.find(p => p.id == suat.id_phim);
+					if (phim) {
+						v.hinh_anh = phim.hinh_anh; // ← Gán hình ảnh phim
+						v.ten_phim = phim.ten_phim; // ← Nếu cần
+					}
+				}
+				return v;
+			});
 		}
 	},
 	// computed: {
@@ -202,6 +263,26 @@ export default {
 				currency: 'VND'
 			}).format(value);
 		},
+
+		capNhatUser() {
+			// Tìm vị trí phim cần cập nhật trong list_phim bằng id
+			 let danhSachUser = JSON.parse(localStorage.getItem('list_user')) || [];
+			const index = danhSachUser.findIndex(u => u.id === this.user.id);
+
+			if (index !== -1) {
+				// Cập nhật lại toàn bộ thông tin
+				danhSachUser[index] = { ...this.user}
+				localStorage.setItem('list_user', JSON.stringify(danhSachUser));
+				 // Ghi lại người dùng đang login
+      			localStorage.setItem('user_login', JSON.stringify(this.user));
+				this.$toast?.success?.("Cập nhật thành công!");
+			} else {
+				alert("⚠ Không tìm thấy phim để cập nhật.");
+			}
+
+			// Xóa form tạm nếu cần
+			// this.user = {};
+		}
 	}
 }
 </script>

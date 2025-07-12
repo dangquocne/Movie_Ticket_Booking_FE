@@ -36,22 +36,23 @@
                                     <td class="align-middle">{{ layKhachHang(item).ho_va_ten }}</td>
                                     <td class="align-middle text-wrap">{{ item.ten_phim }}</td>
                                     <td class="align-middle text-center">{{ laySuat(item)?.ngay_chieu }} - {{
-                                        laySuat(item).thoi_gian_bat_dau }}- {{laySuat(item).thoi_gian_ket_thuc }}</td>
+                                        laySuat(item).thoi_gian_bat_dau }}- {{ laySuat(item).thoi_gian_ket_thuc }}</td>
                                     <td class="align-middle text-center">{{ item.ghe }}</td>
                                     <td class="align-middle text-center">{{ formatVND(item.gia_ve) }}</td>
                                     <td class="align-middle text-center">{{ item.ngay_dat }}</td>
                                     <td @click="doiTrangThai(item)" class="align-middle text-center"
                                         style="width: 180px;">
-                                        <button class="btn btn-warning w-100 btn-sm" style="color: white;">
-                                            {{ item.trang_thai }}
+                                        <button v-if="item.tinh_trang == 0" class="btn btn-warning w-100 btn-sm"
+                                            style="color: white;">
+                                            Chưa Thanh Toán
                                         </button>
-                                        <!-- <button v-else-if="item.tinh_trang == 2" class="btn btn-success w-100 btn-sm"
+                                        <button v-else-if="item.tinh_trang == 1" class="btn btn-success w-100 btn-sm"
                                             style="color: white;">
                                             Đã Thanh Toán
                                         </button>
                                         <button v-else class="btn btn-danger w-100 btn-sm" style="color: white;">
                                             Đã Hủy
-                                        </button> -->
+                                        </button>
                                     </td>
                                     <td class="align-middle text-center">
                                         <button class="btn btn-info text-light me-2 btn-sm" data-bs-toggle="modal"
@@ -231,13 +232,13 @@ export default {
     mounted() {
 
         const listUser = localStorage.getItem("list_user");
-          if (listUser) {
+        if (listUser) {
             this.list_user = JSON.parse(listUser);
         }
         const listPhim = localStorage.getItem("list_phim");
 
         const listSuatChieu = localStorage.getItem("list_suat_chieu");
-          if (listSuatChieu) {
+        if (listSuatChieu) {
             this.list_suat_chieu = JSON.parse(listSuatChieu);
         }
 
@@ -255,14 +256,19 @@ export default {
         laySuat(item) {
             return this.list_suat_chieu.find(sc => sc.id === item.id_suat_chieu);
         },
-         layKhachHang(item) {
+        layKhachHang(item) {
             return this.list_user.find(sc => sc.id === item.khach_hang?.id);
         },
-           formatVND(value) {
+        formatVND(value) {
             return new Intl.NumberFormat('vi-VN', {
                 style: 'currency',
                 currency: 'VND'
             }).format(value);
+        },
+        doiTrangThai(item) {
+            // Chuyển trạng thái: 0 -> 1 -> 2 -> 0
+            item.tinh_trang = (item.tinh_trang + 1) % 3;
+            localStorage.setItem('list_ve', JSON.stringify(this.list_ve));
         },
     },
 };

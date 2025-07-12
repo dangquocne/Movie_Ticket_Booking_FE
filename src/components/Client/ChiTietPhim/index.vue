@@ -308,7 +308,15 @@
                                     class="btn btn-outline-secondary btn-sm px-3 py-2"
                                     :class="{ 'btn-primary': selectedDate === value.ngay_chieu }"
                                     @click="selectedDate = value.ngay_chieu">
-                                    {{ formatDate(value.ngay_chieu) }}
+                                    <!-- Thứ trong tuần -->
+                                    <div class="fw-semibold small text-dark">
+                                        {{ getThuTrongTuan(value.ngay_chieu) }}
+                                    </div>
+
+                                    <!-- Ngày (định dạng ngắn gọn) -->
+                                    <div class="small text-dark">
+                                        {{ formatDate(value.ngay_chieu) }}
+                                    </div>
                                 </button>
                             </div>
                         </div>
@@ -403,7 +411,7 @@ export default {
                 tinh_trang: '1'
             }
                 ,
-            
+
             {
                 id: 5,
                 ten_ghe: 'B1',
@@ -412,7 +420,7 @@ export default {
                 // ten_phong: 'Phòng 1',
                 tinh_trang: '1'
             },
-             {
+            {
                 id: 6,
                 ten_ghe: 'B2',
                 gia_ghe: 45000,
@@ -497,15 +505,9 @@ export default {
             this.list_suat_chieu = JSON.parse(storedSuatChieu);
         }
 
-        // Lọc ngày chiếu duy nhất của phim hiện tại
-        const ngaySet = new Set();
-        this.list_suat_chieu.forEach(sc => {
-            if (sc.id_phim == this.phim.id) {
-                ngaySet.add(sc.ngay_chieu);
-            }
-        });
-        this.ngayChieu = Array.from(ngaySet).map(ngay => ({ ngay_chieu: ngay }));
 
+        // Luôn hiển thị 7 ngày từ hôm nay
+        this.ngayChieu = this.get7NgayTiepTheo();
 
 
         // Lấy danh sách phòng chiếu từ localStorage
@@ -545,7 +547,7 @@ export default {
             localStorage.setItem('list_ghe', JSON.stringify(this.list_ghe));
         }
 
-       
+
         const modal = document.getElementById('buyTicketModal'); // ID của modal của bạn
         if (modal) {
             modal.addEventListener('hidden.bs.modal', () => {
@@ -556,8 +558,8 @@ export default {
     },
     watch: {
         selectedDate(newDate) {
-          
-             this.selectedSuatChieu = null;
+
+            this.selectedSuatChieu = null;
             // Khi chọn ngày, lọc lại danh sách suất chiếu theo ngày đó và theo phim hiện tại
             this.suatChieuTheoNgay = this.list_suat_chieu.filter(
                 sc => sc.ngay_chieu === newDate && sc.id_phim === this.phim.id
@@ -567,7 +569,7 @@ export default {
             // Khi chọn suất chiếu, lưu lại suất chiếu đã chọn
             this.selectedSuatChieu = newSuatChieu;
         },
-       
+
     },
     methods: {
 
@@ -578,8 +580,27 @@ export default {
             return timeStr.slice(0, 5);
         },
 
+        get7NgayTiepTheo() {
+            const result = [];
+            const today = new Date();
+
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(today);
+                d.setDate(today.getDate() + i);
+                const iso = d.toISOString().split('T')[0]; // yyyy-mm-dd
+                result.push({ ngay_chieu: iso });
+            }
+
+            return result;
+        },
+        getThuTrongTuan(dateStr) {
+            const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+            const date = new Date(dateStr);
+            return days[date.getDay()];
 
 
-    },
+
+        },
+    }
 }
 </script>
