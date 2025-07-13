@@ -22,7 +22,9 @@
                                         <div class="col-sm-6">
                                             <label class="form-label">Họ và tên</label>
                                             <input v-model="user.ho_va_ten" type="text" class="form-control">
+                                            
                                         </div>
+                                        
                                         <div class="col-sm-6">
                                             <label for="inputEmailAddress" class="form-label">Email</label>
                                             <input v-model="user.email" type="email" class="form-control">
@@ -59,6 +61,7 @@
                                                     <i class="bx bx-hide"></i>
                                                 </a>
                                             </div>
+                                            <input v-model="user.role" type="hidden" class="form-control" v-show="false" >
                                         </div>
                                         <div class="col-12">
                                             <div class="form-check form-switch">
@@ -94,7 +97,9 @@ export default {
         return {
             list_user: JSON.parse(localStorage.getItem('list_user')) || [],
             // Danh sách người dùng, nếu không có thì khởi tạo mảng rỗ
-            user: {}
+            user: {
+                role:'ROLE_USER'
+            }
         }
     },
     methods: {

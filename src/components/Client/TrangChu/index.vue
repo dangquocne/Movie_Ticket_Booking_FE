@@ -524,6 +524,7 @@ export default {
                     tinh_trang: 1
                 },
             ],
+           
         }
     },
     mounted() {

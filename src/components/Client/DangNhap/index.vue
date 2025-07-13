@@ -7,8 +7,8 @@
                         <div class="card-body">
                             <div class="border p-4 rounded">
                                 <div class="text-center">
-                                    <h3 class="text-uppercase">Đăng Nhập <span
-                                            class="text-primary fw-bold">OIZOIOI Cinema</span></h3>
+                                    <h3 class="text-uppercase">Đăng Nhập <span class="text-primary fw-bold">OIZOIOI
+                                            Cinema</span></h3>
                                     <p>Bạn chưa có tài khoản?
                                         <router-link to="/client/dang-ky">
                                             <a href="/client/dang-ky">Đăng ký ngay</a>
@@ -79,26 +79,31 @@ export default {
         }
     },
     methods: {
-       dangNhap() {
-  const danhSachNguoiDung = JSON.parse(localStorage.getItem('list_user')) || [];
+        dangNhap() {
+            const danhSachNguoiDung = JSON.parse(localStorage.getItem('list_user')) || [];
 
-  // Tìm người dùng khớp email + password
-  const nguoiDung = danhSachNguoiDung.find(u => 
-    u.email === this.thong_tin_dang_nhap.email && u.password === this.thong_tin_dang_nhap.password
-  );
+            // Tìm người dùng khớp email + password
+            const nguoiDung = danhSachNguoiDung.find(u =>
+                u.email === this.thong_tin_dang_nhap.email && u.password === this.thong_tin_dang_nhap.password
+            );
 
-  if (nguoiDung) {
-      this.$toast.success("Đăng nhập thành công!");
+            if (nguoiDung) {
+                this.$toast.success("Đăng nhập thành công!");
 
-    // Lưu user đã đăng nhập vào localStorage (để biết người nào đang đăng nhập)
-    localStorage.setItem('user_login', JSON.stringify(nguoiDung));
+                // Lưu user đã đăng nhập vào localStorage (để biết người nào đang đăng nhập)
+                localStorage.setItem('user_login', JSON.stringify(nguoiDung));
 
-    // Chuyển trang
-    this.$router.push('/');
-  } else {
-    this.$toast.error("Email hoặc mật khẩu không đúng!");
-  }
-}
+                if (nguoiDung.role === "ROLE_USER") {
+                    // Chuyển trang user
+                    this.$router.push('/');
+                }else if(nguoiDung.role === "ROLE_ADMIN"){
+                    // Chuyển trang admin
+                    this.$router.push('/admin/');
+                }
+            } else {
+                this.$toast.error("Email hoặc mật khẩu không đúng!");
+            }
+        }
     },
 }
 </script>
