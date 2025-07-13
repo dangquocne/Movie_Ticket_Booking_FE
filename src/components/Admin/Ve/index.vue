@@ -60,7 +60,7 @@
                                             Cập nhật
                                         </button>
                                         <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal" @click="del_ve = item">
+                                            data-bs-target="#deleteModal"  v-on:click="Object.assign(del_ve, item)">
                                             Xóa
                                         </button>
                                     </td>
@@ -191,7 +191,7 @@
                 <div class="modal-body">
                     <div class="alert alert-danger" role="alert">
                         Bạn có chắc chắn muốn xóa vé
-                        <strong>{{ del_ve.ma_ve }}</strong> của khách hàng <strong>{{ del_ve.ten_khach_hang }}</strong>?
+                        <strong>{{ del_ve.ma_ve }}</strong> của khách hàng <strong>{{ del_ve.khach_hang?.ho_va_ten }}</strong>?
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -270,6 +270,24 @@ export default {
             item.tinh_trang = (item.tinh_trang + 1) % 3;
             localStorage.setItem('list_ve', JSON.stringify(this.list_ve));
         },
+
+          xoaVe() {
+        // Kiểm tra xem del_ve có tồn tại trong list không
+        const index = this.list_ve.findIndex(ve => ve.ma_ve === this.del_ve.ma_ve);
+
+        // Nếu tìm thấy, xóa ve khỏi danh sách
+        if (index !== -1) {
+            this.list_ve.splice(index, 1); // Xóa tại vị trí index
+            localStorage.setItem('list_ve', JSON.stringify(this.list_ve));
+            this.$toast?.success?.("Đã xóa vé khỏi danh sách!");
+            
+        } else {
+            alert("⚠ Không tìm thấy vé để xoá.");
+        }
+
+        // Reset lại del_phim
+        this.del_ve = {};
+    },
     },
 };
 </script>
