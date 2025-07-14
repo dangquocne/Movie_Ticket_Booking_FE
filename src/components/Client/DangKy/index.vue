@@ -9,7 +9,8 @@
                         <div class="card-body flex-full">
                             <div class="border p-4 rounded">
                                 <div class="text-center">
-                                    <h3 class="text-uppercase ">Đăng ký tài khoản <b class="text-primary">oizoioi cinema</b>
+                                    <h3 class="text-uppercase ">Đăng ký tài khoản <b class="text-primary">oizoioi
+                                            cinema</b>
                                     </h3>
                                     <p>Bạn đã có tài khoản?
                                         <router-link to="/client/dang-nhap">
@@ -22,20 +23,22 @@
                                         <div class="col-sm-6">
                                             <label class="form-label">Họ và tên</label>
                                             <input v-model="user.ho_va_ten" type="text" class="form-control">
-                                            
+
                                         </div>
-                                        
+
                                         <div class="col-sm-6">
                                             <label for="inputEmailAddress" class="form-label">Email</label>
-                                            <input v-model="user.email" type="email" class="form-control">
+                                            <input v-model="user.email" type="email" class="form-control"
+                                                @blur="kiemTraEmail">
+                                            <div v-if="emailError" class="text-danger small mt-1">{{ emailError }}</div>
                                         </div>
                                         <div class="col-sm-4">
                                             <label class="form-label">Số điện thoại</label>
-                                            <input v-model="user.so_dien_thoai" type="text" class="form-control">
+                                            <input v-model="user.so_dien_thoai" type="number" class="form-control">
                                         </div>
                                         <div class="col-sm-4">
                                             <label class="form-label">Số CCCD</label>
-                                            <input v-model="user.cccd" type="text" class="form-control">
+                                            <input v-model="user.cccd" type="number" class="form-control">
                                         </div>
                                         <div class="col-sm-4">
                                             <label class="form-label">Ngày Sinh</label>
@@ -57,11 +60,17 @@
                                             <div class="input-group" id="show_hide_password">
                                                 <input v-model="user.re_password" type="password"
                                                     class="form-control border-end-0">
+                                                    
                                                 <a href="javascript:;" class="input-group-text bg-transparent">
                                                     <i class="bx bx-hide"></i>
                                                 </a>
+                                                
                                             </div>
-                                            <input v-model="user.role" type="hidden" class="form-control" v-show="false" >
+                                            <div v-if="passwordError" class="text-danger small mt-1">{{
+                                                    passwordError }}</div>
+
+                                            <input v-model="user.role" type="hidden" class="form-control"
+                                                v-show="false">
                                         </div>
                                         <div class="col-12">
                                             <div class="form-check form-switch">
@@ -98,8 +107,10 @@ export default {
             list_user: JSON.parse(localStorage.getItem('list_user')) || [],
             // Danh sách người dùng, nếu không có thì khởi tạo mảng rỗ
             user: {
-                role:'ROLE_USER'
-            }
+                role: 'ROLE_USER'
+            },
+            emailError: '',
+            passwordError: ''
         }
     },
     methods: {
@@ -120,11 +131,14 @@ export default {
                 return;
             }
 
-            if(this.user.email==this.list_user.find(user => user.email === this.user.email)?.email) {
+            if (this.user.email == this.list_user.find(user => user.email === this.user.email)?.email) {
                 this.$toast.error("Email đã được sử dụng, vui lòng nhập email khác!");
                 return;
 
             }
+            if(this.kiemTraMatKhau()){
+                
+            
 
 
             // Tạo bản sao của phim vừa nhập, kèm ID tạm
@@ -147,8 +161,36 @@ export default {
             modal?.hide?.();
 
             // Thông báo đơn giản
-            this.$toast.success("Người dùng đã được thêm thành công!");
-            console.log("Người dùng đã được thêm:", newUser);
+            this.$toast.success("Đăng ký thành công!");
+            // console.log("Người dùng đã được thêm:", newUser);
+        }
+        },
+
+        //kiểm tra email đúng định dạng
+        kiemTraEmail() {
+            const email = this.user.email;
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!regex.test(email)) {
+                this.emailError = "Vui lòng nhập đúng định dạng email!";
+            } else {
+                this.emailError = '';
+            }
+        },
+
+        kiemTraMatKhau() {
+            if (!this.user.password || !this.user.re_password) {
+                this.passwordError = "Vui lòng nhập đầy đủ mật khẩu!";
+                return false;
+            }
+
+            if (this.user.password !== this.user.re_password) {
+                this.passwordError = "Mật khẩu không khớp!";
+                return false;
+            }
+
+            this.passwordError = '';
+            return true;
         },
 
     },

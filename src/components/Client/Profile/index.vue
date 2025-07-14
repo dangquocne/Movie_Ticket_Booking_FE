@@ -61,8 +61,8 @@
 											<div class="card-body">
 												<div class="">
 													<div class="mb-3 mt-2">
-														<input v-model="user.id" type="text" class="form-control" hidden="true"
-															placeholder="Nhập Họ tên" >
+														<input v-model="user.id" type="text" class="form-control"
+															hidden="true" placeholder="Nhập Họ tên">
 														<label class="form-label">Họ tên</label>
 														<input v-model="user.ho_va_ten" type="text" class="form-control"
 															placeholder="Nhập Họ tên">
@@ -74,7 +74,8 @@
 													</div>
 													<div class="mb-3">
 														<label class="form-label">Email</label>
-														<input v-model="user.email" type="text" class="form-control text-secondary" readonly
+														<input v-model="user.email" type="text"
+															class="form-control text-secondary" readonly
 															placeholder="Xác Nhận Mật Khẩu">
 													</div>
 
@@ -87,13 +88,12 @@
 												<div class="">
 													<div class="mb-3 mt-2">
 														<label class="form-label">Só điện thoại</label>
-														<input v-model="user.so_dien_thoai" type="text"
-															class="form-control" placeholder="Nhập mật khẩu cũ">
+														<input v-model="user.so_dien_thoai" type="number"
+															class="form-control">
 													</div>
 													<div class="mb-3 mt-2">
 														<label class="form-label">Số CCCD</label>
-														<input v-model="user.cccd" type="text" class="form-control"
-															placeholder="Nhập mật khẩu mới">
+														<input v-model="user.cccd" type="number" class="form-control">
 													</div>
 													<div class="mb-3">
 														<label class="form-label">Quê quán</label>
@@ -107,7 +107,8 @@
 
 										</div>
 										<div class="d-grid gap-2">
-											<button type="button" class="btn btn-primary" @click="capNhatUser">Lưu</button>
+											<button type="button" class="btn btn-primary"
+												@click="capNhatUser">Lưu</button>
 										</div>
 
 									</div>
@@ -122,21 +123,25 @@
 												<div class="">
 													<div class="mb-3 mt-2">
 														<label class="form-label">Mật Khẩu Hiện Tại</label>
-														<input type="text" class="form-control"
+														<input type="text" class="form-control" v-model="currentPass"
 															placeholder="Nhập mật khẩu cũ">
 													</div>
 													<div class="mb-3 mt-2">
 														<label class="form-label">Mật Khẩu Mới</label>
-														<input type="text" class="form-control"
+														<input type="text" class="form-control" v-model="newPass"
 															placeholder="Nhập mật khẩu mới">
 													</div>
 													<div class="mb-3">
 														<label class="form-label">Xác Nhận Mật Khẩu</label>
-														<input type="text" class="form-control"
+														<input type="text" class="form-control" v-model="passConfirm"
 															placeholder="Xác Nhận Mật Khẩu">
 													</div>
+													<div v-if="passWordError" class="text-danger small mt-2">
+														{{ passWordError }}
+													</div>
 													<div class="d-grid gap-2">
-														<button type="button" class="btn btn-primary">Đổi Mật
+														<button type="button" class="btn btn-primary mt-2"
+															@click="doiMatKhau">Đổi Mật
 															Khẩu</button>
 													</div>
 												</div>
@@ -208,29 +213,32 @@ export default {
 	props: ['email'],
 	data() {
 		return {
+			currentPass: '',
+			newPass: '',
+			passConfirm: '',
 			user: {},
-            user_login:[],
+			user_login: [],
 			list_ve: [],
 			listVeTheoNguoiDung: [],
 
-
+			passWordError: ''
 
 		};
 	},
 	mounted() {
 
-	  
+
 
 		const listSuatChieu = JSON.parse(localStorage.getItem("list_suat_chieu") || "[]");
 		const listPhim = JSON.parse(localStorage.getItem("list_phim") || "[]");
 		const userlogin = JSON.parse(localStorage.getItem('user_login'));
-		
+
 		if (userlogin) {
 			// Gán trực tiếp vì storedUser là object
 			this.user = userlogin;
 
 			// Kiểm tra trong console
-			console.log("User Profile:", this.user);
+			// console.log("User Profile:", this.user);
 		} else {
 			console.warn("Không tìm thấy user_login trong localStorage");
 		}
@@ -266,15 +274,15 @@ export default {
 
 		capNhatUser() {
 			// Tìm vị trí phim cần cập nhật trong list_phim bằng id
-			 let danhSachUser = JSON.parse(localStorage.getItem('list_user')) || [];
+			let danhSachUser = JSON.parse(localStorage.getItem('list_user')) || [];
 			const index = danhSachUser.findIndex(u => u.id === this.user.id);
 
 			if (index !== -1) {
 				// Cập nhật lại toàn bộ thông tin
-				danhSachUser[index] = { ...this.user}
+				danhSachUser[index] = { ...this.user }
 				localStorage.setItem('list_user', JSON.stringify(danhSachUser));
-				 // Ghi lại người dùng đang login
-      			localStorage.setItem('user_login', JSON.stringify(this.user));
+				// Ghi lại người dùng đang login
+				localStorage.setItem('user_login', JSON.stringify(this.user));
 				this.$toast?.success?.("Cập nhật thành công!");
 			} else {
 				alert("⚠ Không tìm thấy phim để cập nhật.");
@@ -282,7 +290,62 @@ export default {
 
 			// Xóa form tạm nếu cần
 			// this.user = {};
+		},
+
+
+		doiMatKhau() {
+            
+
+			//kiểm tra mật khẩu trống
+			if (!this.currentPass || !this.newPass || !this.passConfirm) {
+					this.passWordError = "Vui lòng nhập đầy đủ mật khẩu!";
+					return ;
+				}
+
+			// Tìm vị trí phim cần cập nhật trong list_user bằng id
+			let danhSachUser = JSON.parse(localStorage.getItem('list_user')) || [];
+			const index = danhSachUser.findIndex(u => u.id === this.user.id);
+
+
+
+			if (index !== -1) {
+
+				
+
+				// Kiểm tra mật khẩu cũ đúng không
+				if (this.currentPass !== this.user.password) {
+					this.passWordError = "Mật khẩu hiện tại không đúng!";
+					return;
+				}
+
+
+				// Kiểm tra xác nhận mật khẩu
+				if (this.newPass !== this.passConfirm) {
+					this.passWordError = "Mật khẩu xác nhận không khớp!";
+					return;
+				}
+
+				// Nếu hợp lệ, cập nhật mật khẩu
+				this.user.password = this.newPass;
+				this.passWordError = '';
+
+				// Cập nhật lại toàn bộ thông tin
+				danhSachUser[index] = { ...this.user }
+				localStorage.setItem('list_user', JSON.stringify(danhSachUser));
+				// Ghi lại người dùng đang login
+				localStorage.setItem('user_login', JSON.stringify(this.user));
+
+				this.$toast?.success?.("Thay đổi mật khẩu thành công!");
+
+				// Optional: reset form
+				this.currentPass = '';
+				this.newPass = '';
+				this.passConfirm = '';
+			}
+
 		}
+
+		
 	}
 }
 </script>
