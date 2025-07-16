@@ -95,6 +95,12 @@ const routes = [
         component: () => import("../components/Client/ChiTietDonHang/index.vue"),
         meta: { layout: "client" },
     },
+     {
+        path: "/chat-bot",
+        component: () => import("../components/Client/ChatGermeni/chatgemeni.vue"),
+        meta: { layout: "client" },
+    },
+
 
 
 
