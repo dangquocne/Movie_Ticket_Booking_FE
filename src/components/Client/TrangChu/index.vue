@@ -290,7 +290,16 @@
 
 import axios from 'axios'
 export default {
+    
     data() {
+        // Lấy ngày hôm nay
+const today = new Date();
+const todayStr = today.toISOString().split('T')[0];
+
+// Lấy ngày mai
+const tomorrow = new Date();
+tomorrow.setDate(today.getDate() + 1);
+const tomorrowStr = tomorrow.toISOString().split('T')[0];
         return {
             list_phim: [{
                 id: 3,
@@ -445,7 +454,7 @@ export default {
                     ten_phim: 'Yadang: Ba Mặt Lật Kèo',
                     id_phong_chieu: 2,
                     ten_phong: 'Phòng 2',
-                    ngay_chieu: '2025-07-17',
+                    ngay_chieu: todayStr,
                     thoi_gian_bat_dau: '15:20',
                     thoi_gian_ket_thuc: '17:17',
                     gia_ve: 450000,
@@ -457,7 +466,7 @@ export default {
                     ten_phim: 'Phim Điện Ảnh Doraemon: Nobita Và Cuộc Phiêu Lưu Vào Thế Giới Trong Tranh',
                     id_phong_chieu: 2,
                     ten_phong: 'Phòng 2',
-                    ngay_chieu: '2025-07-16',
+                    ngay_chieu: tomorrowStr,
                     thoi_gian_bat_dau: '19:30',
                     thoi_gian_ket_thuc: '21:00',
                     gia_ve: 450000,
@@ -470,7 +479,7 @@ export default {
                     ten_phim: 'Lật Mặt 8: Vòng Tay Nắng',
                     id_phong_chieu: 1,
                     ten_phong: 'Phòng 1',
-                    ngay_chieu: '2025-07-16',
+                    ngay_chieu: tomorrowStr, // Ngày mai
                     thoi_gian_bat_dau: '21:30',
                     thoi_gian_ket_thuc: '23:30',
                     gia_ve: 450000,
@@ -482,7 +491,7 @@ export default {
                     ten_phim: 'Thám Tử Kiên: Kỳ Án Không Đầu',
                     id_phong_chieu: 1,
                     ten_phong: 'Phòng 1',
-                    ngay_chieu: '2025-07-17',
+                    ngay_chieu: todayStr, // Ngày hôm nay
                     thoi_gian_bat_dau: '20:30',
                     thoi_gian_ket_thuc: '22:30',
                     gia_ve: 450000,
@@ -494,7 +503,7 @@ export default {
                     ten_phim: 'Thám Tử Kiên: Kỳ Án Không Đầu',
                     id_phong_chieu: 1,
                     ten_phong: 'Phòng 1',
-                    ngay_chieu: '2025-07-17',
+                    ngay_chieu: todayStr, // Ngày mai
                     thoi_gian_bat_dau: '22:30',
                     thoi_gian_ket_thuc: '00:30',
                     gia_ve: 450000,
@@ -506,7 +515,7 @@ export default {
                     ten_phim: 'Thám Tử Kiên: Kỳ Án Không Đầu',
                     id_phong_chieu: 1,
                     ten_phong: 'Phòng 1',
-                    ngay_chieu: '2025-07-18',
+                    ngay_chieu: tomorrowStr, // Ngày mai
                     thoi_gian_bat_dau: '15:20',
                     thoi_gian_ket_thuc: '17:17',
                     gia_ve: 450000,
@@ -518,7 +527,7 @@ export default {
                     ten_phim: 'Thám Tử Kiên: Kỳ Án Không Đầu',
                     id_phong_chieu: 1,
                     ten_phong: 'Phòng 1',
-                    ngay_chieu: '2025-07-18',
+                    ngay_chieu: tomorrowStr, // Ngày mai
                     thoi_gian_bat_dau: '20:20',
                     thoi_gian_ket_thuc: '22:17',
                     gia_ve: 450000,
