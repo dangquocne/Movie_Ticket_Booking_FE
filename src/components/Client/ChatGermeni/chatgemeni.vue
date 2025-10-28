@@ -41,7 +41,7 @@ export default {
     },
 
     async callGeminiAPI(text) {
-      const API_KEY = "AIzaSyBoJIB7xIHrxVCw6dd8Zv_eJHSe67lmoQM";
+      const API_KEY = "";
 
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,

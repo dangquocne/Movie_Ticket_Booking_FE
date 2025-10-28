@@ -1,6 +1,6 @@
 
 (function () {
-  const API_KEY = "AIzaSyBoJIB7xIHrxVCw6dd8Zv_eJHSe67lmoQM"; // ← Dán API Key ở đây
+  const API_KEY = ""; // ← Dán API Key ở đây
 
   const style = document.createElement("style");
   style.textContent = `
