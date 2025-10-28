@@ -57,6 +57,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-auto mb-2 ms-auto">
+                            <button class="btn  btn-dark text-light me-2"   @click="openModal = true">Xem phòng 3D</button>
+                        </div>
                 </div>
             </div>
         </div>
@@ -285,11 +288,29 @@
         </div>
     </div>
 
-    <!-- </div> -->
+   <!-- ✅ Modal Tour 3D -->
+<div v-if="openModal" class="modal-overlay" @click.self="closeModal">
+  <div class="modal-content">
+    <div class="modal-header bg-black text-white position-relative d-flex align-items-center justify-content-center">
+      <h5 class="m-0 text-center w-100 text-warning fw-bold">3D TOUR PHÒNG CHIẾU</h5>
+      <button
+        class="btn btn-sm btn-light position-absolute end-0 me-3 px-3 py-1 fw-semibold"
+        @click="closeModal"
+      >
+        Đóng
+      </button>
+    </div>
+
+    <div class="image-container" ref="panoContainer"></div>
+  </div>
+</div>
+
+ 
+   
 
 </template>
 
-<script>
+<script >
 
 
 import axios from 'axios'
@@ -311,6 +332,7 @@ export default {
             user_login: null,
             daDatVe: false, // Biến để kiểm tra đã đặt vé hay chưa
             gheDaDat: [],
+             openModal: false, // ✅ thêm biến mở modal 3D
 
         };
     },
@@ -412,9 +434,66 @@ export default {
             if (newVal && newVal.id) {
                 this.loadGheDaDat();
             }
+        },
+
+          openModal(newVal) {
+            if (newVal) {
+                this.loadPanorama()
+            }
         }
+
+
     },
-    methods: {
+    methods: {  // === TOUR 3D ===
+        closeModal() {
+            this.openModal = false
+        },
+        loadPanorama() {
+            const threeScript = document.createElement('script')
+            threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/105/three.min.js'
+            threeScript.onload = () => {
+                const panoScript = document.createElement('script')
+                panoScript.src = '/js/panolens.min.js'
+                panoScript.onload = () => this.initPanorama()
+                document.body.appendChild(panoScript)
+            }
+            document.body.appendChild(threeScript)
+        },
+        initPanorama() {
+            const panorama = new PANOLENS.ImagePanorama('/images/cinema_hall.jpg')
+            const viewer = new PANOLENS.Viewer({
+                container: this.$refs.panoContainer,
+                autoRotate: true,
+                autoRotateSpeed: 0.3,
+                controlBar: true
+            })
+            viewer.add(panorama)
+
+            const video = document.createElement('video')
+            video.src = '/videos/muado.mp4'
+            video.loop = true
+            video.muted = true
+            video.autoplay = true
+            video.playsInline = true
+            video.crossOrigin = 'anonymous'
+            video.addEventListener('canplay', () => video.play())
+
+            const texture = new THREE.VideoTexture(video)
+            texture.minFilter = THREE.LinearFilter
+            texture.magFilter = THREE.LinearFilter
+            texture.format = THREE.RGBFormat
+
+            const geometry = new THREE.PlaneGeometry(2400, 1000)
+            const material = new THREE.MeshBasicMaterial({ map: texture })
+            const screen = new THREE.Mesh(geometry, material)
+            screen.position.set(150, 200, -2400)
+            panorama.add(screen)
+        },
+
+
+
+
+
 
         //hien thị danh sách ghế đã chọn
         gheDaChon(ghe) {
@@ -536,7 +615,10 @@ export default {
         
         xoaBo(ghe) {
             this.list_ghe_chon = this.list_ghe_chon.filter(g => g.ten_ghe !== ghe.ten_ghe);
-        }
+        },
+
+
+        
     },
 }
 
@@ -564,4 +646,49 @@ export default {
 .bg-warning {
     background-color: #092665 !important;
 }
+
+
+
+
+/* ✅ Style modal 3D */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+.modal-content {
+  background: #000a0e;
+  border: 2px solid #ebb47a;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 1000px;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 12px 16px;
+  border-bottom: 2px solid #ebb47a;
+}
+
+.modal-header h5 {
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+.image-container {
+  flex: 1;
+  border-top: 2px solid #ebb47a;
+  background: #000;
+  border-radius: 0 0 10px 10px;
+  overflow: hidden;
+}
+
 </style>

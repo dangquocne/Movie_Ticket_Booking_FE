@@ -100,6 +100,11 @@ const routes = [
         component: () => import("../components/Client/ChatGermeni/chatgemeni.vue"),
         meta: { layout: "client" },
     },
+     {
+        path: "/tham-quan-phong-ao",
+        component: () => import("../components/Client/ThamQuanPhongAo/PanoramaViewer.vue"),
+        meta: { layout: "blank" },
+    },
 
 
 
