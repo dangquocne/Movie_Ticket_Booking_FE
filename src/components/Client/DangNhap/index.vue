@@ -80,42 +80,40 @@ export default {
     },
     methods: {
         dangNhap() {
-            // ✅ Lấy danh sách khách hàng từ localStorage
-            const danhSachNguoiDung = JSON.parse(localStorage.getItem('list_khach_hang')) || [];
+    // ✅ Lấy danh sách khách hàng + nhân viên
+    const danhSachKhachHang = JSON.parse(localStorage.getItem('list_khach_hang')) || [];
+    const danhSachNhanVien = JSON.parse(localStorage.getItem('list_nhan_vien')) || [];
+    
+    // ✅ Gộp danh sách
+    const danhSachNguoiDung = [...danhSachKhachHang, ...danhSachNhanVien];
 
-            // ✅ Tìm người dùng khớp email + mật khẩu
-            const nguoiDung = danhSachNguoiDung.find(u =>
-                u.email === this.thong_tin_dang_nhap.email &&
-                u.mat_khau === this.thong_tin_dang_nhap.password
-            );
+    // ✅ Tìm người dùng khớp email + mật khẩu
+    const nguoiDung = danhSachNguoiDung.find(u =>
+        u.email === this.thong_tin_dang_nhap.email &&
+        u.mat_khau === this.thong_tin_dang_nhap.password
+    );
 
-            if (nguoiDung) {
-                if (nguoiDung.is_block) {
-                    this.$toast.error("Tài khoản của bạn đã bị khóa!");
-                    return;
-                }
-
-                if (!nguoiDung.is_active) {
-                    this.$toast.warning("Tài khoản của bạn chưa được kích hoạt!");
-                    return;
-                }
-
-                this.$toast.success("Đăng nhập thành công!");
-
-                // ✅ Lưu người đăng nhập hiện tại
-                localStorage.setItem('user_login', JSON.stringify(nguoiDung));
-
-                // ✅ Điều hướng theo vai trò
-                if (nguoiDung.role === "ROLE_ADMIN") {
-                    this.$router.push('/admin/');
-                } else {
-                    this.$router.push('/');
-                }
-
-            } else {
-                this.$toast.error("Email hoặc mật khẩu không đúng!");
-            }
+    if (nguoiDung) {
+        if (nguoiDung.tinh_trang !== undefined && nguoiDung.tinh_trang === 0) {
+            this.$toast.error("Tài khoản của bạn đã bị khóa!");
+            return;
         }
+
+        this.$toast.success("Đăng nhập thành công!");
+
+        // ✅ Lưu người đăng nhập hiện tại
+        localStorage.setItem('user_login', JSON.stringify(nguoiDung));
+
+        // ✅ Điều hướng theo role
+        if (nguoiDung.role === "ROLE_ADMIN") {
+            this.$router.push('/admin/');
+        } else {
+            this.$router.push('/');
+        }
+    } else {
+        this.$toast.error("Email hoặc mật khẩu không đúng!");
+    }
+}
     },
 }
 </script>
