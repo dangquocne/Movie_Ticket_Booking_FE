@@ -217,53 +217,37 @@ export default {
 			newPass: '',
 			passConfirm: '',
 			user: {},
-			user_login: [],
-			list_ve: [],
 			listVeTheoNguoiDung: [],
-
 			passWordError: ''
-
 		};
 	},
 	mounted() {
-
-
-
 		const listSuatChieu = JSON.parse(localStorage.getItem("list_suat_chieu") || "[]");
 		const listPhim = JSON.parse(localStorage.getItem("list_phim") || "[]");
 		const userlogin = JSON.parse(localStorage.getItem('user_login'));
 
 		if (userlogin) {
-			// Gán trực tiếp vì storedUser là object
 			this.user = userlogin;
-
-			// Kiểm tra trong console
-			// console.log("User Profile:", this.user);
 		} else {
-			console.warn("Không tìm thấy user_login trong localStorage");
+			console.warn("⚠ Không tìm thấy user_login trong localStorage");
+			return;
 		}
 
-		// lấy thong tin vé theo người dùng
+		// 🔹 Lấy vé theo người dùng
 		const allVe = JSON.parse(localStorage.getItem("list_ve") || "[]");
-		if (userlogin) {
-			this.listVeTheoNguoiDung = allVe.filter(v => v.khach_hang?.email === userlogin.email).map(v => {
-				const suat = listSuatChieu.find(s => s.id == v.id_suat_chieu);
-				if (suat) {
-					const phim = listPhim.find(p => p.id == suat.id_phim);
-					if (phim) {
-						v.hinh_anh = phim.hinh_anh; // ← Gán hình ảnh phim
-						v.ten_phim = phim.ten_phim; // ← Nếu cần
-					}
+		this.listVeTheoNguoiDung = allVe.filter(v => v.khach_hang?.email === userlogin.email).map(v => {
+			const suat = listSuatChieu.find(s => s.id == v.id_suat_chieu);
+			if (suat) {
+				const phim = listPhim.find(p => p.id == suat.id_phim);
+				if (phim) {
+					v.hinh_anh = phim.hinh_anh;
+					v.ten_phim = phim.ten_phim;
 				}
-				return v;
-			});
-		}
+			}
+			return v;
+		});
 	},
-	// computed: {
-	// 	listVeTheoNguoiDung() {
-	// 		return this.list_ve.filter(ve => ve.khach_hang?.email == this.user.email);
-	// 	},
-	// },
+
 	methods: {
 		formatVND(value) {
 			return new Intl.NumberFormat('vi-VN', {
@@ -272,81 +256,62 @@ export default {
 			}).format(value);
 		},
 
+		// ✅ Cập nhật thông tin user
 		capNhatUser() {
-			// Tìm vị trí phim cần cập nhật trong list_phim bằng id
-			let danhSachUser = JSON.parse(localStorage.getItem('list_user')) || [];
+			let danhSachUser = JSON.parse(localStorage.getItem('list_khach_hang')) || [];
 			const index = danhSachUser.findIndex(u => u.id === this.user.id);
 
 			if (index !== -1) {
-				// Cập nhật lại toàn bộ thông tin
-				danhSachUser[index] = { ...this.user }
-				localStorage.setItem('list_user', JSON.stringify(danhSachUser));
-				// Ghi lại người dùng đang login
+				danhSachUser[index] = { ...this.user };
+				localStorage.setItem('list_khach_hang', JSON.stringify(danhSachUser));
 				localStorage.setItem('user_login', JSON.stringify(this.user));
-				this.$toast?.success?.("Cập nhật thành công!");
+				this.$toast?.success?.("Cập nhật thông tin thành công!");
 			} else {
-				alert("⚠ Không tìm thấy phim để cập nhật.");
+				this.$toast?.error?.("Không tìm thấy người dùng để cập nhật!");
 			}
-
-			// Xóa form tạm nếu cần
-			// this.user = {};
 		},
 
-
+		// ✅ Đổi mật khẩu user
 		doiMatKhau() {
-            
-
-			//kiểm tra mật khẩu trống
 			if (!this.currentPass || !this.newPass || !this.passConfirm) {
-					this.passWordError = "Vui lòng nhập đầy đủ mật khẩu!";
-					return ;
-				}
-
-			// Tìm vị trí phim cần cập nhật trong list_user bằng id
-			let danhSachUser = JSON.parse(localStorage.getItem('list_user')) || [];
-			const index = danhSachUser.findIndex(u => u.id === this.user.id);
-
-
-
-			if (index !== -1) {
-
-				
-
-				// Kiểm tra mật khẩu cũ đúng không
-				if (this.currentPass !== this.user.password) {
-					this.passWordError = "Mật khẩu hiện tại không đúng!";
-					return;
-				}
-
-
-				// Kiểm tra xác nhận mật khẩu
-				if (this.newPass !== this.passConfirm) {
-					this.passWordError = "Mật khẩu xác nhận không khớp!";
-					return;
-				}
-
-				// Nếu hợp lệ, cập nhật mật khẩu
-				this.user.password = this.newPass;
-				this.passWordError = '';
-
-				// Cập nhật lại toàn bộ thông tin
-				danhSachUser[index] = { ...this.user }
-				localStorage.setItem('list_user', JSON.stringify(danhSachUser));
-				// Ghi lại người dùng đang login
-				localStorage.setItem('user_login', JSON.stringify(this.user));
-
-				this.$toast?.success?.("Thay đổi mật khẩu thành công!");
-
-				// Optional: reset form
-				this.currentPass = '';
-				this.newPass = '';
-				this.passConfirm = '';
+				this.passWordError = "Vui lòng nhập đầy đủ mật khẩu!";
+				return;
 			}
 
-		}
+			let danhSachUser = JSON.parse(localStorage.getItem('list_khach_hang')) || [];
+			const index = danhSachUser.findIndex(u => u.id === this.user.id);
 
-		
+			if (index === -1) {
+				this.$toast?.error?.("Không tìm thấy người dùng!");
+				return;
+			}
+
+			// So sánh đúng field: `mat_khau`
+			if (this.currentPass !== this.user.mat_khau) {
+				this.passWordError = "Mật khẩu hiện tại không đúng!";
+				return;
+			}
+
+			if (this.newPass !== this.passConfirm) {
+				this.passWordError = "Mật khẩu xác nhận không khớp!";
+				return;
+			}
+
+			this.user.mat_khau = this.newPass;
+			this.passWordError = '';
+
+			danhSachUser[index] = { ...this.user };
+			localStorage.setItem('list_khach_hang', JSON.stringify(danhSachUser));
+			localStorage.setItem('user_login', JSON.stringify(this.user));
+
+			this.$toast?.success?.("Đổi mật khẩu thành công!");
+
+			this.currentPass = '';
+			this.newPass = '';
+			this.passConfirm = '';
+		}
 	}
 }
 </script>
+
 <style></style>

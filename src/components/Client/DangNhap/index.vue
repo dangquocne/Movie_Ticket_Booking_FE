@@ -80,26 +80,38 @@ export default {
     },
     methods: {
         dangNhap() {
-            const danhSachNguoiDung = JSON.parse(localStorage.getItem('list_user')) || [];
+            // ✅ Lấy danh sách khách hàng từ localStorage
+            const danhSachNguoiDung = JSON.parse(localStorage.getItem('list_khach_hang')) || [];
 
-            // Tìm người dùng khớp email + password
+            // ✅ Tìm người dùng khớp email + mật khẩu
             const nguoiDung = danhSachNguoiDung.find(u =>
-                u.email === this.thong_tin_dang_nhap.email && u.password === this.thong_tin_dang_nhap.password
+                u.email === this.thong_tin_dang_nhap.email &&
+                u.mat_khau === this.thong_tin_dang_nhap.password
             );
 
             if (nguoiDung) {
+                if (nguoiDung.is_block) {
+                    this.$toast.error("Tài khoản của bạn đã bị khóa!");
+                    return;
+                }
+
+                if (!nguoiDung.is_active) {
+                    this.$toast.warning("Tài khoản của bạn chưa được kích hoạt!");
+                    return;
+                }
+
                 this.$toast.success("Đăng nhập thành công!");
 
-                // Lưu user đã đăng nhập vào localStorage (để biết người nào đang đăng nhập)
+                // ✅ Lưu người đăng nhập hiện tại
                 localStorage.setItem('user_login', JSON.stringify(nguoiDung));
 
-                if (nguoiDung.role === "ROLE_USER") {
-                    // Chuyển trang user
-                    this.$router.push('/');
-                }else if(nguoiDung.role === "ROLE_ADMIN"){
-                    // Chuyển trang admin
+                // ✅ Điều hướng theo vai trò
+                if (nguoiDung.role === "ROLE_ADMIN") {
                     this.$router.push('/admin/');
+                } else {
+                    this.$router.push('/');
                 }
+
             } else {
                 this.$toast.error("Email hoặc mật khẩu không đúng!");
             }
@@ -107,4 +119,5 @@ export default {
     },
 }
 </script>
+
 <style></style>

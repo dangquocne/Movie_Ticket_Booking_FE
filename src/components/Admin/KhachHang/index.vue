@@ -11,12 +11,8 @@
 
         <div class="card-body table-responsive">
           <div class="d-flex gap-2 mb-3">
-            <input
-              v-model="search_text"
-              type="text"
-              class="form-control"
-              placeholder="Tìm kiếm theo tên, email, số điện thoại..."
-            />
+            <input v-model="search_text" type="text" class="form-control"
+              placeholder="Tìm kiếm theo tên, email, số điện thoại..." />
             <select v-model="filter_status" class="form-select" style="max-width: 200px;">
               <option value="">Tất cả</option>
               <option value="active">Đã kích hoạt</option>
@@ -46,35 +42,23 @@
                 <td class="text-center">{{ item.so_dien_thoai }}</td>
                 <td class="text-center">{{ item.ngay_sinh }}</td>
                 <td class="text-center">
-                  <button
-                    :class="item.is_active ? 'btn btn-warning w-100 text-light' : 'btn btn-secondary w-100'"
-                    @click="toggleKichHoat(item)"
-                  >
+                  <button :class="item.is_active ? 'btn btn-warning w-100 text-light' : 'btn btn-secondary w-100'"
+                    @click="toggleKichHoat(item)">
                     {{ item.is_active ? 'Đã kích hoạt' : 'Chưa kích hoạt' }}
                   </button>
                 </td>
                 <td class="text-center" @click="doiTrangThai(item)">
-                  <button
-                    :class="item.is_block ? 'btn btn-danger w-100 text-light' : 'btn btn-info w-100 text-light'"
-                  >
+                  <button :class="item.is_block ? 'btn btn-danger w-100 text-light' : 'btn btn-info w-100 text-light'">
                     {{ item.is_block ? 'Đã khóa' : 'Chưa khóa' }}
                   </button>
                 </td>
                 <td class="text-center" style="width: 200px;">
-                  <button
-                    class="btn btn-success me-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#updateModal"
-                    @click="edit_khach_hang = { ...item }"
-                  >
+                  <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#updateModal"
+                    @click="edit_khach_hang = { ...item }">
                     Cập nhật
                   </button>
-                  <button
-                    class="btn btn-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteModal"
-                    @click="del_khach_hang = { ...item }"
-                  >
+                  <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                    @click="del_khach_hang = { ...item }">
                     Xóa
                   </button>
                 </td>
@@ -283,7 +267,7 @@ export default {
       this.$toast.success("Thêm khách hàng thành công!");
       const modal = bootstrap.Modal.getInstance(document.getElementById("addModal"));
       modal.hide();
-    },
+    },  
     capNhatKhachHang() {
       const index = this.list_khach_hang.findIndex((kh) => kh.id === this.edit_khach_hang.id);
       if (index !== -1) {
