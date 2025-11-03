@@ -9,11 +9,13 @@
         <div class="card-body">
           <div class="mb-2">
             <label class="mb-1">Tên dịch vụ</label>
-            <input v-model="create_dich_vu.ten_dich_vu" class="form-control" type="text" placeholder="Nhập tên dịch vụ" />
+            <input v-model="create_dich_vu.ten_dich_vu" class="form-control" type="text"
+              placeholder="Nhập tên dịch vụ" />
           </div>
           <div class="mb-2">
             <label class="mb-1">Hình ảnh</label>
-            <input v-model="create_dich_vu.hinh_anh" class="form-control" type="text" placeholder="Nhập link hình ảnh" />
+            <input v-model="create_dich_vu.hinh_anh" class="form-control" type="text"
+              placeholder="Nhập link hình ảnh" />
           </div>
           <div class="mb-2">
             <label class="mb-1">Giá dịch vụ</label>
@@ -21,7 +23,8 @@
           </div>
           <div class="mb-2">
             <label class="mb-1">Mô tả dịch vụ</label>
-            <textarea v-model="create_dich_vu.mo_ta" class="form-control" rows="3" placeholder="Nhập mô tả dịch vụ"></textarea>
+            <textarea v-model="create_dich_vu.mo_ta" class="form-control" rows="3"
+              placeholder="Nhập mô tả dịch vụ"></textarea>
           </div>
           <div class="mb-2">
             <label class="mb-1">Tình trạng</label>
@@ -57,29 +60,41 @@
                   <th>Hành động</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr v-for="(item, index) in list_dich_vu" :key="item.id">
-                  <td class="text-center">{{ index + 1 }}</td>
-                  <td>{{ item.ten_dich_vu }}</td>
-                  <td><img :src="item.hinh_anh" class="img-fluid" style="width: 80px; height: 50px; object-fit: cover;" /></td>
-                  <td>{{ formatVND(item.gia) }}</td>
-                  <td class="text-wrap">{{ item.mo_ta }}</td>
-                  <td class="text-center">
-                    <button class="btn btn-sm" :class="item.tinh_trang == 1 ? 'btn-success' : 'btn-warning'" @click="doiTrangThai(item)">
-                      {{ item.tinh_trang == 1 ? 'Hiển thị' : 'Tạm tắt' }}
-                    </button>
-                  </td>
-                  <td class="text-center">
-                    <button class="btn btn-sm btn-info text-light me-1" data-bs-toggle="modal" data-bs-target="#capNhatModal"
-                      @click="Object.assign(edit_dich_vu, item)">Cập nhật</button>
-                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#xoaModal"
-                      @click="Object.assign(del_dich_vu, item)">Xóa</button>
-                  </td>
-                </tr>
-                <tr v-if="list_dich_vu.length === 0">
-                  <td colspan="7" class="text-center text-muted">Chưa có dịch vụ nào</td>
-                </tr>
-              </tbody>
+             <tbody>
+                                <template v-for="(item, index) in list_dich_vu" :key="index">
+                                    <tr>
+                                        <td class="align-middle text-center">{{ index + 1 }}</td>
+                                        <td class="align-middle">{{ item.ten_dich_vu }}</td>
+                                        <td class="align-middle">
+                                            <img :src="item.hinh_anh" alt="" class="img-fluid">
+                                        </td>
+                                        <td class="align-middle ">{{ formatVND(item.gia) }}</td>
+                                        <td class="align-middle text-wrap">{{ item.mo_ta }}</td>
+                                        <td @click="doiTrangThai(item)" class="text-center align-middle"
+                                            style="width: 100px;">
+                                            <button v-if="item.tinh_trang == 1" class="btn btn-sm btn-success"
+                                                type="button">
+                                                <i class="fa-solid fa-square-check"></i> Hiển thị
+                                            </button>
+                                            <button v-else class="btn btn-sm btn-warning" type="button">
+                                                <i class="fa-solid fa-square-xmark"></i> Tạm tắt
+                                            </button>
+                                        </td>
+                                        <td class="text-nowrap align-middle text-center" style="width: 150px;">
+                                            <button type="button" class="btn btn-sm btn-info text-light"
+                                                data-bs-toggle="modal" data-bs-target="#capNhatModal"
+                                                v-on:click="Object.assign(edit_dich_vu, item)">
+                                                Cập Nhật
+                                            </button>
+                                            <button type="button" class="ms-2 btn btn-sm btn-danger"
+                                                data-bs-toggle="modal" data-bs-target="#xoaModal"
+                                                v-on:click="Object.assign(del_dich_vu, item)">
+                                                Xóa
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
             </table>
           </div>
         </div>
@@ -162,7 +177,30 @@ export default {
     },
     loadData() {
       const data = localStorage.getItem("list_dich_vu");
-      this.list_dich_vu = data ? JSON.parse(data) : [];
+      if (data) {
+        this.list_dich_vu = JSON.parse(data);
+      } else {
+        // Dữ liệu mẫu mặc định
+        this.list_dich_vu = [
+          {
+            id: Date.now() + 1,
+            ten_dich_vu: "Bắp Rang Bơ",
+            hinh_anh: "https://afamilycdn.com/Images/Uploaded/Share/2010/06/07/baprrang.jpg",
+            gia: 100000,
+            mo_ta: "Bắp rang bơ nóng hổi, giòn rụm, thơm lừng hương bơ - món ăn vặt hoàn hảo cho mỗi buổi xem phim",
+            tinh_trang: 1
+          },
+          {
+            id: Date.now() + 2,
+            ten_dich_vu: "Nước Ngọt Coca-Cola",
+            hinh_anh: "https://iguov8nhvyobj.vcdn.cloud/media/wysiwyg/2020/072020/KICHI_VOUCHER_350x495.jpg",
+            gia: 200000,
+            mo_ta: "Coca-Cola mát lạnh, giải khát tức thì - lựa chọn hoàn hảo khi thưởng thức phim.",
+            tinh_trang: 1
+          }
+        ];
+        this.saveData(); // Lưu dữ liệu mẫu vào localStorage
+      }
     },
     validateDichVu(dv) {
       const missing = [];
@@ -199,6 +237,7 @@ export default {
       this.saveData();
       this.$toast.success("🗑️ Đã xóa dịch vụ!");
     },
+
     doiTrangThai(dv) {
       dv.tinh_trang = dv.tinh_trang == 1 ? 0 : 1;
       this.saveData();

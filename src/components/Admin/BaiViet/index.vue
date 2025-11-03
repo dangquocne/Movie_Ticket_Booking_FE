@@ -22,30 +22,45 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr v-for="(item, index) in list_bai_viet" :key="index">
-                                <td>{{ index + 1 }}</td>
-                                <td>{{ item.tieu_de }}</td>
-                                <td>{{ item.mo_ta_ngan }}</td>
-                                <td>{{ item.noi_dung }}</td>
-                                <td>
-                                    <img :src="item.hinh_anh" style="height: 70px; width: 120px; object-fit: cover;" />
-                                </td>
-                                <td>{{ item.tag }}</td>
-                                <td @click="doiTrangThai(item)">
-                                    <button :class="item.tinh_trang == 1 ? 'btn btn-success' : 'btn btn-warning'">
-                                        {{ item.tinh_trang == 1 ? 'Hiển Thị' : 'Tạm Tắt' }}
-                                    </button>
-                                </td>
-                                <td>
-                                    <button class="btn btn-info text-light me-2" data-bs-toggle="modal"
-                                        data-bs-target="#updateModal" @click="edit_bai_viet = { ...item, index }">Cập
-                                        nhật</button>
-                                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                        @click="del_bai_viet = { ...item }">Xóa</button>
-                                </td>
-                            </tr>
-                        </tbody>
+                           <tbody>
+                                <template v-for="(item, index) in list_bai_viet" :key="index">
+                                    <tr class="">
+                                        <th class="align-middle text-center">{{ index + 1 }}</th>
+                                        <td class="align-middle text-wrap">{{ item.tieu_de }}</td>
+                                        <td class="align-middle text-wrap">{{ item.mo_ta_ngan }}</td>
+                                        <td class="align-middle text-center" style="width: 100px;">
+                                          {{ item.noi_dung }} 
+                                        </td>
+                                        <td class="align-middle text-center text-nowrap" style="width: 250px;">
+                                            <img :src="item.hinh_anh" alt="Hình Ảnh" class="img-fluid rounded"
+                                                style="height: 100px; object-fit: cover; width: 100%;">
+                                        </td>
+                                        <td class="align-middle text-wrap">{{ item.tag }}</td>
+                                        <td @click="doiTrangThai(item)" class="align-middle text-center text-nowrap"
+                                            style="width: 100px;">
+                                            <button v-if="item.tinh_trang == 1" class="btn btn-success w-100"
+                                                style="color: white;">
+                                                Hiển Thị
+                                            </button>
+                                            <button v-else class="btn btn-warning w-100" style="color: white;">
+                                                Tạm Tắt
+                                            </button>
+                                        </td>
+                                        <td class="align-middle text-center text-nowrap" style="width: 150px;">
+                                            <button class="btn btn-info text-light me-2" data-bs-toggle="modal"
+                                                data-bs-target="#updateModal"
+                                                v-on:click="Object.assign(edit_bai_viet, item)">
+                                                Cập nhật
+                                            </button>
+                                            <button class="btn btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal"
+                                                v-on:click="Object.assign(del_bai_viet, item)">
+                                                Xóa Bỏ
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
                     </table>
                 </div>
             </div>
@@ -177,7 +192,31 @@ export default {
     },
     methods: {
         getBaiViet() {
-            this.list_bai_viet = JSON.parse(localStorage.getItem('bai_viet')) || [];
+            const data = localStorage.getItem('bai_viet');
+            if (data) {
+                this.list_bai_viet = JSON.parse(data);
+            } else {
+                // Dữ liệu mẫu mặc định
+                this.list_bai_viet = [
+                    {
+                tieu_de: "Top 5 bộ phim Việt đáng mong chờ trong năm 2025",
+                mo_ta_ngan: "Danh sách những bộ phim Việt hứa hẹn sẽ gây bão phòng vé năm 2025 với nội dung hấp dẫn và dàn diễn viên chất lượng.",
+                noi_dung: "Nội dung chi tiết bài viết 2",
+                hinh_anh: "https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/phim_thang_3_2025_01_b87d97a30c.jpg",
+                tag: "phim Việt, 2025, điện ảnh",
+                tinh_trang: 1
+            },
+                    {
+                        tieu_de: "Bài viết 2",
+                        mo_ta_ngan: "Mô tả ngắn bài viết 2",
+                        noi_dung: "Nội dung chi tiết bài viết 2",
+                        hinh_anh: "https://maac.edu.vn/wp-content/uploads/2022/06/Post_MAAC_5HangPhim_1400x527.jpg",
+                        tag: "sự kiện",
+                        tinh_trang: 1
+                    }
+                ];
+                this.saveToStorage(); // lưu dữ liệu mẫu vào localStorage
+            }
         },
         saveToStorage() {
             localStorage.setItem('bai_viet', JSON.stringify(this.list_bai_viet));
