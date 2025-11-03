@@ -289,9 +289,9 @@
     </div>
 
    <!-- ✅ Modal Tour 3D -->
-<div v-if="openModal" class="modal-overlay" @click.self="closeModal">
-  <div class="modal-content">
-    <div class="modal-header bg-black text-white position-relative d-flex align-items-center justify-content-center">
+<div v-if="openModal" class="modal-3d-overlay" @click.self="closeModal">
+  <div class="modal-3d-content">
+    <div class="modal-3d-header bg-black text-white position-relative d-flex align-items-center justify-content-center">
       <h5 class="m-0 text-center w-100 text-warning fw-bold">3D TOUR PHÒNG CHIẾU</h5>
       <button
         class="btn btn-sm btn-light position-absolute end-0 me-3 px-3 py-1 fw-semibold"
@@ -459,8 +459,8 @@ export default {
             }
             document.body.appendChild(threeScript)
         },
-        initPanorama() {
-            const panorama = new PANOLENS.ImagePanorama('/images/cinema_hall.jpg')
+        initPanorama() {    
+            const panorama = new PANOLENS.ImagePanorama('/images/pretville_cinema.jpg')
             const viewer = new PANOLENS.Viewer({
                 container: this.$refs.panoContainer,
                 autoRotate: true,
@@ -478,7 +478,7 @@ export default {
             video.crossOrigin = 'anonymous'
             video.addEventListener('canplay', () => video.play())
 
-            const texture = new THREE.VideoTexture(video)
+            // const texture = new THREE.VideoTexture(video)
             texture.minFilter = THREE.LinearFilter
             texture.magFilter = THREE.LinearFilter
             texture.format = THREE.RGBFormat
@@ -651,7 +651,7 @@ export default {
 
 
 /* ✅ Style modal 3D */
-.modal-overlay {
+.modal-3d-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.8);
@@ -661,7 +661,7 @@ export default {
   z-index: 1050;
 }
 
-.modal-content {
+.modal-3d-content {
   background: #000a0e;
   border: 2px solid #ebb47a;
   border-radius: 12px;
@@ -673,12 +673,12 @@ export default {
   overflow: hidden;
 }
 
-.modal-header {
+.modal-3d-header {
   padding: 12px 16px;
   border-bottom: 2px solid #ebb47a;
 }
 
-.modal-header h5 {
+.modal-3d-header h5 {
   font-size: 1.2rem;
   letter-spacing: 1px;
 }
