@@ -10,7 +10,8 @@
                 </div>
                 <div class="card-body table-responsive">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search....">
+                        <input type="text" class="form-control"
+                            placeholder="Tìm theo tên phim, phòng hoặc ngày chiếu..." v-model="searchQuery" />
                         <button class="btn btn-success input-group-text" style="width: 150px;">Tìm kiếm</button>
                     </div>
                     <div class="table-responsive">
@@ -28,7 +29,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <template v-for="(item, index) in list_suat_chieu" :key="index">
+                                <template v-for="(item, index) in filteredSuatChieu" :key="item.id">
                                     <tr class="text-nowrap">
                                         <th class="align-middle text-center">{{ index + 1 }}</th>
                                         <td class="align-middle text-wrap">{{ getTenPhim(item.id_phim) }}</td>
@@ -46,10 +47,10 @@
                                             </button>
                                         </td>
                                         <td class="align-middle text-center">
-                                            <button class="btn btn-primary text-light me-2" data-bs-toggle="modal"
+                                            <!-- <button class="btn btn-primary text-light me-2" data-bs-toggle="modal"
                                                 data-bs-target="#taoVeModal" @click="info_ve = item">
                                                 Tạo vé
-                                            </button>
+                                            </button> -->
                                             <button class="btn btn-info text-light me-2" data-bs-toggle="modal"
                                                 data-bs-target="#updateModal" @click="edit_suat_chieu = item">
                                                 Cập nhật
@@ -89,8 +90,9 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Phòng Chiếu</label>
                             <select class="form-select" v-model="create_suat_chieu.id_phong_chieu">
-                                <option v-for="phong in list_phong_chieu" :key="phong.id" :value="phong.id">{{ phong.ten_phong
-                                }}
+                                <option v-for="phong in list_phong_chieu" :key="phong.id" :value="phong.id">{{
+                                    phong.ten_phong
+                                    }}
                                 </option>
                             </select>
                         </div>
@@ -119,7 +121,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Đóng
                     </button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" v-on:click="themSuatChieu()">
+                    <button type="button" class="btn btn-primary" v-on:click="themSuatChieu()">
                         Thêm mới
                     </button>
                 </div>
@@ -147,8 +149,9 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Phòng Chiếu</label>
                             <select class="form-select" v-model="edit_suat_chieu.id_phong_chieu">
-                                <option v-for="phong in list_phong_chieu" :key="phong.id" :value="phong.id">{{ phong.ten_phong
-                                }}
+                                <option v-for="phong in list_phong_chieu" :key="phong.id" :value="phong.id">{{
+                                    phong.ten_phong
+                                    }}
                                 </option>
                             </select>
                         </div>
@@ -198,7 +201,7 @@
                     <div class="alert alert-danger" role="alert">
                         Bạn có chắc chắn muốn xóa suất chiếu phim
                         <strong>{{ del_suat_chieu.ten_phim }}</strong> vào ngày <strong>{{ del_suat_chieu.ngay_chieu
-                        }}</strong>?
+                            }}</strong>?
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -225,7 +228,7 @@
                     <div class="alert alert-danger" role="alert">
                         Bạn có chắc chắn muốn tạo vé cho phim
                         <strong>{{ info_ve.ten_phim }}</strong> vào ngày <strong>{{ info_ve.ngay_chieu
-                        }}</strong>?
+                            }}</strong>?
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -273,27 +276,28 @@ export default {
             },
             edit_suat_chieu: {},
             del_suat_chieu: {},
-            info_ve: {}
+            info_ve: {},
+            searchQuery: "",
         };
     },
     mounted() {
 
         //lấy danh sách suất chiếu từ localStorage
         const storedSuatChieu = localStorage.getItem('list_suat_chieu');
-  if (storedSuatChieu) {
-    const storedList = JSON.parse(storedSuatChieu);
+        if (storedSuatChieu) {
+            const storedList = JSON.parse(storedSuatChieu);
 
-    // Hợp nhất dữ liệu mặc định + dữ liệu từ localStorage
-    const defaultList = this.list_suat_chieu;
+            // Hợp nhất dữ liệu mặc định + dữ liệu từ localStorage
+            const defaultList = this.list_suat_chieu;
 
-    // Loại bỏ các phim trùng id (tránh lặp)
-    const merged = [...defaultList, ...storedList.filter(storedItem => {
-      return !defaultList.some(defaultItem => defaultItem.id === storedItem.id);
-    })];
+            // Loại bỏ các phim trùng id (tránh lặp)
+            const merged = [...defaultList, ...storedList.filter(storedItem => {
+                return !defaultList.some(defaultItem => defaultItem.id === storedItem.id);
+            })];
 
-    this.list_suat_chieu = merged;
-    localStorage.setItem('list_suat_chieu', JSON.stringify(this.list_suat_chieu));
-    }
+            this.list_suat_chieu = merged;
+            localStorage.setItem('list_suat_chieu', JSON.stringify(this.list_suat_chieu));
+        }
 
 
         //lấy danh sách phòng chiếu từ localStorage
@@ -308,36 +312,93 @@ export default {
             this.list_phim = JSON.parse(storedphim);
         }
     },
+    computed: {
+    filteredSuatChieu() {
+        const q = this.searchQuery.trim().toLowerCase();
+        if (!q) return this.list_suat_chieu;
+        return this.list_suat_chieu.filter((suat) => {
+            const phim = this.getTenPhim(suat.id_phim).toLowerCase();
+            const phong = this.getTenPhong(suat.id_phong_chieu).toLowerCase();
+            return (
+                phim.includes(q) ||
+                phong.includes(q) ||
+                suat.ngay_chieu.toLowerCase().includes(q)
+            );
+        });
+    },
+},
     methods: {
         themSuatChieu() {
-            // Kiểm tra thông tin cơ bản
-            // if (!this.create_suat_chieu.id_phim || !this.create_suat_chieu.id_phong_chieu || !this.create_suat_chieu.ngay_chieu || !this.create_suat_chieu.thoi_gian_bat_dau || !this.create_suat_chieu.thoi_gian_ket_thuc || !this.create_suat_chieu.gia_ve) {
-            //     alert("Vui lòng nhập đầy đủ thông tin suất chiếu!");
-            //     return;
-            // }
+            const sc = this.create_suat_chieu;
 
-            // Tạo bản sao của suất chiếu vừa nhập, kèm ID tạm
+            // Kiểm tra nếu người dùng chưa nhập gì
+            if (
+                !sc.id_phim &&
+                !sc.id_phong_chieu &&
+                !sc.ngay_chieu &&
+                !sc.thoi_gian_bat_dau &&
+                !sc.thoi_gian_ket_thuc
+            ) {
+                this.$toast.error("⚠️ Vui lòng nhập đầy đủ thông tin suất chiếu!");
+                return;
+            }
+
+            // Kiểm tra từng trường cụ thể
+            if (!sc.id_phim) {
+                this.$toast.error("⚠️ Vui lòng chọn phim!");
+                return;
+            }
+            if (!sc.id_phong_chieu) {
+                this.$toast.error("⚠️ Vui lòng chọn phòng chiếu!");
+                return;
+            }
+            if (!sc.ngay_chieu) {
+                this.$toast.error("⚠️ Vui lòng chọn ngày chiếu!");
+                return;
+            }
+            if (!sc.thoi_gian_bat_dau) {
+                this.$toast.error("⚠️ Vui lòng nhập giờ bắt đầu!");
+                return;
+            }
+            if (!sc.thoi_gian_ket_thuc) {
+                this.$toast.error("⚠️ Vui lòng nhập giờ kết thúc!");
+                return;
+            }
+
+            // Validate giờ bắt đầu < giờ kết thúc
+            if (sc.thoi_gian_bat_dau >= sc.thoi_gian_ket_thuc) {
+                this.$toast.error("⚠️ Giờ bắt đầu phải nhỏ hơn giờ kết thúc!");
+                return;
+            }
+
+            // Tạo suất chiếu mới
             const newSuatChieu = {
-                ...this.create_suat_chieu,
-                id: Date.now(), // ID giả, để phân biệt
+                ...sc,
+                id: Date.now(),
             };
 
-            // Thêm suất chiếu vào danh sách
+            // Thêm vào danh sách
             this.list_suat_chieu.push(newSuatChieu);
 
-            // Lưu vào localStorage
+            // Lưu localStorage
             localStorage.setItem('list_suat_chieu', JSON.stringify(this.list_suat_chieu));
 
-            // Reset form nhập
-            this.create_suat_chieu = {};
+            // Reset form
+            this.create_suat_chieu = {
+                id_phim: '',
+                id_phong_chieu: '',
+                ngay_chieu: '',
+                thoi_gian_bat_dau: '',
+                thoi_gian_ket_thuc: '',
+                gia_ve: '',
+                tinh_trang: 1
+            };
 
-            // Ẩn modal (nếu dùng Bootstrap)
+            // Ẩn modal (Bootstrap)
             const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
             modal?.hide?.();
 
-            // Thông báo đơn giản
-            this.$toast.success("Suất chiếu đã được thêm thành công!");
-            console.log("Suất chiếu đã được thêm:", newSuatChieu);
+            this.$toast.success("✅ Thêm suất chiếu thành công!");
         },
 
         getTenPhong(id) {

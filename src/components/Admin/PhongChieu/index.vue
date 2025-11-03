@@ -12,7 +12,8 @@
                 </div>
                 <div class="card-body">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search....">
+                        <input v-model="searchQuery" type="text" class="form-control"
+                            placeholder="Tìm theo tên phòng chiếu..." />
                         <button class="btn btn-success input-group-text" style="width: 165px;">Tìm kiếm</button>
                     </div>
                     <div class="table-responsive">
@@ -30,7 +31,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(item, index) in list_phong_chieu" :key="index">
+                                <tr v-for="(item, index) in filteredPhongChieu" :key="item.id">
                                     <td class="align-middle text-center">{{ index + 1 }}</td>
                                     <td class="align-middle">{{ item.ten_phong }}</td>
                                     <td class="align-middle text-center">{{ item.hang_doc }}</td>
@@ -45,11 +46,11 @@
                                         </button>
                                     </td>
                                     <td class="text-nowrap align-middle text-center" style="width: 150px;">
-                                        <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal"
+                                        <!-- <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal"
                                             data-bs-target="#taoGheAutoModal"
                                             v-on:click="Object.assign(chi_tiet_tao_ghe, item)">
                                             Tạo Ghế Auto
-                                        </button>
+                                        </button> -->
                                         <button type="button" class="btn btn-info text-light" data-bs-toggle="modal"
                                             data-bs-target="#capNhatModal"
                                             v-on:click="Object.assign(update_phong_chieu, item)">
@@ -108,8 +109,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Hủy
                     </button>
-                    <button type="button" class="btn btn-primary" @click="themPhongChieu"
-                        data-bs-dismiss="modal">Lưu</button>
+                    <button type="button" class="btn btn-primary" @click="themPhongChieu">Lưu</button>
                 </div>
             </div>
         </div>
@@ -229,6 +229,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            searchQuery: "",
             list_phong_chieu: [
                 {
                     id: 1,
@@ -258,137 +259,114 @@ export default {
     },
     mounted() {
         // this.getListPhongChieu();
-         const stored = localStorage.getItem('list_phong_chieu');
-  if (stored) {
-    this.list_phong_chieu = JSON.parse(stored);
-  }
+        const stored = localStorage.getItem('list_phong_chieu');
+        if (stored) {
+            this.list_phong_chieu = JSON.parse(stored);
+        }
     },
+    computed: {
+  filteredPhongChieu() {
+    const q = this.searchQuery.trim().toLowerCase();
+    if (!q) return this.list_phong_chieu;
+    return this.list_phong_chieu.filter((phong) =>
+      phong.ten_phong.toLowerCase().includes(q)
+    );
+  },
+},  
     methods: {
-          themPhongChieu() {
-        // Kiểm tra thông tin cơ bản
-        if (!this.create_phong_chieu.ten_phong) {
-            alert("Vui lòng nhập đầy đủ tên phòng chiếu!");
-            return;
-        }
+        // ✅ Hàm kiểm tra dữ liệu đầu vào
+        validatePhongChieu(data) {
+            const missing = [];
 
-        // Tạo bản sao của phòng chiếu vừa nhập, kèm ID tạm
-        const newPhongChieu = {
-            ...this.create_phong_chieu,
-            id: Date.now(), // ID giả, để phân biệt
-        };
+            if (!data.ten_phong || data.ten_phong.trim() === "")
+                missing.push("Tên phòng chiếu");
+            if (!data.hang_doc || data.hang_doc <= 0)
+                missing.push("Hàng dọc");
+            if (!data.hang_ngang || data.hang_ngang <= 0)
+                missing.push("Hàng ngang");
+            if (data.tinh_trang === "" || data.tinh_trang === null || data.tinh_trang === undefined)
+                missing.push("Trạng thái");
 
-        // Thêm phòng chiếu vào danh sách
-        this.list_phong_chieu.push(newPhongChieu);
+            if (missing.length === 0) return null;
+            if (missing.length === 1) return `${missing[0]} không được để trống!`;
+            return `Vui lòng nhập đầy đủ các trường: ${missing.join(", ")}.`;
+        },
 
-         // Lưu vào localStorage
-        localStorage.setItem('list_phong_chieu', JSON.stringify(this.list_phong_chieu));
+        // ✅ Thêm phòng chiếu
+        themPhongChieu() {
+            const err = this.validatePhongChieu(this.create_phong_chieu);
+            if (err) {
+                this.$toast.error(err);
+                return;
+            }
 
-        // Reset form nhập
-        this.create_phong_chieu = {};
+            const newPhongChieu = {
+                ...this.create_phong_chieu,
+                id: Date.now(),
+            };
 
-        // Ẩn modal (nếu dùng Bootstrap)
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
-        modal?.hide?.();
+            this.list_phong_chieu.push(newPhongChieu);
+            localStorage.setItem("list_phong_chieu", JSON.stringify(this.list_phong_chieu));
 
-        // Thông báo đơn giản
-        this.$toast.success("Phòng chiếu đã được thêm thành công!");
-        console.log("Phòng chiếu đã được thêm:", newPhongChieu);
+            this.$toast.success("✅ Thêm phòng chiếu thành công!");
+            this.create_phong_chieu = {
+                ten_phong: "",
+                hang_ngang: "",
+                hang_doc: "",
+                tinh_trang: "",
+            };
+            // ✅ Đóng modal bằng Bootstrap JS
+            const modal = bootstrap.Modal.getInstance(document.getElementById("themModal"));
+            if (modal) modal.hide();
+        },
+
+        // ✅ Cập nhật phòng chiếu
+        capNhatPhongChieu() {
+            const err = this.validatePhongChieu(this.update_phong_chieu);
+            if (err) {
+                this.$toast.warning(err);
+                return;
+            }
+
+            const index = this.list_phong_chieu.findIndex(
+                (phong) => phong.id === this.update_phong_chieu.id
+            );
+
+            if (index !== -1) {
+                this.list_phong_chieu[index] = { ...this.update_phong_chieu };
+                localStorage.setItem(
+                    "list_phong_chieu",
+                    JSON.stringify(this.list_phong_chieu)
+                );
+                this.$toast.success("📝 Cập nhật phòng chiếu thành công!");
+            } else {
+                this.$toast.error("Không tìm thấy phòng chiếu để cập nhật!");
+            }
+
+            this.update_phong_chieu = {};
+        },
+
+        // ✅ Xóa phòng chiếu
+        xoaPhongChieu() {
+            const index = this.list_phong_chieu.findIndex(
+                (phong) => phong.id === this.delete_phong_chieu.id
+            );
+
+            if (index !== -1) {
+                this.list_phong_chieu.splice(index, 1);
+                localStorage.setItem(
+                    "list_phong_chieu",
+                    JSON.stringify(this.list_phong_chieu)
+                );
+                this.$toast.success("🗑️ Xóa phòng chiếu thành công!");
+            } else {
+                this.$toast.error("Không tìm thấy phòng chiếu để xóa!");
+            }
+
+            this.delete_phong_chieu = {};
+        },
     },
 
-      capNhatPhongChieu() {
-    // Tìm vị trí phòng chiếu cần cập nhật trong list_phong_chieu bằng id
-    const index = this.list_phong_chieu.findIndex(phong => phong.id === this.update_phong_chieu.id);
-
-    if (index !== -1) {
-      // Cập nhật lại toàn bộ thông tin
-      this.list_phong_chieu[index] = { ...this.update_phong_chieu };
-
-       localStorage.setItem('list_phong_chieu', JSON.stringify(this.list_phong_chieu));
-      this.$toast?.success?.("Cập nhật phòng chiếu thành công!");
-    } else {
-      alert("⚠ Không tìm thấy phòng chiếu để cập nhật.");
-    }
-
-    // Xóa form tạm nếu cần
-    this.update_phong_chieu = {};
-  },
-
-   xoaPhongChieu() {
-        // Kiểm tra xem delete_phong_chieu có tồn tại trong list không
-        const index = this.list_phong_chieu.findIndex(phong => phong.id === this.delete_phong_chieu.id);
-
-        // Nếu tìm thấy, xóa phòng chiếu khỏi danh sách
-        if (index !== -1) {
-            this.list_phong_chieu.splice(index, 1); // Xóa tại vị trí index
-            localStorage.setItem('list_phong_chieu', JSON.stringify(this.list_phong_chieu));
-            this.$toast?.success?.("Đã xóa phòng chiếu khỏi danh sách!");
-
-        } else {
-            alert("⚠ Không tìm thấy phòng chiếu để xóa.");
-        }
-
-        // Reset lại delete_phong_chieu
-        this.delete_phong_chieu = {};
-    }
-  },
-        // taoGheAuto(payload) {
-        //     axios.post('http://localhost:8000/api/admin/phong-chieu/tao-ghe-auto', payload)
-        //         .then((res) => {
-        //             if (res.data.status) {
-        //                 this.$toast.success(res.data.message);
-        //             }
-        //         })
-        // },
-        // getListPhongChieu() {
-        //     axios.get('http://localhost:8000/api/admin/phong-chieu/get-data')
-        //         .then(res => {
-        //             this.list_phong_chieu = res.data.data;
-        //         });
-        // },
-        // themPhongChieu() {
-        //     axios.post('http://localhost:8000/api/admin/phong-chieu/add-data', this.create_phong_chieu)
-        //         .then(res => {
-        //             if (res.data.status) {
-        //                 this.$toast.success(res.data.message);
-        //                 this.create_phong_chieu = {};
-        //                 this.getListPhongChieu();
-        //             } else {
-        //                 this.$toast.error('Thêm phòng chiếu thất bại');
-        //             }
-        //         });
-        // },
-        // chinhSuaPhongChieu() {
-        //     axios.post('http://127.0.0.1:8000/api/admin/phong-chieu/update', this.update_phong_chieu)
-        //         .then((res) => {
-        //             if (res.data.status) {
-        //                 this.$toast.success(res.data.message);
-        //                 this.getListPhongChieu();
-        //             } else {
-        //                 this.$toast.error('Cập nhật phòng chiếu thất bại');
-        //             }
-        //         });
-        // },
-        // xoaPhongChieu() {
-        //     axios.post('http://127.0.0.1:8000/api/admin/phong-chieu/delete', this.delete_phong_chieu)
-        //         .then((res) => {
-        //             if (res.data.status) {
-        //                 this.$toast.success(res.data.message);
-        //                 this.getListPhongChieu();
-        //             } else {
-        //                 this.$toast.error('Xóa phòng chiếu thất bại');
-        //             }
-        //         });
-        // },
-        // doiTrangThai(payload) {
-        //     axios.post('http://127.0.0.1:8000/api/admin/phong-chieu/change-status', payload)
-        //         .then((res) => {
-        //             if (res.data.status) {
-        //                 this.$toast.success(res.data.message);
-        //                 this.getListPhongChieu();
-        //             }
-        //         });
-        // }
-    
 };
 </script>
 <style></style>

@@ -10,7 +10,7 @@
                 </div>
                 <div class="card-body table-responsive">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search....">
+                        <input type="text" class="form-control" placeholder="Tìm phim theo tên..." v-model="searchText">
                         <button class="btn btn-success input-group-text" style="width: 110px;">Tìm kiếm</button>
                     </div>
                     <div class="table-responsive">
@@ -28,7 +28,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <template v-for="(item, index) in list_phim" :key="index">
+                              <template v-for="(item, index) in filteredPhim" :key="index">
                                     <tr>
                                         <th class="align-middle text-center">{{ index + 1 }}</th>
                                         <td class="align-middle text-wrap">{{ item.ten_phim }}</td>
@@ -36,9 +36,9 @@
                                             <img :src="item.hinh_anh" alt="Hình Ảnh" class="img-fluid"
                                                 style="width: 100px; height: 100px; object-fit: cover;">
                                         </td>
-                                        <td class="align-middle">{{item.dao_dien}}</td>
-                                        <td class="align-middle text-center">{{item.ngay_phat_hanh}}</td>
-                                        <td class="align-middle text-center">{{item.quoc_gia}}</td>
+                                        <td class="align-middle">{{ item.dao_dien }}</td>
+                                        <td class="align-middle text-center">{{ item.ngay_phat_hanh }}</td>
+                                        <td class="align-middle text-center">{{ item.quoc_gia }}</td>
                                         <td @click="doiTrangThai(item)" class="align-middle text-center text-nowrap"
                                             style="width: 140px;">
                                             <!-- Ví dụ: 1 = Sắp chiếu, 2 = Đang chiếu, 0 = Ngừng chiếu -->
@@ -348,116 +348,126 @@
 
 import axios from 'axios';
 export default {
-    
+
     data() {
         return {
-             list_phim: [
-    //             
-        ],
+            list_phim: [
+                //             
+            ],
             obj_phim_chi_tiet: {},
             create_phim: {},
             edit_phim: {},
-            del_phim: {}
+            del_phim: {},
+            searchText: "",
         };
     },
     mounted() {
-            // this.list_phim;
-    //         const stored = localStorage.getItem('list_phim');
-    //   if (stored) {
-    //     this.list_phim = JSON.parse(stored);
-    //   }
-  const stored = localStorage.getItem('list_phim');
-  if (stored) {
-    const storedList = JSON.parse(stored);
+        // this.list_phim;
+        //         const stored = localStorage.getItem('list_phim');
+        //   if (stored) {
+        //     this.list_phim = JSON.parse(stored);
+        //   }
+        const stored = localStorage.getItem('list_phim');
+        if (stored) {
+            const storedList = JSON.parse(stored);
 
-    // Hợp nhất dữ liệu mặc định + dữ liệu từ localStorage
-    const defaultList = this.list_phim;
+            // Hợp nhất dữ liệu mặc định + dữ liệu từ localStorage
+            const defaultList = this.list_phim;
 
-    // Loại bỏ các phim trùng id (tránh lặp)
-    const merged = [...defaultList, ...storedList.filter(storedItem => {
-      return !defaultList.some(defaultItem => defaultItem.id === storedItem.id);
-    })];
+            // Loại bỏ các phim trùng id (tránh lặp)
+            const merged = [...defaultList, ...storedList.filter(storedItem => {
+                return !defaultList.some(defaultItem => defaultItem.id === storedItem.id);
+            })];
 
-    this.list_phim = merged;
-    localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
-    }
+            this.list_phim = merged;
+            localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
+        }
 
+    },
+    computed: {
+        // Lọc phim theo tên (không phân biệt hoa thường)
+        filteredPhim() {
+            const keyword = this.searchText.toLowerCase().trim();
+            return this.list_phim.filter(phim =>
+                phim.ten_phim.toLowerCase().includes(keyword)
+            );
+        },
     },
     methods: {
-      themPhim() {
-        // Kiểm tra thông tin cơ bản
-        if (!this.create_phim.ten_phim || !this.create_phim.hinh_anh) {
-            alert("Vui lòng nhập đầy đủ tên phim và hình ảnh!");
-            return;
-        }
+        themPhim() {
+            // Kiểm tra thông tin cơ bản
+            if (!this.create_phim.ten_phim || !this.create_phim.hinh_anh) {
+                alert("Vui lòng nhập đầy đủ tên phim và hình ảnh!");
+                return;
+            }
 
-        // Tạo bản sao của phim vừa nhập, kèm ID tạm
-        const newPhim = {
-            ...this.create_phim,
-            id: Date.now(), // ID giả, để phân biệt
-        };
+            // Tạo bản sao của phim vừa nhập, kèm ID tạm
+            const newPhim = {
+                ...this.create_phim,
+                id: Date.now(), // ID giả, để phân biệt
+            };
 
-        // Thêm phim vào danh sách
-        this.list_phim.push(newPhim);
+            // Thêm phim vào danh sách
+            this.list_phim.push(newPhim);
 
-         // Lưu vào localStorage
-        localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
-
-        // Reset form nhập
-        this.create_phim = {};
-
-        // Ẩn modal (nếu dùng Bootstrap)
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
-        modal?.hide?.();
-
-        // Thông báo đơn giản
-        this.$toast.success("Phim đã được thêm thành công!");
-        console.log("Phim đã được thêm:", newPhim);
-    },
-
-
-     xoaPhim() {
-        // Kiểm tra xem del_phim có tồn tại trong list không
-        const index = this.list_phim.findIndex(phim => phim.ten_phim === this.del_phim.ten_phim);
-
-        // Nếu tìm thấy, xóa phim khỏi danh sách
-        if (index !== -1) {
-            this.list_phim.splice(index, 1); // Xóa tại vị trí index
+            // Lưu vào localStorage
             localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
-            this.$toast?.success?.("Đã xóa phim khỏi danh sách!");
-            
-        } else {
-            alert("⚠ Không tìm thấy phim để xóa.");
+
+            // Reset form nhập
+            this.create_phim = {};
+
+            // Ẩn modal (nếu dùng Bootstrap)
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
+            modal?.hide?.();
+
+            // Thông báo đơn giản
+            this.$toast.success("Phim đã được thêm thành công!");
+            console.log("Phim đã được thêm:", newPhim);
+        },
+
+
+        xoaPhim() {
+            // Kiểm tra xem del_phim có tồn tại trong list không
+            const index = this.list_phim.findIndex(phim => phim.ten_phim === this.del_phim.ten_phim);
+
+            // Nếu tìm thấy, xóa phim khỏi danh sách
+            if (index !== -1) {
+                this.list_phim.splice(index, 1); // Xóa tại vị trí index
+                localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
+                this.$toast?.success?.("Đã xóa phim khỏi danh sách!");
+
+            } else {
+                alert("⚠ Không tìm thấy phim để xóa.");
+            }
+
+            // Reset lại del_phim
+            this.del_phim = {};
+        },
+        doiTrangThai(item) {
+            // Chuyển trạng thái: 0 -> 1 -> 2 -> 0
+            item.tinh_trang = (item.tinh_trang + 1) % 3;
+            localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
+        },
+
+
+
+        capNhatPhim() {
+            // Tìm vị trí phim cần cập nhật trong list_phim bằng id
+            const index = this.list_phim.findIndex(phim => phim.id === this.edit_phim.id);
+
+            if (index !== -1) {
+                // Cập nhật lại toàn bộ thông tin
+                this.list_phim[index] = { ...this.edit_phim };
+
+                localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
+                this.$toast?.success?.("Cập nhật phim thành công!");
+            } else {
+                alert("⚠ Không tìm thấy phim để cập nhật.");
+            }
+
+            // Xóa form tạm nếu cần
+            this.edit_phim = {};
         }
-
-        // Reset lại del_phim
-        this.del_phim = {};
-    },
-    doiTrangThai(item) {
-    // Chuyển trạng thái: 0 -> 1 -> 2 -> 0
-    item.tinh_trang = (item.tinh_trang + 1) % 3;
-     localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
-  },
-
-
-
-      capNhatPhim() {
-    // Tìm vị trí phim cần cập nhật trong list_phim bằng id
-    const index = this.list_phim.findIndex(phim => phim.id === this.edit_phim.id);
-    
-    if (index !== -1) {
-      // Cập nhật lại toàn bộ thông tin
-      this.list_phim[index] = { ...this.edit_phim };
-
-       localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
-      this.$toast?.success?.("Cập nhật phim thành công!");
-    } else {
-      alert("⚠ Không tìm thấy phim để cập nhật.");
-    }
-
-    // Xóa form tạm nếu cần
-    this.edit_phim = {};
-  }
     },
 };
 </script>
