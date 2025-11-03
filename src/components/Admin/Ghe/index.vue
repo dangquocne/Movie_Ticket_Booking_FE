@@ -45,7 +45,8 @@
                 </div>
                 <div class="card-body table-responsive">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search....">
+                        <input type="text" class="form-control" placeholder="Tìm theo tên ghế..."
+                            v-model="searchQuery" />
                         <button class="btn  btn-success input-group-text" style="width: 100px;">Tìm kiếm</button>
                     </div>
                     <div class="table-responsive">
@@ -61,7 +62,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <template v-for="(item, index) in list_ghe" :key="index">
+                               <template v-for="(item, index) in filteredGhe" :key="item.id">
                                     <tr class="text-nowrap">
                                         <th class="align-middle text-center" style="width: 30px;">{{ index + 1 }}</th>
                                         <td class="align-middle text-center">{{ item.ten_ghe }}</td>
@@ -192,6 +193,7 @@ export default {
             },
             edit_ghe: {},
             del_ghe: {},
+            searchQuery: "",
         };
     },
 
@@ -210,40 +212,61 @@ export default {
             this.list_ghe = JSON.parse(storedGhe);
         }
 
-        
+
     },
+    computed: {
+    filteredGhe() {
+        const q = this.searchQuery.trim().toLowerCase();
+        if (!q) return this.list_ghe;
+        return this.list_ghe.filter((ghe) =>
+            ghe.ten_ghe.toLowerCase().includes(q)
+        );
+    },
+},
     methods: {
 
-        themGhe() {
-            // Kiểm tra thông tin cơ bản
-            if (!this.create_ghe.ten_ghe) {
-                alert("Vui lòng nhập đầy đủ tên ghế!");
-                return;
-            }
+        // ✅ Validate chung cho thêm & cập nhật
+    validateGhe(ghe) {
+        if (
+            !ghe.ten_ghe &&
+            !ghe.gia_ghe &&
+            !ghe.id_phong_chieu
+        ) {
+            this.$toast?.error?.("⚠️ Vui lòng nhập đầy đủ thông tin ghế!");
+            return false;
+        }
+        if (!ghe.ten_ghe) {
+            this.$toast?.error?.("⚠️ Chưa nhập tên ghế!");
+            return false;
+        }
+        if (!ghe.gia_ghe) {
+            this.$toast?.error?.("⚠️ Chưa nhập giá ghế!");
+            return false;
+        }
+        if (!ghe.id_phong_chieu) {
+            this.$toast?.error?.("⚠️ Vui lòng chọn phòng chiếu!");
+            return false;
+        }
+        return true;
+    },
 
-            // Tạo bản sao của ghế vừa nhập, kèm ID tạm
-            const newGhe = {
-                ...this.create_ghe,
-                id: Date.now(), // ID giả, để phân biệt
-            };
+    // ✅ Thêm ghế mới
+    themGhe() {
+        if (!this.validateGhe(this.create_ghe)) return;
 
-            // Thêm ghế vào danh sách
-            this.list_ghe.push(newGhe);
+        const newGhe = {
+            ...this.create_ghe,
+            id: Date.now(),
+        };
 
-            // Lưu vào localStorage
-            localStorage.setItem('list_ghe', JSON.stringify(this.list_ghe));
+        this.list_ghe.push(newGhe);
+        localStorage.setItem('list_ghe', JSON.stringify(this.list_ghe));
 
-            // Reset form nhập
-            this.create_ghe = {};
+        this.create_ghe = { tinh_trang: '1' };
 
-            // Ẩn modal (nếu dùng Bootstrap)
-            const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
-            modal?.hide?.();
+        this.$toast?.success?.("✅ Thêm ghế thành công!");
+    },
 
-            // Thông báo đơn giản
-            this.$toast.success("Ghế đã được thêm thành công!");
-            console.log("Ghế đã được thêm:", newGhe);
-        },
 
         getTenPhong(id) {
             const phong = this.list_phong_chieu.find(p => p.id === id);

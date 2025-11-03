@@ -40,7 +40,7 @@
     <!-- DANH SÁCH DỊCH VỤ -->
     <div class="col-lg-8">
       <div class="card border-info border-top border-3">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between align-items-center">
           <h4 class="card-title my-1">DANH SÁCH DỊCH VỤ</h4>
         </div>
         <div class="card-body">
@@ -145,7 +145,7 @@ export default {
   data() {
     return {
       list_dich_vu: [],
-      create_dich_vu: { ten_dich_vu: '', hinh_anh: '', gia: '', mo_ta: '', tinh_trang: 1 },
+      create_dich_vu: { ten_dich_vu: "", hinh_anh: "", gia: "", mo_ta: "", tinh_trang: 1 },
       edit_dich_vu: {},
       del_dich_vu: {},
     };
@@ -165,39 +165,44 @@ export default {
       this.list_dich_vu = data ? JSON.parse(data) : [];
     },
     validateDichVu(dv) {
-      if (!dv.ten_dich_vu) return "Tên dịch vụ không được bỏ trống";
-      if (!dv.hinh_anh) return "Phải nhập hình ảnh";
-      if (!dv.gia || dv.gia <= 0) return "Giá phải lớn hơn 0";
-      if (!dv.mo_ta) return "Mô tả không được để trống";
+      const missing = [];
+      if (!dv.ten_dich_vu) missing.push("Tên dịch vụ");
+      if (!dv.hinh_anh) missing.push("Hình ảnh");
+      if (!dv.gia) missing.push("Giá dịch vụ");
+      if (!dv.mo_ta) missing.push("Mô tả");
+
+      if (missing.length === 4) return "⚠️ Vui lòng nhập đầy đủ thông tin!";
+      if (missing.length > 0) return `⚠️ Không được để trống: ${missing.join(", ")}`;
       return null;
     },
     themDichVu() {
       const err = this.validateDichVu(this.create_dich_vu);
-      if (err) return alert(err);
+      if (err) return this.$toast.error(err);
 
       const newDV = { ...this.create_dich_vu, id: Date.now() };
       this.list_dich_vu.push(newDV);
       this.saveData();
-      alert("Thêm dịch vụ thành công!");
-      this.create_dich_vu = { ten_dich_vu: '', hinh_anh: '', gia: '', mo_ta: '', tinh_trang: 1 };
+      this.$toast.success("✅ Thêm dịch vụ thành công!");
+      this.create_dich_vu = { ten_dich_vu: "", hinh_anh: "", gia: "", mo_ta: "", tinh_trang: 1 };
     },
     capNhatDichVu() {
       const err = this.validateDichVu(this.edit_dich_vu);
-      if (err) return alert(err);
+      if (err) return this.$toast.error(err);
 
       const index = this.list_dich_vu.findIndex(dv => dv.id === this.edit_dich_vu.id);
       if (index !== -1) this.list_dich_vu[index] = { ...this.edit_dich_vu };
       this.saveData();
-      alert("Cập nhật thành công!");
+      this.$toast.success("✅ Cập nhật thành công!");
     },
     xoaDichVu() {
       this.list_dich_vu = this.list_dich_vu.filter(dv => dv.id !== this.del_dich_vu.id);
       this.saveData();
-      alert("Đã xóa dịch vụ!");
+      this.$toast.success("🗑️ Đã xóa dịch vụ!");
     },
     doiTrangThai(dv) {
       dv.tinh_trang = dv.tinh_trang == 1 ? 0 : 1;
       this.saveData();
+      this.$toast.info(`Trạng thái đổi sang: ${dv.tinh_trang == 1 ? "Hiển thị" : "Tạm tắt"}`);
     },
   },
 };
