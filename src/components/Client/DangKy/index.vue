@@ -9,10 +9,11 @@
                         <div class="card-body flex-full">
                             <div class="border p-4 rounded">
                                 <div class="text-center">
-                                    <h3 class="text-uppercase ">Đăng ký tài khoản <b class="text-primary">oizoioi
-                                            cinema</b>
+                                    <h3 class="text-uppercase ">
+                                        Đăng ký tài khoản <b class="text-primary">oizoioi cinema</b>
                                     </h3>
-                                    <p>Bạn đã có tài khoản?
+                                    <p>
+                                        Bạn đã có tài khoản?
                                         <router-link to="/client/dang-nhap">
                                             <a href="/client/dang-nhap">Đăng nhập tại đây</a>
                                         </router-link>
@@ -23,15 +24,14 @@
                                         <div class="col-sm-6">
                                             <label class="form-label">Họ và tên</label>
                                             <input v-model="user.ho_va_ten" type="text" class="form-control">
-
                                         </div>
 
                                         <div class="col-sm-6">
-                                            <label for="inputEmailAddress" class="form-label">Email</label>
-                                            <input v-model="user.email" type="email" class="form-control"
-                                                @blur="kiemTraEmail">
+                                            <label class="form-label">Email</label>
+                                            <input v-model="user.email" type="email" class="form-control" @blur="kiemTraEmail">
                                             <div v-if="emailError" class="text-danger small mt-1">{{ emailError }}</div>
                                         </div>
+
                                         <div class="col-sm-4">
                                             <label class="form-label">Số điện thoại</label>
                                             <input v-model="user.so_dien_thoai" type="number" class="form-control">
@@ -45,11 +45,11 @@
                                             <input v-model="user.ngay_sinh" type="date" class="form-control"
                                                 min="1900-01-01" max="2025-12-31">
                                         </div>
+
                                         <div class="col-6">
                                             <label class="form-label">Mật khẩu</label>
-                                            <div class="input-group" id="show_hide_password">
-                                                <input v-model="user.password" type="password"
-                                                    class="form-control border-end-0">
+                                            <div class="input-group">
+                                                <input v-model="user.password" type="password" class="form-control border-end-0">
                                                 <a href="javascript:;" class="input-group-text bg-transparent">
                                                     <i class="bx bx-hide"></i>
                                                 </a>
@@ -57,35 +57,30 @@
                                         </div>
                                         <div class="col-6">
                                             <label class="form-label">Nhập Lại Mật khẩu</label>
-                                            <div class="input-group" id="show_hide_password">
-                                                <input v-model="user.re_password" type="password"
-                                                    class="form-control border-end-0">
-                                                    
+                                            <div class="input-group">
+                                                <input v-model="user.re_password" type="password" class="form-control border-end-0">
                                                 <a href="javascript:;" class="input-group-text bg-transparent">
                                                     <i class="bx bx-hide"></i>
                                                 </a>
-                                                
                                             </div>
-                                            <div v-if="passwordError" class="text-danger small mt-1">{{
-                                                    passwordError }}</div>
-
-                                            <input v-model="user.role" type="hidden" class="form-control"
-                                                v-show="false">
+                                            <div v-if="passwordError" class="text-danger small mt-1">{{ passwordError }}</div>
                                         </div>
+
                                         <div class="col-12">
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox"
-                                                    id="flexSwitchCheckChecked">
-                                                <label class="form-check-label" for="flexSwitchCheckChecked">Bằng việc
-                                                    đăng ký tài khoản, tôi đồng ý với Điều khoản dịch vụ &amp; Chính
-                                                    sách bảo mật của <b>DZCinema</b>.</label>
+                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+                                                <label class="form-check-label" for="flexSwitchCheckChecked">
+                                                    Bằng việc đăng ký tài khoản, tôi đồng ý với Điều khoản dịch vụ &amp;
+                                                    Chính sách bảo mật của <b>DZCinema</b>.
+                                                </label>
                                             </div>
                                         </div>
+
                                         <div class="col-12">
                                             <div class="d-grid">
-                                                <button @click="dangKyTaiKhoan()" type="submit"
-                                                    class="btn btn-success text-uppercase"><i class="bx bx-user"></i>
-                                                    Đăng Ký</button>
+                                                <button @click="dangKyTaiKhoan()" type="submit" class="btn btn-success text-uppercase">
+                                                    <i class="bx bx-user"></i> Đăng Ký
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -97,25 +92,20 @@
             </div>
         </div>
     </div>
-
 </template>
+
 <script>
-import axios from 'axios'
 export default {
     data() {
         return {
-            list_user: JSON.parse(localStorage.getItem('list_user')) || [],
-            // Danh sách người dùng, nếu không có thì khởi tạo mảng rỗ
-            user: {
-                role: 'ROLE_USER'
-            },
+            list_khach_hang: JSON.parse(localStorage.getItem('list_khach_hang')) || [],
+            user: { role: 'ROLE_USER' },
             emailError: '',
             passwordError: ''
         }
     },
     methods: {
         dangKyTaiKhoan() {
-
             // Kiểm tra thông tin cơ bản
             if (
                 !this.user.ho_va_ten ||
@@ -126,47 +116,44 @@ export default {
                 !this.user.email ||
                 !this.user.so_dien_thoai
             ) {
-
                 this.$toast.warning("Vui lòng nhập đầy đủ thông tin!");
                 return;
             }
 
-            if (this.user.email == this.list_user.find(user => user.email === this.user.email)?.email) {
+            // Kiểm tra email trùng
+            if (this.list_khach_hang.find(kh => kh.email === this.user.email)) {
                 this.$toast.error("Email đã được sử dụng, vui lòng nhập email khác!");
                 return;
-
             }
-            if(this.kiemTraMatKhau()){
-                
-            
 
+            // Kiểm tra mật khẩu khớp
+            if (!this.kiemTraMatKhau()) return;
 
-            // Tạo bản sao của phim vừa nhập, kèm ID tạm
+            // Tạo user mới (auto kích hoạt)
             const newUser = {
-                ...this.user,
-                id: Date.now(), // ID giả, để phân biệt
+                id: Date.now(),
+                ho_va_ten: this.user.ho_va_ten,
+                email: this.user.email,
+                so_dien_thoai: this.user.so_dien_thoai,
+                ngay_sinh: this.user.ngay_sinh,
+                cccd: this.user.cccd,
+                mat_khau: this.user.password,
+                is_active: true,   // ✅ tự động kích hoạt
+                is_block: false,   // ✅ chưa bị khóa
+                role: 'ROLE_USER'
             };
 
-            // Thêm người dùng vào danh sách
-            this.list_user.push(newUser);
+            // Thêm vào danh sách
+            this.list_khach_hang.push(newUser);
+            localStorage.setItem('list_khach_hang', JSON.stringify(this.list_khach_hang));
 
-            // Lưu vào localStorage
-            localStorage.setItem('list_user', JSON.stringify(this.list_user));
+            // Reset form
+            this.user = { role: 'ROLE_USER' };
 
-            // Reset form nhập
-            this.user = {};
-
-            // Ẩn modal (nếu dùng Bootstrap)
-            const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
-            modal?.hide?.();
-
-            // Thông báo đơn giản
             this.$toast.success("Đăng ký thành công!");
-            // console.log("Người dùng đã được thêm:", newUser);
-        }
         },
 
-        //kiểm tra email đúng định dạng
+        // Kiểm tra email đúng định dạng
         kiemTraEmail() {
             const email = this.user.email;
             const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -178,22 +165,28 @@ export default {
             }
         },
 
-        kiemTraMatKhau() {
-            if (!this.user.password || !this.user.re_password) {
-                this.passwordError = "Vui lòng nhập đầy đủ mật khẩu!";
-                return false;
-            }
+       kiemTraMatKhau() {
+    if (!this.user.password || !this.user.re_password) {
+        this.passwordError = "Vui lòng nhập đầy đủ mật khẩu!";
+        return false;
+    }
 
-            if (this.user.password !== this.user.re_password) {
-                this.passwordError = "Mật khẩu không khớp!";
-                return false;
-            }
+    // 🔹 Kiểm tra độ dài mật khẩu
+    if (this.user.password.length < 6) {
+        this.passwordError = "Mật khẩu phải có ít nhất 6 ký tự!";
+        return false;
+    }
 
-            this.passwordError = '';
-            return true;
-        },
+    if (this.user.password !== this.user.re_password) {
+        this.passwordError = "Mật khẩu không khớp!";
+        return false;
+    }
 
+    this.passwordError = '';
+    return true;
+},
     },
 }
 </script>
+
 <style></style>

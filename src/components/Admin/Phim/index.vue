@@ -28,7 +28,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                              <template v-for="(item, index) in filteredPhim" :key="index">
+                                <template v-for="(item, index) in filteredPhim" :key="index">
                                     <tr>
                                         <th class="align-middle text-center">{{ index + 1 }}</th>
                                         <td class="align-middle text-wrap">{{ item.ten_phim }}</td>
@@ -155,7 +155,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Đóng
                     </button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="themPhim">
+                    <button type="button" class="btn btn-primary"  @click="themPhim">
                         Thêm mới
                     </button>
                 </div>
@@ -394,37 +394,38 @@ export default {
         },
     },
     methods: {
-        themPhim() {
-            // Kiểm tra thông tin cơ bản
-            if (!this.create_phim.ten_phim || !this.create_phim.hinh_anh) {
-                alert("Vui lòng nhập đầy đủ tên phim và hình ảnh!");
-                return;
-            }
+       themPhim() {
+        // Kiểm tra các trường bắt buộc
+        const { ten_phim, hinh_anh, dao_dien, ngay_phat_hanh, the_loai, thoi_luong, tinh_trang } = this.create_phim;
+        if (!ten_phim || !hinh_anh || !dao_dien || !ngay_phat_hanh || !the_loai || thoi_luong == null || tinh_trang == null) {
+            this.$toast.warning("Vui lòng điền đầy đủ các trường bắt buộc: Tên phim, Hình ảnh, Đạo diễn, Ngày phát hành, Thể loại, Thời lượng, Trạng thái!");
+            return; // Không đóng modal nếu thiếu
+        }
 
-            // Tạo bản sao của phim vừa nhập, kèm ID tạm
-            const newPhim = {
-                ...this.create_phim,
-                id: Date.now(), // ID giả, để phân biệt
-            };
+        // Kiểm tra trùng tên phim
+        const tenMoi = ten_phim.trim().toLowerCase();
+        const phimTrung = this.list_phim.some(phim => phim.ten_phim.trim().toLowerCase() === tenMoi);
+        if (phimTrung) {
+            this.$toast.error("Tên phim đã tồn tại trong danh sách!");
+            return; // Không đóng modal nếu trùng
+        }
 
-            // Thêm phim vào danh sách
-            this.list_phim.push(newPhim);
+        // Tạo phim mới
+        const newPhim = { ...this.create_phim, id: Date.now() };
 
-            // Lưu vào localStorage
-            localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
+        // Thêm vào danh sách và lưu vào localStorage
+        this.list_phim.push(newPhim);
+        localStorage.setItem('list_phim', JSON.stringify(this.list_phim));
 
-            // Reset form nhập
-            this.create_phim = {};
+        // Reset form
+        this.create_phim = {};
 
-            // Ẩn modal (nếu dùng Bootstrap)
-            const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
-            modal?.hide?.();
+        // Đóng modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
+        modal?.hide?.();
 
-            // Thông báo đơn giản
-            this.$toast.success("Phim đã được thêm thành công!");
-            console.log("Phim đã được thêm:", newPhim);
-        },
-
+        this.$toast.success("Thêm phim thành công!");
+    },
 
         xoaPhim() {
             // Kiểm tra xem del_phim có tồn tại trong list không
