@@ -22,45 +22,44 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                           <tbody>
-                                <template v-for="(item, index) in list_bai_viet" :key="index">
-                                    <tr class="">
-                                        <th class="align-middle text-center">{{ index + 1 }}</th>
-                                        <td class="align-middle text-wrap">{{ item.tieu_de }}</td>
-                                        <td class="align-middle text-wrap">{{ item.mo_ta_ngan }}</td>
-                                        <td class="align-middle text-center" style="width: 100px;">
-                                          {{ item.noi_dung }} 
-                                        </td>
-                                        <td class="align-middle text-center text-nowrap" style="width: 250px;">
-                                            <img :src="item.hinh_anh" alt="Hình Ảnh" class="img-fluid rounded"
-                                                style="height: 100px; object-fit: cover; width: 100%;">
-                                        </td>
-                                        <td class="align-middle text-wrap">{{ item.tag }}</td>
-                                        <td @click="doiTrangThai(item)" class="align-middle text-center text-nowrap"
-                                            style="width: 100px;">
-                                            <button v-if="item.tinh_trang == 1" class="btn btn-success w-100"
-                                                style="color: white;">
-                                                Hiển Thị
-                                            </button>
-                                            <button v-else class="btn btn-warning w-100" style="color: white;">
-                                                Tạm Tắt
-                                            </button>
-                                        </td>
-                                        <td class="align-middle text-center text-nowrap" style="width: 150px;">
-                                            <button class="btn btn-info text-light me-2" data-bs-toggle="modal"
-                                                data-bs-target="#updateModal"
-                                                v-on:click="Object.assign(edit_bai_viet, item)">
-                                                Cập nhật
-                                            </button>
-                                            <button class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal"
-                                                v-on:click="Object.assign(del_bai_viet, item)">
-                                                Xóa Bỏ
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </tbody>
+                        <tbody>
+                            <template v-for="(item, index) in list_bai_viet" :key="index">
+                                <tr class="">
+                                    <th class="align-middle text-center">{{ index + 1 }}</th>
+                                    <td class="align-middle text-wrap">{{ item.tieu_de }}</td>
+                                    <td class="align-middle text-wrap">{{ item.mo_ta_ngan }}</td>
+                                    <td class="align-middle text-center" style="width: 100px;">
+                                        {{ item.noi_dung }}
+                                    </td>
+                                    <td class="align-middle text-center text-nowrap" style="width: 250px;">
+                                        <img :src="item.hinh_anh" alt="Hình Ảnh" class="img-fluid rounded"
+                                            style="height: 100px; object-fit: cover; width: 100%;">
+                                    </td>
+                                    <td class="align-middle text-wrap">{{ item.tag }}</td>
+                                    <td @click="doiTrangThai(item)" class="align-middle text-center text-nowrap"
+                                        style="width: 100px;">
+                                        <button v-if="item.tinh_trang == 1" class="btn btn-success w-100"
+                                            style="color: white;">
+                                            Hiển Thị
+                                        </button>
+                                        <button v-else class="btn btn-warning w-100" style="color: white;">
+                                            Tạm Tắt
+                                        </button>
+                                    </td>
+                                    <td class="align-middle text-center text-nowrap" style="width: 150px;">
+                                        <button class="btn btn-info text-light me-2" data-bs-toggle="modal"
+                                            data-bs-target="#updateModal" @click="editBaiViet(item, index)">
+                                            Cập nhật
+                                        </button>
+                                        <button class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+                                            v-on:click="Object.assign(del_bai_viet, item)">
+                                            Xóa Bỏ
+                                        </button>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -199,13 +198,13 @@ export default {
                 // Dữ liệu mẫu mặc định
                 this.list_bai_viet = [
                     {
-                tieu_de: "Top 5 bộ phim Việt đáng mong chờ trong năm 2025",
-                mo_ta_ngan: "Danh sách những bộ phim Việt hứa hẹn sẽ gây bão phòng vé năm 2025 với nội dung hấp dẫn và dàn diễn viên chất lượng.",
-                noi_dung: "Nội dung chi tiết bài viết 2",
-                hinh_anh: "https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/phim_thang_3_2025_01_b87d97a30c.jpg",
-                tag: "phim Việt, 2025, điện ảnh",
-                tinh_trang: 1
-            },
+                        tieu_de: "Top 5 bộ phim Việt đáng mong chờ trong năm 2025",
+                        mo_ta_ngan: "Danh sách những bộ phim Việt hứa hẹn sẽ gây bão phòng vé năm 2025 với nội dung hấp dẫn và dàn diễn viên chất lượng.",
+                        noi_dung: "Nội dung chi tiết bài viết 2",
+                        hinh_anh: "https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/phim_thang_3_2025_01_b87d97a30c.jpg",
+                        tag: "phim Việt, 2025, điện ảnh",
+                        tinh_trang: 1
+                    },
                     {
                         tieu_de: "Bài viết 2",
                         mo_ta_ngan: "Mô tả ngắn bài viết 2",
@@ -249,20 +248,24 @@ export default {
             this.create_bai_viet = { tinh_trang: 1 };
             bootstrap.Modal.getInstance(document.getElementById('addModal')).hide();
         },
-        capNhatBaiViet() {
-            if (!this.validate(this.edit_bai_viet)) return;
+         editBaiViet(item, index) {
+        this.edit_bai_viet = { ...item, index }; // copy dữ liệu + lưu index
+    },
+    capNhatBaiViet() {
+        if (!this.validate(this.edit_bai_viet)) return;
 
-            const index = this.edit_bai_viet.index;
-            if (index !== undefined && index !== -1) {
-                this.list_bai_viet[index] = { ...this.edit_bai_viet };
-                delete this.list_bai_viet[index].index; // xóa key tạm không cần lưu
-                this.saveToStorage();
-                this.$toast.success("Cập nhật thành công!");
-                bootstrap.Modal.getInstance(document.getElementById('updateModal')).hide();
-            } else {
-                this.$toast.error("Không tìm thấy bài viết cần cập nhật!");
-            }
+        const index = this.edit_bai_viet.index;
+        if (index !== undefined && index !== -1) {
+            const updatedItem = { ...this.edit_bai_viet };
+            delete updatedItem.index; // xóa key tạm
+            this.list_bai_viet.splice(index, 1, updatedItem); // cập nhật tại vị trí index
+            this.saveToStorage();
+            this.$toast.success("Cập nhật thành công!");
+            bootstrap.Modal.getInstance(document.getElementById('updateModal')).hide();
+        } else {
+            this.$toast.error("Không tìm thấy bài viết cần cập nhật!");
         }
+    }
         ,
         xoaBaiViet() {
             this.list_bai_viet = this.list_bai_viet.filter(x => x.tieu_de !== this.del_bai_viet.tieu_de);
