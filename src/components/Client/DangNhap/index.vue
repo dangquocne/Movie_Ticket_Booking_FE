@@ -78,6 +78,30 @@ export default {
             thong_tin_dang_nhap: {}
         }
     },
+    mounted() {
+        // Load list nhân viên từ localStorage
+    this.list_nhan_vien = JSON.parse(localStorage.getItem("list_nhan_vien") || "[]");
+
+    // Nếu chưa có dữ liệu, thêm nhân viên mẫu
+    if (this.list_nhan_vien.length === 0) {
+      const nhanVienMau = {
+        id: Date.now(),
+        ho_va_ten: "Nguyễn Văn Admin",
+        email: "admin@gmail.com",
+        mat_khau: "12345",
+        chuc_vu_id: 1, // Quản lý
+        role: "ROLE_ADMIN", // Role admin để login vào trang admin
+        tinh_trang: 1, // Hoạt động
+        dia_chi: "Hà Nội",
+        ngay_sinh: "1990-01-01",
+        so_dien_thoai: "0987654321"
+      };
+
+      this.list_nhan_vien.push(nhanVienMau);
+      localStorage.setItem("list_nhan_vien", JSON.stringify(this.list_nhan_vien));
+
+    }
+},
     methods: {
         dangNhap() {
 

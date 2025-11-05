@@ -198,7 +198,9 @@ export default {
         this.saveData(); // Lưu dữ liệu mẫu vào localStorage
       }
     },
-    validateDichVu(dv) {
+
+    // ✅ HÀM KIỂM TRA DỮ LIỆU + TRÙNG TÊN
+    validateDichVu(dv,isEdit = false) {
       const missing = [];
       if (!dv.ten_dich_vu) missing.push("Tên dịch vụ");
       if (!dv.hinh_anh) missing.push("Hình ảnh");
@@ -218,6 +220,18 @@ export default {
       if (isNaN(dv.gia) || dv.gia <= 0) {
         return "⚠️ Giá dịch vụ phải là số lớn hơn 0!";
       }
+
+      // ✅ Kiểm tra trùng tên (không phân biệt hoa thường)
+      const ten = dv.ten_dich_vu.trim().toLowerCase();
+      const trungTen = this.list_dich_vu.some(
+        (item) =>
+          item.ten_dich_vu.trim().toLowerCase() === ten &&
+          (!isEdit || item.id !== dv.id) // bỏ qua chính nó khi cập nhật
+      );
+      if (trungTen) {
+        return "⚠️ Tên dịch vụ đã tồn tại! Vui lòng nhập tên khác.";
+      }
+
       return null;
     },
     themDichVu() {

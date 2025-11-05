@@ -35,29 +35,18 @@
                   <td>{{ formatVND(item.so_tien_toi_da) }}</td>
                   <td>{{ formatVND(item.so_tien_giam_gia) }}</td>
                   <td>
-                    <button
-                      class="btn btn-sm"
-                      :class="item.tinh_trang == 1 ? 'btn-success' : 'btn-warning'"
-                      @click="doiTrangThai(item)"
-                    >
+                    <button class="btn btn-sm" :class="item.tinh_trang == 1 ? 'btn-success' : 'btn-warning'"
+                      @click="doiTrangThai(item)">
                       {{ item.tinh_trang == 1 ? 'Hoạt Động' : 'Tạm Dừng' }}
                     </button>
                   </td>
                   <td>
-                    <button
-                      class="btn btn-sm btn-info text-light me-2"
-                      data-bs-toggle="modal"
-                      data-bs-target="#capNhatModal"
-                      @click="chuanBiCapNhat(item)"
-                    >
+                    <button class="btn btn-sm btn-info text-light me-2" data-bs-toggle="modal"
+                      data-bs-target="#capNhatModal" @click="chuanBiCapNhat(item)">
                       Cập nhật
                     </button>
-                    <button
-                      class="btn btn-sm btn-danger"
-                      data-bs-toggle="modal"
-                      data-bs-target="#xoaModal"
-                      @click="Object.assign(del_voucher, item)"
-                    >
+                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#xoaModal"
+                      @click="Object.assign(del_voucher, item)">
                       Xóa
                     </button>
                   </td>
@@ -115,7 +104,7 @@
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-          <button class="btn btn-primary" @click="themVoucher">Thêm mới</button>
+          <button class="btn btn-primary" @click="themVoucher">Xác nhận</button>
         </div>
       </div>
     </div>
@@ -226,7 +215,7 @@ function convertDate(date) {
 }
 
 // --- Validate theo style "bài viết" ---
-function validate(data) {
+function validate(data, isEdit = false) {
   if (
     !data.ma_code &&
     !data.thoi_gian_bat_dau &&
@@ -244,6 +233,47 @@ function validate(data) {
   if (!data.so_giam_gia) return proxy.$toast.error("Số giảm giá không được để trống!"), false;
   if (!data.so_tien_toi_da) return proxy.$toast.error("Số tiền tối đa không được để trống!"), false;
   if (!data.so_tien_giam_gia) return proxy.$toast.error("Số tiền giảm giá không được để trống!"), false;
+
+
+  // / ✅ Kiểm tra trùng mã code (không phân biệt hoa thường)
+  const ma = data.ma_code.trim().toLowerCase();
+  const trungMa = list_voucher.value.some(
+    (v) => v.ma_code.trim().toLowerCase() === ma && (!isEdit || v.ma_code !== data.ma_code)
+  );
+  if (trungMa) {
+    proxy.$toast.error("⚠️ Mã voucher đã tồn tại! Vui lòng nhập mã khác.");
+    return false;
+  }
+
+  // ✅ Kiểm tra định dạng và giá trị hợp lệ
+  if (isNaN(data.so_giam_gia) || data.so_giam_gia <= 0 || data.so_giam_gia > 100) {
+    return proxy.$toast.error("⚠️ Số giảm giá phải là số từ 1 đến 100!"), false;
+  }
+
+  if (isNaN(data.so_tien_toi_da) || data.so_tien_toi_da <= 0) {
+    return proxy.$toast.error("⚠️ Số tiền tối đa phải là số lớn hơn 0!"), false;
+  }
+
+  if (isNaN(data.so_tien_giam_gia) || data.so_tien_giam_gia <= 0) {
+    return proxy.$toast.error("⚠️ Số tiền giảm giá phải là số lớn hơn 0!"), false;
+  }
+
+  if (Number(data.so_tien_giam_gia) > Number(data.so_tien_toi_da)) {
+    return proxy.$toast.error("⚠️ Số tiền giảm giá không được lớn hơn số tiền tối đa!"), false;
+  }
+
+  // ✅ Kiểm tra ngày hợp lệ
+  const start = new Date(data.thoi_gian_bat_dau);
+  const end = new Date(data.thoi_gian_ket_thuc);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (start < today) {
+    return proxy.$toast.error("⚠️ Thời gian bắt đầu không được trước ngày hôm nay!"), false;
+  }
+  if (end <= start) {
+    return proxy.$toast.error("⚠️ Thời gian kết thúc phải sau thời gian bắt đầu!"), false;
+  }
   return true;
 }
 
