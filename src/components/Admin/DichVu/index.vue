@@ -60,41 +60,37 @@
                   <th>Hành động</th>
                 </tr>
               </thead>
-             <tbody>
-                                <template v-for="(item, index) in list_dich_vu" :key="index">
-                                    <tr>
-                                        <td class="align-middle text-center">{{ index + 1 }}</td>
-                                        <td class="align-middle">{{ item.ten_dich_vu }}</td>
-                                        <td class="align-middle">
-                                            <img :src="item.hinh_anh" alt="" class="img-fluid">
-                                        </td>
-                                        <td class="align-middle ">{{ formatVND(item.gia) }}</td>
-                                        <td class="align-middle text-wrap">{{ item.mo_ta }}</td>
-                                        <td @click="doiTrangThai(item)" class="text-center align-middle"
-                                            style="width: 100px;">
-                                            <button v-if="item.tinh_trang == 1" class="btn btn-sm btn-success"
-                                                type="button">
-                                                <i class="fa-solid fa-square-check"></i> Hiển thị
-                                            </button>
-                                            <button v-else class="btn btn-sm btn-warning" type="button">
-                                                <i class="fa-solid fa-square-xmark"></i> Tạm tắt
-                                            </button>
-                                        </td>
-                                        <td class="text-nowrap align-middle text-center" style="width: 150px;">
-                                            <button type="button" class="btn btn-sm btn-info text-light"
-                                                data-bs-toggle="modal" data-bs-target="#capNhatModal"
-                                                v-on:click="Object.assign(edit_dich_vu, item)">
-                                                Cập Nhật
-                                            </button>
-                                            <button type="button" class="ms-2 btn btn-sm btn-danger"
-                                                data-bs-toggle="modal" data-bs-target="#xoaModal"
-                                                v-on:click="Object.assign(del_dich_vu, item)">
-                                                Xóa
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </tbody>
+              <tbody>
+                <template v-for="(item, index) in list_dich_vu" :key="index">
+                  <tr>
+                    <td class="align-middle text-center">{{ index + 1 }}</td>
+                    <td class="align-middle">{{ item.ten_dich_vu }}</td>
+                    <td class="align-middle">
+                      <img :src="item.hinh_anh" alt="" class="img-fluid">
+                    </td>
+                    <td class="align-middle ">{{ formatVND(item.gia) }}</td>
+                    <td class="align-middle text-wrap">{{ item.mo_ta }}</td>
+                    <td @click="doiTrangThai(item)" class="text-center align-middle" style="width: 100px;">
+                      <button v-if="item.tinh_trang == 1" class="btn btn-sm btn-success" type="button">
+                        <i class="fa-solid fa-square-check"></i> Hiển thị
+                      </button>
+                      <button v-else class="btn btn-sm btn-warning" type="button">
+                        <i class="fa-solid fa-square-xmark"></i> Tạm tắt
+                      </button>
+                    </td>
+                    <td class="text-nowrap align-middle text-center" style="width: 150px;">
+                      <button type="button" class="btn btn-sm btn-info text-light" data-bs-toggle="modal"
+                        data-bs-target="#capNhatModal" v-on:click="Object.assign(edit_dich_vu, item)">
+                        Cập Nhật
+                      </button>
+                      <button type="button" class="ms-2 btn btn-sm btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#xoaModal" v-on:click="Object.assign(del_dich_vu, item)">
+                        Xóa
+                      </button>
+                    </td>
+                  </tr>
+                </template>
+              </tbody>
             </table>
           </div>
         </div>
@@ -211,6 +207,17 @@ export default {
 
       if (missing.length === 4) return "⚠️ Vui lòng nhập đầy đủ thông tin!";
       if (missing.length > 0) return `⚠️ Không được để trống: ${missing.join(", ")}`;
+
+      // ✅ Kiểm tra định dạng link hình ảnh
+      const urlPattern = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg))$/i;
+      if (!urlPattern.test(dv.hinh_anh.trim())) {
+        return "⚠️ Link hình ảnh không hợp lệ! Hãy nhập đường dẫn ảnh có đuôi .jpg, .png, .gif,...";
+      }
+
+      // ✅ Kiểm tra giá hợp lệ (phải là số > 0)
+      if (isNaN(dv.gia) || dv.gia <= 0) {
+        return "⚠️ Giá dịch vụ phải là số lớn hơn 0!";
+      }
       return null;
     },
     themDichVu() {
