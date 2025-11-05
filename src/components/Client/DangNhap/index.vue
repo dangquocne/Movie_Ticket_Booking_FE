@@ -56,7 +56,7 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="d-grid">
-                                                <button v-on:click="dangNhap()" class="btn btn-success btn-pill"><i
+                                                <button v-on:click="dangNhap()" class="btn btn-primary btn-pill"><i
                                                         class="bx bxs-lock-open"></i>Đăng Nhập</button>
                                             </div>
                                         </div>
@@ -80,6 +80,19 @@ export default {
     },
     methods: {
         dangNhap() {
+
+             // ✅ Kiểm tra có nhập email và mật khẩu hay chưa
+        if (!this.thong_tin_dang_nhap.email || !this.thong_tin_dang_nhap.password) {
+            this.$toast.error("Vui lòng nhập đầy đủ email và mật khẩu!");
+            return;
+        }
+
+        // ✅ Kiểm tra định dạng email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(this.thong_tin_dang_nhap.email)) {
+            this.$toast.error("Email sai định dạng!");
+            return;
+        }
     // ✅ Lấy danh sách khách hàng + nhân viên
     const danhSachKhachHang = JSON.parse(localStorage.getItem('list_khach_hang')) || [];
     const danhSachNhanVien = JSON.parse(localStorage.getItem('list_nhan_vien')) || [];

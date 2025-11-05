@@ -11,19 +11,19 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
 
-                <img src="https://files.betacorp.vn/media/images/2025/04/24/1702x621-36-175641-240425-44.jpg"
-                    class="d-block w-100" alt="Banner 1">
+                <img src="https://metiz.vn/media/slide_home/bo-tu-sieu-dang.jpg" class="d-block w-100" alt="Banner 1">
+                <div class="carousel-caption d-none d-md-block">
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img src="https://metiz.vn/media/slide_home/PHIMHOT_T8Artboard_1_copy3x.png" class="d-block w-100"
+                    alt="Banner 2">
                 <div class="carousel-caption d-none d-md-block">
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://files.betacorp.vn/media/images/2025/05/09/1702x621-38-085638-090525-93.jpg"
-                    class="d-block w-100" alt="Banner 2">
-                <div class="carousel-caption d-none d-md-block">
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://files.betacorp.vn/media/images/2025/04/23/lm8-ticketnow-1702x621-102215-230425-53.jpg"
+                <img src="https://cdn.galaxycine.vn/media/2025/7/21/mang-me-di-bo-2048_1753070307369.jpg"
                     class="d-block w-100" alt="Banner 3">
                 <div class="carousel-caption d-none d-md-block">
                 </div>
@@ -42,146 +42,179 @@
     </div>
 
     <div class="container my-4">
-        <!-- Dịch vụ DZCINEMA -->
-        <div class="card p-4">
-            <h3 class="text-center mb-4">DỊCH VỤ TẠI OIZOIOI CINEMA</h3>
-            <div class="row text-center">
-                <div class="col-md-3 mb-3">
-                    <i class="fa fa-ticket fa-3x text-danger mb-2"></i>
-                    <p>
-                        <strong>Đặt vé nhanh chóng</strong><br />
-                        <span class="text-muted">Chọn ghế trực tuyến, không phải chờ đợi, chỉ với vài thao tác đơn
-                            giản.</span>
-                    </p>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <i class="fa fa-film fa-3x text-success mb-2"></i>
-                    <p>
-                        <strong>Kho phim đa dạng</strong><br />
-                        <span class="text-muted">Từ bom tấn Hollywood đến phim Việt và hoạt hình cho trẻ em.</span>
-                    </p>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <i class="fa fa-clock fa-3x text-warning  mb-2"></i>
-                    <p>
-                        <strong>Lịch chiếu linh hoạt</strong><br />
-                        <span class="text-muted">Các suất chiếu trải dài cả ngày, phù hợp mọi khung giờ rảnh rỗi.</span>
-                    </p>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <i class="fa fa-shopping-cart fa-3x text-primary mb-2"></i>
-                    <p>
-                        <strong>Combo bắp nước ưu đãi</strong><br />
-                        <span class="text-muted">Nhiều lựa chọn hấp dẫn, ưu đãi riêng cho thành viên thân thiết.</span>
-                    </p>
+        <!-- DỊCH VỤ OIZOIOI CINEMA -->
+        <section class="services-section py-5">
+            <h3 class="text-center fw-bold mb-5 text-dark">Trải Nghiệm Cùng OIZOIO</h3>
+            <div class="row justify-content-center text-center">
+                <div class="col-md-3 col-sm-6 mb-4" v-for="item in [
+                    { icon: 'fa-ticket', color: '#0d6efd', title: 'Đặt vé nhanh chóng', text: 'Chọn ghế trực tuyến, không cần chờ đợi, chỉ với vài thao tác đơn giản.' },
+                    { icon: 'fa-film', color: '#6610f2', title: 'Kho phim đa dạng', text: 'Từ bom tấn Hollywood đến phim Việt và hoạt hình cho trẻ em.' },
+                    { icon: 'fa-clock', color: '#ffc107', title: 'Lịch chiếu linh hoạt', text: 'Suất chiếu trải dài cả ngày, phù hợp mọi khung giờ rảnh rỗi.' },
+                    { icon: 'fa-popcorn', color: '#198754', title: 'Combo bắp nước ưu đãi', text: 'Nhiều lựa chọn hấp dẫn, ưu đãi đặc biệt cho thành viên thân thiết.' }
+                ]">
+                    <div class="service-card p-4 h-100">
+                        <div class="icon-wrapper mx-auto mb-3"
+                            :style="`background: ${item.color}1A; color: ${item.color}`">
+                            <i :class="`fa ${item.icon} fa-2x`"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">{{ item.title }}</h5>
+                        <p class="text-muted small">{{ item.text }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Phim đang chiếu -->
-        <h3 class="text-center">PHIM ĐANG CHIẾU</h3>
-        <div class="row mt-4">
+        <!-- PHIM ĐANG CHIẾU -->
+        <h3 class="text-center mb-4 mt-5 text-dark">PHIM ĐANG CHIẾU</h3>
+        <div class="row g-4 justify-content-center">
             <template v-for="(value, index) in list_phim.filter(x => x.tinh_trang === 2).slice(0, 4)" :key="index">
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card position-relative shadow-sm">
-                        <img :src="value.hinh_anh" class="card-img-top" alt=""
-                            style="height: 400px; object-fit: cover;">
-                        <div class="card-body">
-                            <h6 class="text-truncate card-title text-warning fw-bold">{{ value.ten_phim }}</h6>
-                            <p class="text-muted mb-1">{{ value.the_loai }}</p>
-                            <div class="d-flex align-items-center mb-2">
-                                <span class="text-warning me-1">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    9.5
-                                </span>
-                                <span class="ms-auto fw-bold">
-                                    <router-link :to="`/chi-tiet-phim/${value.id}`">
-                                        <a href="#" class="btn btn-outline-danger w-100">Đặt
-                                            vé</a>
-                                    </router-link>
-                                </span>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="card movie-card border-0 shadow-sm h-100">
+                        <div class="position-relative">
+                            <img :src="value.hinh_anh" class="card-img-top rounded-3" alt=""
+                                style="height: 450px; object-fit: cover;" />
+                            <!-- Điểm số -->
+                            <div
+                                class="rating-badge position-absolute bottom-0 start-0 m-2 px-2 py-1 bg-dark text-warning rounded-2 fw-bold">
+                                <i class="fa-solid fa-star me-1"></i>{{ value.diem_danh_gia || 8.0 }}
                             </div>
+                            <!-- Độ tuổi -->
+                            <div
+                                class="age-badge position-absolute bottom-0 end-0 m-2 px-2 py-1 bg-warning text-dark rounded-2 fw-bold">
+                                {{ value.do_tuoi || 'T13' }}
+                            </div>
+                        </div>
 
+                        <div class="card-body text-center">
+                            <h6 class="fw-bold text-dark mb-1 text-truncate">{{ value.ten_phim }}</h6>
+                            <p class="text-muted small mb-2">{{ value.the_loai }}</p>
+                            <p class="text-muted small mb-3">
+                                <i class="fa-regular fa-calendar me-1"></i>{{ value.ngay_phat_hanh || '31.10.2025' }}
+                            </p>
+                            <router-link :to="`/chi-tiet-phim/${value.id}`">
+                                <button class="btn btn-outline-darkblue rounded-pill px-4">
+                                    Đặt vé
+                                </button>
+                            </router-link>
                         </div>
                     </div>
                 </div>
             </template>
         </div>
 
-        <div class="text-center mb-4">
+        <div class="text-center mt-5 mb-4">
             <router-link to="/phim/dang-chieu">
-                <button class="btn btn-outline-danger rounded-pill">Xem thêm phim</button>
+                <button class="btn btn-outline-darkblue-square px-4 py-2">
+                    Xem thêm <i class="fa-solid fa-chevron-right ms-1"></i>
+                </button>
             </router-link>
         </div>
 
         <!-- Về chúng tôi -->
-        <div class="card p-5 border-0 shadow-sm rounded-4" style="background-color: #000957;">
-            <h3 class="text-center text-uppercase fw-bold mb-5 text-light">Về chúng tôi</h3>
-            <div class="row align-items-center">
-                <!-- Nội dung bên trái -->
-                <div class="col-md-7">
-                    <h4 class="fw-bold mb-3">
-                        <span class="text-danger">Mua vé xem phim </span>
-                        <span class="text-primary">Online </span>
-                        <span class=" text-light">trên OIZOIOI Cinema</span>
-                    </h4>
-                    <p class="text-light fs-5 mb-4">
-                        Trải nghiệm mua vé trực tuyến dễ dàng, nhiều ưu đãi hấp dẫn và kết nối với các cụm rạp lớn trên
-                        toàn quốc.
+        <section class="about-section py-5 rounded-4 shadow-lg mx-3"
+            style="background: linear-gradient(135deg, #0d1b2a, #1b263b); color: #f8f9fa;">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h3 class="text-uppercase fw-bold" style="letter-spacing: 2px; color: #ffc107;">Về Chúng Tôi</h3>
+                    <p class="text-light mt-2 fs-5">
+                        Trải nghiệm điện ảnh đẳng cấp – nhanh chóng, tiện lợi và đầy cảm xúc cùng <span
+                            class="fw-bold text-warning">OIZOIOI Cinema</span>.
                     </p>
-                    <ul class="list-unstyled fs-5">
-                        <li class="mb-3 d-flex align-items-start">
-                            <i class="fa fa-check-circle text-success me-2 mt-1"></i>
-                            <span class="text-light">Mua vé Online, trải nghiệm phim hay</span>
-                        </li>
-                        <li class="mb-3 d-flex align-items-start">
-                            <i class="fa fa-check-circle text-success me-2 mt-1"></i>
-                            <span class="text-light">Đặt vé an toàn, tiện lợi trong vài bước</span>
-                        </li>
-                        <li class="mb-3 d-flex align-items-start">
-                            <i class="fa fa-check-circle text-success me-2 mt-1"></i>
-                            <span class="text-light">Tự do chọn chỗ ngồi, combo bắp nước siêu hot</span>
-                        </li>
-                        <li class="mb-3 d-flex align-items-start">
-                            <i class="fa fa-check-circle text-success me-2 mt-1"></i>
-                            <span class="text-light">Lưu lịch sử đặt vé, quản lý vé dễ dàng</span>
-                        </li>
-                    </ul>
                 </div>
 
-                <!-- Ảnh bên phải -->
-                <div class="col-md-5 text-center">
-                    <img src="https://media.baamboozle.com/uploads/images/55836/1682378705_349492_import-url.png"
-                        alt="Mua vé online" class="img-fluid rounded-3 shadow-sm">
+                <div class="row align-items-center g-4">
+                    <!-- Hình minh họa -->
+                    <div class="col-md-5 text-center">
+                        <div class="position-relative d-inline-block">
+                            <img src="https://res.cloudinary.com/dvxkhsfyj/image/upload/v1756395686/popcorn-removebg-preview_mkbjoj.png"
+                                alt="OIZOIOI Cinema" class="img-fluid rounded-4 shadow-lg"
+                                style="max-height: 360px; object-fit: cover;">
+                            <div
+                                class="position-absolute bottom-0 start-50 translate-middle-x bg-dark bg-opacity-75 text-light px-3 py-2 rounded-top">
+                                <i class="fa-solid fa-film me-1 text-warning"></i> Hơn 200+ suất chiếu mỗi ngày
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nội dung giới thiệu -->
+                    <div class="col-md-7">
+                        <h4 class="fw-bold mb-3">
+                            <span class="text-warning">Trải nghiệm điện ảnh </span>
+                            <span class="text-primary">sống động </span>
+                            <span class="text-light">với OIZOIOI Cinema</span>
+                        </h4>
+
+                        <p class="fs-5 mb-4 text-light-50">
+                            Chúng tôi mang đến nền tảng đặt vé xem phim thông minh – dễ dùng, nhanh chóng, cùng nhiều ưu
+                            đãi độc
+                            quyền.
+                            Hãy để OIZOIOI đồng hành cùng bạn trong từng khoảnh khắc điện ảnh đáng nhớ.
+                        </p>
+
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="icon-circle bg-success bg-opacity-25 text-success me-3">
+                                        <i class="bi bi-ticket-perforated fs-4"></i>
+                                    </div>
+                                    <span>Mua vé trực tuyến 24/7</span>
+                                </div>
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="icon-circle bg-danger bg-opacity-25 text-danger me-3">
+                                        <i class="fa-solid fa-chair fs-4"></i>
+                                    </div>
+                                    <span>Tự do chọn chỗ ngồi yêu thích</span>
+                                </div>
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="icon-circle bg-warning bg-opacity-25 text-warning me-3">
+                                        <i class="fa-solid fa-popcorn fs-4"></i>
+                                    </div>
+                                    <span>Combo bắp nước siêu ưu đãi</span>
+                                </div>
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="icon-circle bg-info bg-opacity-25 text-info me-3">
+                                        <i class="fa-solid fa-clock fs-4"></i>
+                                    </div>
+                                    <span>Lưu lịch sử & nhắc lịch chiếu</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-
+        </section>
 
         <!-- PHIM SẮP CHIẾU -->
-        <h3 class="text-center mb-4">PHIM SẮP CHIẾU</h3>
+        <h3 class="text-center mb-4 mt-5 text-dark">PHIM SẮP CHIẾU</h3>
         <div class="row">
             <template v-for="(value, index) in list_phim.filter(x => x.tinh_trang === 1).slice(0, 4)" :key="index">
                 <div class="col-md-3 mb-4 d-flex">
-                    <div class="card flex-full w-100" style="background-color: #FFF2F2;">
+                    <div class="card flex-full w-100" style="background-color: #c6dcfe;">
                         <img :src="value.hinh_anh" class="card-img-top" style="height: 350px;">
                         <div class="card-body">
                             <span class="badge bg-info mb-2">{{ value.ngay_phat_hanh }}</span>
-                            <h5 class="card-title text-truncate text-warning">{{ value.ten_phim }}</h5>
+                            <h5 class="card-title text-truncate text-dark">{{ value.ten_phim }}</h5>
                             <p class="card-text">{{ value.the_loai }}</p>
-                            <button class="btn btn-outline-danger btn-sm mt-2">Nhắc tôi</button>
+                            <button class="btn btn-outline-darkblue btn-sm mt-2">Nhắc tôi</button>
                         </div>
                     </div>
                 </div>
             </template>
         </div>
-        <div class="text-center">
+        <div class="text-center mt-5 mb-4">
             <router-link to="/phim/sap-chieu">
-                <button class="btn btn-outline-danger rounded-pill ">Xem tất cả phim sắp chiếu</button>
+                <button class="btn btn-outline-darkblue-square px-4 py-2">
+                    Xem thêm phim <i class="fa-solid fa-chevron-right ms-1"></i>
+                </button>
             </router-link>
         </div>
 
@@ -203,7 +236,128 @@
                 </div>
             </template>
         </div>
-        <h3 class="text-center mb-4 fw-bold ">Khách Hàng Nói Gì Về OIZOIOI Cinema?</h3>
+
+        
+        <!-- TIN KHUYẾN MÃI -->
+        <section class="promo-section py-5 mx-3">
+            <div class="container">
+                <!-- Tiêu đề -->
+                <div class="text-center mb-4">
+                    <h3 class="text-uppercase fw-bold text-dark" style="letter-spacing: 2px;">Tin Khuyến Mãi</h3>
+                    <p class="text-secondary fs-5">Cập nhật ưu đãi cực hot – xem phim thả ga, tiết kiệm tối đa!</p>
+                </div>
+
+                <!-- Carousel -->
+                <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+
+                        <!-- Slide 1 -->
+                        <div class="carousel-item active">
+                            <div class="row g-4">
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="promo-card rounded-4 shadow-sm overflow-hidden">
+                                        <img src="https://cdn.galaxycine.vn/media/2025/9/26/lio-t9-galaxy-banner-app-1800x1200_1758894324797.jpg"
+                                            class="img-fluid promo-img" alt="">
+                                        <div class="promo-overlay p-3">
+                                            <h6 class="fw-bold text-white">Tải App Liobank Giảm Ngay 60K Khi Mua Vé</h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="promo-card rounded-4 shadow-sm overflow-hidden">
+                                        <img src="https://cdn.galaxycine.vn/media/2025/9/24/imax-treasure-hunt-3_1758703263482.jpg"
+                                            class="img-fluid promo-img" alt="">
+                                        <div class="promo-overlay p-3">
+                                            <h6 class="fw-bold text-white">Voucher ShopeePay Giảm Đến 50K</h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="promo-card rounded-4 shadow-sm overflow-hidden">
+                                        <img src="https://cdn.galaxycine.vn/media/2025/9/4/momo-galaxy-1_1756958473463.jpg"
+                                            class="img-fluid promo-img" alt="">
+                                        <div class="promo-overlay p-3">
+                                            <h6 class="fw-bold text-white">Happy Day - Vé Chỉ Từ 45K</h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="promo-card rounded-4 shadow-sm overflow-hidden">
+                                        <img src="https://metiz.vn/media/new_offer/Deadpool-Wolverine.jpg"
+                                            class="img-fluid promo-img" alt="">
+                                        <div class="promo-overlay p-3">
+                                            <h6 class="fw-bold text-white">Ưu Đãi Thành Viên Galaxy Cinema 2025</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="carousel-item">
+                            <div class="row g-4">
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="promo-card rounded-4 shadow-sm overflow-hidden">
+                                        <img src="https://cdn.galaxycine.vn/media/2025/10/29/750_1761720681370.jpg"
+                                            class="img-fluid promo-img" alt="">
+                                        <div class="promo-overlay p-3">
+                                            <h6 class="fw-bold text-white">Giảm 30K Khi Thanh Toán Qua MoMo</h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="promo-card rounded-4 shadow-sm overflow-hidden">
+                                        <img src="https://cdn.galaxycine.vn/media/2023/11/23/giaveu22-digital-1800x1200_1700731546949.jpg"
+                                            class="img-fluid promo-img" alt="">
+                                        <div class="promo-overlay p-3">
+                                            <h6 class="fw-bold text-white">Giảm 20K Khi Dùng ZaloPay</h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="promo-card rounded-4 shadow-sm overflow-hidden">
+                                        <img src="https://metiz.vn/media/new_offer/hang-muc-thanh-vien-metiz-2023.jpg"
+                                            class="img-fluid promo-img" alt="">
+                                        <div class="promo-overlay p-3">
+                                            <h6 class="fw-bold text-white">FPT Play Combo Xem Phim Chất</h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="promo-card rounded-4 shadow-sm overflow-hidden">
+                                        <img src="https://cdn.galaxycine.vn/media/2025/8/25/zalopay-1_1756131251308.jpg"
+                                            class="img-fluid promo-img" alt="">
+                                        <div class="promo-overlay p-3">
+                                            <h6 class="fw-bold text-white">Techcombank Ưu Đãi Độc Quyền</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Nút điều hướng -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- KHÁCH HÀNG NÓI GÌ VỀ OIZOIOI CINEMA -->
+        <h3 class="text-center mb-4 fw-bold mt-3">Khách Hàng Nói Gì Về OIZOIOI Cinema?</h3>
         <div class="row justify-content-center">
             <div class="col-md-4 mb-3">
                 <div class="card h-100 shadow-sm " style="background-color: #000957;">
@@ -224,7 +378,9 @@
                             <span class="text-warning">&#9733;</span>
                         </div>
                         <div class="fst-italic text-light" style="font-size: 1em;">
-                            "Rạp  OIZOIOI Cinema Trình là gì mà trình ai chấm có không gian hiện đại, âm thanh sống động và dịch vụ tuyệt vời. Tôi và gia
+                            "Rạp OIZOIOI Cinema Trình là gì mà trình ai chấm có không gian hiện đại, âm thanh sống động
+                            và dịch
+                            vụ tuyệt vời. Tôi và gia
                             đình luôn chọn nơi đây mỗi cuối tuần để thư giãn."
                         </div>
                     </div>
@@ -249,7 +405,8 @@
                             <span class="text-warning">&#9733;</span>
                         </div>
                         <div class="fst-italic text-light" style="font-size: 1em;">
-                            "Tôi rất thích đặt vé online trên website  OIZOIOI Cinema – giao diện trực quan, thanh toán dễ dàng
+                            "Tôi rất thích đặt vé online trên website OIZOIOI Cinema – giao diện trực quan, thanh toán
+                            dễ dàng
                             và đặc biệt là chọn được chỗ ngồi yêu thích."
                         </div>
                     </div>
@@ -274,7 +431,8 @@
                             <span class="text-warning">&#9733;</span>
                         </div>
                         <div class="fst-italic text-light" style="font-size: 1em;">
-                            "Combo bắp nước giá hợp lý, phim mới cập nhật liên tục, hệ thống ghế ngồi êm ái – OIZOIOI Cinema
+                            "Combo bắp nước giá hợp lý, phim mới cập nhật liên tục, hệ thống ghế ngồi êm ái – OIZOIOI
+                            Cinema
                             là lựa chọn hàng đầu của mình khi đi xem phim cùng bạn bè."
                         </div>
                     </div>
@@ -290,16 +448,16 @@
 
 import axios from 'axios'
 export default {
-    
+
     data() {
         // Lấy ngày hôm nay
-const today = new Date();
-const todayStr = today.toISOString().split('T')[0];
+        const today = new Date();
+        const todayStr = today.toISOString().split('T')[0];
 
-// Lấy ngày mai
-const tomorrow = new Date();
-tomorrow.setDate(today.getDate() + 1);
-const tomorrowStr = tomorrow.toISOString().split('T')[0];
+        // Lấy ngày mai
+        const tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1);
+        const tomorrowStr = tomorrow.toISOString().split('T')[0];
         return {
             list_phim: [{
                 id: 3,
@@ -445,9 +603,9 @@ const tomorrowStr = tomorrow.toISOString().split('T')[0];
             ]
             ,
             list_bv: [],
-             list_suat_chieu: [
-            
-                  
+            list_suat_chieu: [
+
+
                 {
                     id: 7,
                     id_phim: 4,
@@ -460,7 +618,7 @@ const tomorrowStr = tomorrow.toISOString().split('T')[0];
                     gia_ve: 450000,
                     tinh_trang: 1
                 },
-                 {
+                {
                     id: 8,
                     id_phim: 5,
                     ten_phim: 'Phim Điện Ảnh Doraemon: Nobita Và Cuộc Phiêu Lưu Vào Thế Giới Trong Tranh',
@@ -472,7 +630,7 @@ const tomorrowStr = tomorrow.toISOString().split('T')[0];
                     gia_ve: 450000,
                     tinh_trang: 1
                 }
-,
+                ,
                 {
                     id: 9,
                     id_phim: 6,
@@ -485,7 +643,7 @@ const tomorrowStr = tomorrow.toISOString().split('T')[0];
                     gia_ve: 450000,
                     tinh_trang: 1
                 },
-                 {
+                {
                     id: 10,
                     id_phim: 3,
                     ten_phim: 'Thám Tử Kiên: Kỳ Án Không Đầu',
@@ -534,7 +692,7 @@ const tomorrowStr = tomorrow.toISOString().split('T')[0];
                     tinh_trang: 1
                 },
             ],
-           
+
         }
     },
     mounted() {
@@ -592,4 +750,178 @@ const tomorrowStr = tomorrow.toISOString().split('T')[0];
 }
 </script>
 
-<style></style>Allowance resets July 18, 2025
+<style scoped>
+
+/* Card phim */
+.movie-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.movie-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.rating-badge {
+    font-size: 0.9rem;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.age-badge {
+    font-size: 0.9rem;
+    background: #ffc107;
+}
+
+.btn-outline-darkblue {
+    color: #002D72;
+    /* xanh đậm */
+    border: 2px solid #002D72;
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-darkblue:hover {
+    background-color: #002D72;
+    color: #fff;
+}
+
+.btn-outline-darkblue-light {
+    color: #002D72;
+    /* xanh đậm */
+    border: 1px solid #002D72;
+    background-color: rgba(0, 45, 114, 0.05);
+    /* xanh đậm nhạt nền */
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-darkblue-light:hover {
+    background-color: #002D72;
+    color: #fff;
+}
+
+.btn-outline-darkblue-square {
+    color: #002D72;
+    /* xanh đậm */
+    border: 1px solid #002D72;
+    background-color: rgba(0, 45, 114, 0.02);
+    /* nền trắng hơn, chỉ hơi ám xanh nhẹ */
+    font-weight: 500;
+    border-radius: 6px;
+    /* vuông như hình */
+    transition: all 0.3s ease;
+}
+
+.btn-outline-darkblue-square:hover {
+    background-color: #002D72;
+    color: #fff;
+}
+
+/* ==== Phần dành cho dịch vụ */
+.services-section {
+    background: linear-gradient(135deg, #f9fbff 0%, #ffffff 100%);
+}
+
+.service-card {
+    background: #ffffff;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(13, 110, 253, 0.2);
+}
+
+.icon-wrapper {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    transition: 0.3s ease;
+}
+
+.service-card:hover .icon-wrapper {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #0d6efd33, #0d6efd11);
+}
+
+
+/* ==== Phần dành cho biểu tượng về chúng tôi===== */
+
+.icon-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.icon-circle:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+
+
+/* ==============================
+   🎬 PHẦN CSS CHO "TIN KHUYẾN MÃI"
+   Dành cho: Dev front-end hoặc người bảo trì dự án sau này
+   Mục đích: Làm đẹp phần khuyến mãi (promo-section)
+   ============================== */
+
+/* ====== CARD CHỨA ẢNH KHUYẾN MÃI ====== */
+.promo-card {
+  position: relative; /* Để overlay và các phần tử con định vị tuyệt đối được */
+  cursor: pointer; /* Biến con trỏ thành bàn tay khi hover */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng mượt khi hover */
+}
+
+/* Hiệu ứng khi hover vào card */
+.promo-card:hover {
+  transform: translateY(-6px); /* Nổi lên nhẹ */
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3); /* Đổ bóng để nổi bật */
+}
+
+/* ====== HÌNH ẢNH TRONG CARD ====== */
+.promo-img {
+  height: 200px; /* Cố định chiều cao ảnh */
+  width: 100%; /* Chiếm toàn bộ chiều ngang */
+  object-fit: cover; /* Giữ tỉ lệ ảnh, không méo */
+  transition: transform 0.4s ease; /* Hiệu ứng phóng nhẹ khi hover */
+}
+
+/* Khi hover card thì ảnh zoom nhẹ */
+.promo-card:hover .promo-img {
+  transform: scale(1.05);
+}
+
+/* ====== PHẦN NỀN MỜ & TEXT TRÊN ẢNH ====== */
+.promo-overlay {
+  position: absolute; /* Đặt đè lên ảnh */
+  bottom: 0;
+  left: 0;
+  width: 100%; /* Trải hết chiều ngang ảnh */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent); /* Hiệu ứng mờ tối phía dưới */
+  color: white; /* Chữ màu trắng cho nổi */
+  padding: 10px 15px; /* Tạo khoảng đệm cho text */
+}
+
+/* ====== NÚT MŨI TÊN ĐIỀU HƯỚNG SLIDE ====== */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-size: 50%, 50%; /* Giảm kích thước icon mặc định của Bootstrap */
+}
+
+/* Có thể thêm tuỳ chỉnh màu, viền cho nút nếu muốn */
+</style>Allowance resets July 18, 2025

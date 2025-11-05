@@ -78,7 +78,7 @@
 
                                         <div class="col-12">
                                             <div class="d-grid">
-                                                <button @click="dangKyTaiKhoan()" type="submit" class="btn btn-success text-uppercase">
+                                                <button @click="dangKyTaiKhoan()" type="submit" class="btn btn-primary text-uppercase">
                                                     <i class="bx bx-user"></i> Đăng Ký
                                                 </button>
                                             </div>
