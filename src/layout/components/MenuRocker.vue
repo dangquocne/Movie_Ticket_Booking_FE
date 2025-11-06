@@ -12,7 +12,7 @@
 		</div>
 		<nav class="navbar navbar-expand-xl w-100">
 			<ul class="navbar-nav justify-content-start flex-grow-1 gap-1">
-				<router-link to="/admin">
+				<!-- <router-link to="/admin">
 					<li class="nav-item">
 						<a class="nav-link" href="/admin">
 							<div class="parent-icon">
@@ -22,7 +22,7 @@
 							<div class="menu-title">Dashboard</div>
 						</a>
 					</li>
-				</router-link>
+				</router-link> -->
 				<li class="nav-item dropdown">
 					<a href="javascript:;" class="nav-link dropdown-toggle dropdown-toggle-nocaret show"
 						data-bs-toggle="dropdown" aria-expanded="true">
@@ -95,15 +95,15 @@
 						data-bs-toggle="dropdown" aria-expanded="true">
 						<div class="parent-icon"><i class="fa-brands fa-servicestack"></i>
 						</div>
-						<div class="menu-title">Quản lý Dịch vụ & Vé</div>
+						<div class="menu-title">Quản lý Dịch vụ & Voucher</div>
 					</a>
 					<ul class="dropdown-menu show" data-bs-popper="static">
-						<router-link to="/admin/ve">
+						<!-- <router-link to="/admin/ve">
 							<li>
 								<a class="dropdown-item" href="/admin/ve"><i
 										class="bx bx-right-arrow-alt"></i>Vé</a>
 							</li>
-						</router-link>
+						</router-link> -->
 						<router-link to="/admin/dich-vu">
 							<li>
 								<a class="dropdown-item" href="/admin/dich-vu"><i
@@ -118,7 +118,7 @@
 						</router-link>
 					</ul>
 				</li>
-				<router-link to="/admin/phan-quyen">
+				<!-- <router-link to="/admin/phan-quyen">
 					<li class="nav-item">
 						<a class="nav-link" href="/admin/phan-quyen">
 							<div class="parent-icon">
@@ -127,7 +127,7 @@
 							<div class="menu-title">Phân Quyền</div>
 						</a>
 					</li>
-				</router-link>
+				</router-link> -->
 				<router-link to="/admin/bai-viet">
 					<li class="nav-item">
 						<a class="nav-link" href="/admin/bai-viet">
@@ -138,7 +138,7 @@
 						</a>
 					</li>
 				</router-link>
-				<router-link to="/admin/danh-sach-don-hang">
+				<!-- <router-link to="/admin/danh-sach-don-hang">
 					<li class="nav-item">
 						<a class="nav-link" href="/admin/danh-sach-don-hang">
 							<div class="parent-icon">
@@ -147,15 +147,15 @@
 							<div class="menu-title">Đơn Hàng</div>
 						</a>
 					</li>
-				</router-link>
+				</router-link> -->
 
 				<li class="nav-item dropdown">
-					<a href="javascript:;" class="nav-link dropdown-toggle dropdown-toggle-nocaret show"
+					<!-- <a href="javascript:;" class="nav-link dropdown-toggle dropdown-toggle-nocaret show"
 						data-bs-toggle="dropdown" aria-expanded="true">
 						<div class="parent-icon"><i class="fa-solid fa-chart-line"></i>
 						</div>
 						<div class="menu-title">Thống kê</div>
-					</a>
+					</a> -->
 					<ul class="dropdown-menu show" data-bs-popper="static">
 						<router-link to="/admin/thong-ke/khach-hang-dang-ky">
 							<li>

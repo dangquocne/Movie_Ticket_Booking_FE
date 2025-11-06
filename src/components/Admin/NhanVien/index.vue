@@ -1,7 +1,7 @@
   <template>
     <div class="row">
       <div class="col-lg-12">
-        <div class="card radius-10 border-top border-0 border-3 border-info">
+        <div class="card radius-10 border-top border-0 border-3 border-dark">
           <div class="card-header d-flex justify-content-between">
             <h4 class="mt-2"><b>DANH SÁCH NHÂN VIÊN</b></h4>
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal" @click="resetForm">
@@ -14,9 +14,9 @@
               <input v-model="search" type="text" class="form-control" placeholder="Tìm kiếm nhân viên..." />
             </div>
 
-            <table class="table table-bordered table-hover">
+            <table class="table table-hover">
               <thead>
-                <tr class="bg-primary text-light text-nowrap">
+                <tr class="bg-dark text-light text-nowrap">
                   <th class="text-center">#</th>
                   <th class="text-center">Họ Và Tên</th>
                   <th class="text-center">Email</th>

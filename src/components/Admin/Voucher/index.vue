@@ -4,15 +4,15 @@
       <div class="card radius-10 border-top border-0 border-3 border-warning">
         <div class="card-header d-flex align-items-center justify-content-between">
           <h4 class="mb-0">DANH SÁCH VOUCHER</h4>
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#themMoiModal">
+          <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#themMoiModal">
             Thêm mới
           </button>
         </div>
 
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered table-hover text-center align-middle">
-              <thead class="bg-primary text-light">
+            <table class="table  table-hover text-center align-middle">
+              <thead class="bg-dark text-light">
                 <tr>
                   <th>#</th>
                   <th>Mã Voucher</th>
@@ -41,7 +41,7 @@
                     </button>
                   </td>
                   <td>
-                    <button class="btn btn-sm btn-info text-light me-2" data-bs-toggle="modal"
+                    <button class="btn btn-sm btn-primary text-light me-2" data-bs-toggle="modal"
                       data-bs-target="#capNhatModal" @click="chuanBiCapNhat(item)">
                       Cập nhật
                     </button>

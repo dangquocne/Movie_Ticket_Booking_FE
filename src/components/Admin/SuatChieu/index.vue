@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-lg-12">
-            <div class="card radius-10 border-top border-0 border-3 border-info">
+            <div class="card radius-10 border-top border-0 border-3 border-dark">
                 <div class="card-header d-flex justify-content-between">
                     <h4 class="mt-2"><b>DANH SÁCH SUẤT CHIẾU</b></h4>
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
@@ -15,9 +15,9 @@
                         <button class="btn btn-success input-group-text" style="width: 150px;">Tìm kiếm</button>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover">
+                        <table class="table  table-hover">
                             <thead>
-                                <tr class="bg-primary text-light text-nowrap">
+                                <tr class="bg-dark text-light text-nowrap">
                                     <th class="text-center">#</th>
                                     <th class="text-center">Tên Phim</th>
                                     <th class="text-center">Phòng Chiếu</th>

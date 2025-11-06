@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-lg-12">
-            <div class="card radius-10 border-top border-0 border-3 border-info">
+            <div class="card radius-10 border-top border-0 border-3 border-dark">
                 <div class="card-header">
                     <div class="d-flex align-items-center justify-content-between">
                         <h4 class="mb-0">DANH SÁCH PHÒNG CHIẾU</h4>
@@ -17,9 +17,9 @@
                         <button class="btn btn-success input-group-text" style="width: 165px;">Tìm kiếm</button>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover">
+                        <table class="table  table-hover">
                             <thead class="text-center align-middle">
-                                <tr class="bg-primary text-light">
+                                <tr class="bg-dark text-light">
                                     <th class="align-middle text-center">#</th>
                                     <th class="align-middle text-center text-nowrap">
                                         Tên Phòng Chiếu

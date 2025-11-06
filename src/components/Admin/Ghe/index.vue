@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-lg-4">
-            <div class="card radius-10 border-top border-0 border-3 border-info">
+            <div class="card radius-10 border-top border-0 border-3 border-dark">
                 <div class="card-header">
                     <h4 class="my-1">THÊM GHẾ MỚI</h4>
                 </div>
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="col-lg-8">
-            <div class="card radius-10 border-top border-0 border-3 border-info">
+            <div class="card radius-10 border-top border-0 border-3 border-dark">
                 <div class="card-header d-flex justify-content-between">
                     <h4 class="my-1">DANH SÁCH GHẾ</h4>
                 </div>
@@ -50,9 +50,9 @@
                         <button class="btn  btn-success input-group-text" style="width: 100px;">Tìm kiếm</button>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover">
+                        <table class="table table-hover">
                             <thead>
-                                <tr class="bg-primary text-light text-nowrap">
+                                <tr class="bg-dark text-light text-nowrap">
                                     <th class="text-center">#</th>
                                     <th class="text-center">Tên Ghế</th>
                                     <th class="text-center">Giá Ghế</th>

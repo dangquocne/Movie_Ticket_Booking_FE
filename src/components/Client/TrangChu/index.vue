@@ -42,8 +42,145 @@
     </div>
 
     <div class="container my-4">
+
+
+        <!-- THẾ GIỚI ĐIỆN ẢNH -->
+        <section class="cinema-world-section py-5 mx-3 rounded-5 shadow-lg">
+            <div class="container">
+                <!-- Tiêu đề -->
+                <div class="text-center mb-4">
+                    <h3 class="text-uppercase fw-bold text-light" style="letter-spacing: 2px;">Thế Giới Điện Ảnh</h3>
+                    <p class="text-secondary fs-5">Khám phá những bom tấn, kiệt tác điện ảnh và câu chuyện chưa kể!</p>
+                </div>
+
+                <!-- Carousel -->
+                <div id="cinemaCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+
+                        <!-- Slide 1 -->
+                        <div class="carousel-item active">
+                            <div class="row g-4">
+                                <div class="col-md-3 col-sm-6">
+                                    <div
+                                        class="movie-card-slider rounded-4 overflow-hidden shadow-lg position-relative">
+                                        <img src="https://cdn.galaxycine.vn/media/2025/10/21/predator-500_1761029949058.jpg"
+                                            class="img-fluid" alt="">
+                                        <div class="movie-overlay d-flex flex-column justify-content-end p-3">
+                                            <h6 class="fw-bold text-white">Deadpool & Wolverine</h6>
+                                            <small class="text-light">Hành động • 2025</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div
+                                        class="movie-card-slider rounded-4 overflow-hidden shadow-lg position-relative">
+                                        <img src="https://cdn.galaxycine.vn/media/2025/9/19/au-be-ca-heo-500_1758256459385.jpg"
+                                            class="img-fluid" alt="">
+                                        <div class="movie-overlay d-flex flex-column justify-content-end p-3">
+                                            <h6 class="fw-bold text-white">Deadpool & Wolverine</h6>
+                                            <small class="text-light">Hành động • 2025</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div
+                                        class="movie-card-slider rounded-4 overflow-hidden shadow-lg position-relative">
+                                        <img src="https://cdn.galaxycine.vn/media/2025/10/29/godzilla-500_1761720005919.jpg"
+                                            class="img-fluid" alt="">
+                                        <div class="movie-overlay d-flex flex-column justify-content-end p-3">
+                                            <h6 class="fw-bold text-white">Dune: Part Two</h6>
+                                            <small class="text-light">Khoa học viễn tưởng • 2024</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div
+                                        class="movie-card-slider rounded-4 overflow-hidden shadow-lg position-relative">
+                                        <img src="https://cdn.galaxycine.vn/media/2025/7/30/avatar-3-500_1753848148849.jpg"
+                                            class="img-fluid" alt="">
+                                        <div class="movie-overlay d-flex flex-column justify-content-end p-3">
+                                            <h6 class="fw-bold text-white">Avatar: The Way of Water</h6>
+                                            <small class="text-light">Phiêu lưu • 2022</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="carousel-item">
+                            <div class="row g-4">
+                                <div class="col-md-3 col-sm-6">
+                                    <div
+                                        class="movie-card-slider rounded-4 overflow-hidden shadow-lg position-relative">
+                                        <img src="https://cdn.galaxycine.vn/media/2025/11/5/nam-dem-kinh-hoang-500_1762335963489.jpg"
+                                            class="img-fluid" alt="">
+                                        <div class="movie-overlay d-flex flex-column justify-content-end p-3">
+                                            <h6 class="fw-bold text-white">Venom 3: The Last Dance</h6>
+                                            <small class="text-light">Siêu anh hùng • 2025</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div
+                                        class="movie-card-slider rounded-4 overflow-hidden shadow-lg position-relative">
+                                        <img src="https://cdn.galaxycine.vn/media/2025/10/28/bau-vat-troi-cho-500_1761625726896.jpg"
+                                            class="img-fluid" alt="">
+                                        <div class="movie-overlay d-flex flex-column justify-content-end p-3">
+                                            <h6 class="fw-bold text-white">Godzilla x Kong: The New Empire</h6>
+                                            <small class="text-light">Hành động • 2024</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div
+                                        class="movie-card-slider rounded-4 overflow-hidden shadow-lg position-relative">
+                                        <img src="https://cdn.galaxycine.vn/media/2025/10/10/tron-ares-500_1760067381479.jpg"
+                                            class="img-fluid" alt="">
+                                        <div class="movie-overlay d-flex flex-column justify-content-end p-3">
+                                            <h6 class="fw-bold text-white">Kung Fu Panda 4</h6>
+                                            <small class="text-light">Hoạt hình • 2024</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div
+                                        class="movie-card-slider rounded-4 overflow-hidden shadow-lg position-relative">
+                                        <img src="https://cdn.galaxycine.vn/media/2025/11/3/zootopia-500_1762159348935.jpg"
+                                            class="img-fluid" alt="">
+                                        <div class="movie-overlay d-flex flex-column justify-content-end p-3">
+                                            <h6 class="fw-bold text-white">Kung Fu Panda 4</h6>
+                                            <small class="text-light">Hoạt hình • 2024</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nút điều hướng -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#cinemaCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#cinemaCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+
         <!-- DỊCH VỤ OIZOIOI CINEMA -->
-        <section class="services-section py-5">
+        <section class="services-section py-5 mt-5 mx-3">
             <h3 class="text-center fw-bold mb-5 text-dark">Trải Nghiệm Cùng OIZOIO</h3>
             <div class="row justify-content-center text-center">
                 <div class="col-md-3 col-sm-6 mb-4" v-for="item in [
@@ -237,7 +374,7 @@
             </template>
         </div>
 
-        
+
         <!-- TIN KHUYẾN MÃI -->
         <section class="promo-section py-5 mx-3">
             <div class="container">
@@ -357,88 +494,74 @@
         </section>
 
         <!-- KHÁCH HÀNG NÓI GÌ VỀ OIZOIOI CINEMA -->
-        <h3 class="text-center mb-4 fw-bold mt-3">Khách Hàng Nói Gì Về OIZOIOI Cinema?</h3>
-        <div class="row justify-content-center">
-            <div class="col-md-4 mb-3">
-                <div class="card h-100 shadow-sm " style="background-color: #000957;">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-2">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="avatar"
-                                class="rounded-circle me-3" width="48" height="48">
-                            <div>
-                                <div class="fw-bold text-light">Nguyễn Văn A</div>
-                                <div class="text-muted text-light" style="font-size: 0.95em;">CEO Công ty ABC</div>
+
+        <section class="testimonials py-5">
+            <h3 class="text-center fw-bold mb-5 text-light">Khách Hàng Nói Gì Về <span class="text-primary">OIZOIOI
+                    Cinema</span>?</h3>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <!-- Card 1 -->
+                    <div class="col-md-4 mb-4">
+                        <div class="testimonial-card p-4 text-light">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="avatar"
+                                    class="rounded-circle me-3" width="60" height="60">
+                                <div>
+                                    <h5 class="mb-0 fw-bold">Nguyễn Văn A</h5>
+                                    <small class="text-secondary">CEO Công ty ABC</small>
+                                </div>
                             </div>
+                            <div class="mb-2 text-warning">
+                                &#9733;&#9733;&#9733;&#9733;&#9733;
+                            </div>
+                            <p class="fst-italic mb-0">“Không gian hiện đại, âm thanh sống động và dịch vụ tuyệt vời.
+                                Tôi và gia
+                                đình luôn chọn OIZOIOI Cinema mỗi cuối tuần để thư giãn.”</p>
                         </div>
-                        <div class="mb-2">
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="col-md-4 mb-4">
+                        <div class="testimonial-card p-4 text-light">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="avatar"
+                                    class="rounded-circle me-3" width="60" height="60">
+                                <div>
+                                    <h5 class="mb-0 fw-bold">Trần Thị B</h5>
+                                    <small class="text-secondary">Giám đốc XYZ Shop</small>
+                                </div>
+                            </div>
+                            <div class="mb-2 text-warning">
+                                &#9733;&#9733;&#9733;&#9733;&#9733;
+                            </div>
+                            <p class="fst-italic mb-0">“Đặt vé online nhanh chóng, giao diện trực quan, chọn được chỗ
+                                ngồi yêu
+                                thích — rất tiện lợi và hiện đại.”</p>
                         </div>
-                        <div class="fst-italic text-light" style="font-size: 1em;">
-                            "Rạp OIZOIOI Cinema Trình là gì mà trình ai chấm có không gian hiện đại, âm thanh sống động
-                            và dịch
-                            vụ tuyệt vời. Tôi và gia
-                            đình luôn chọn nơi đây mỗi cuối tuần để thư giãn."
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="col-md-4 mb-4">
+                        <div class="testimonial-card p-4 text-light">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="avatar"
+                                    class="rounded-circle me-3" width="60" height="60">
+                                <div>
+                                    <h5 class="mb-0 fw-bold">Lê Văn C</h5>
+                                    <small class="text-secondary">Chủ cửa hàng DEF</small>
+                                </div>
+                            </div>
+                            <div class="mb-2 text-warning">
+                                &#9733;&#9733;&#9733;&#9733;&#9733;
+                            </div>
+                            <p class="fst-italic mb-0">“Phim mới cập nhật liên tục, combo giá hợp lý, ghế ngồi êm ái —
+                                OIZOIOI
+                                Cinema là lựa chọn hàng đầu của mình.”</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-3">
-                <div class="card h-100 shadow-sm " style="background-color: #000957;">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-2">
-                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="avatar"
-                                class="rounded-circle me-3" width="48" height="48">
-                            <div>
-                                <div class="fw-bold text-light">Trần Thị B</div>
-                                <div class="text-muted text-light" style="font-size: 0.95em;">Giám đốc XYZ Shop</div>
-                            </div>
-                        </div>
-                        <div class="mb-2">
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                        </div>
-                        <div class="fst-italic text-light" style="font-size: 1em;">
-                            "Tôi rất thích đặt vé online trên website OIZOIOI Cinema – giao diện trực quan, thanh toán
-                            dễ dàng
-                            và đặc biệt là chọn được chỗ ngồi yêu thích."
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="card h-100 shadow-sm " style="background-color: #000957;">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-2">
-                            <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="avatar"
-                                class="rounded-circle me-3" width="48" height="48">
-                            <div>
-                                <div class="fw-bold text-light">Lê Văn C</div>
-                                <div class="text-muted text-light" style="font-size: 0.95em;">Chủ cửa hàng DEF</div>
-                            </div>
-                        </div>
-                        <div class="mb-2">
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                        </div>
-                        <div class="fst-italic text-light" style="font-size: 1em;">
-                            "Combo bắp nước giá hợp lý, phim mới cập nhật liên tục, hệ thống ghế ngồi êm ái – OIZOIOI
-                            Cinema
-                            là lựa chọn hàng đầu của mình khi đi xem phim cùng bạn bè."
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </section>
     </div>
 
 
@@ -750,178 +873,5 @@ export default {
 }
 </script>
 
-<style scoped>
-
-/* Card phim */
-.movie-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-.movie-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.rating-badge {
-    font-size: 0.9rem;
-    background: rgba(0, 0, 0, 0.7);
-}
-
-.age-badge {
-    font-size: 0.9rem;
-    background: #ffc107;
-}
-
-.btn-outline-darkblue {
-    color: #002D72;
-    /* xanh đậm */
-    border: 2px solid #002D72;
-    background-color: transparent;
-    transition: all 0.3s ease;
-}
-
-.btn-outline-darkblue:hover {
-    background-color: #002D72;
-    color: #fff;
-}
-
-.btn-outline-darkblue-light {
-    color: #002D72;
-    /* xanh đậm */
-    border: 1px solid #002D72;
-    background-color: rgba(0, 45, 114, 0.05);
-    /* xanh đậm nhạt nền */
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.btn-outline-darkblue-light:hover {
-    background-color: #002D72;
-    color: #fff;
-}
-
-.btn-outline-darkblue-square {
-    color: #002D72;
-    /* xanh đậm */
-    border: 1px solid #002D72;
-    background-color: rgba(0, 45, 114, 0.02);
-    /* nền trắng hơn, chỉ hơi ám xanh nhẹ */
-    font-weight: 500;
-    border-radius: 6px;
-    /* vuông như hình */
-    transition: all 0.3s ease;
-}
-
-.btn-outline-darkblue-square:hover {
-    background-color: #002D72;
-    color: #fff;
-}
-
-/* ==== Phần dành cho dịch vụ */
-.services-section {
-    background: linear-gradient(135deg, #f9fbff 0%, #ffffff 100%);
-}
-
-.service-card {
-    background: #ffffff;
-    border-radius: 20px;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    position: relative;
-    overflow: hidden;
-}
-
-.service-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 25px rgba(13, 110, 253, 0.2);
-}
-
-.icon-wrapper {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    transition: 0.3s ease;
-}
-
-.service-card:hover .icon-wrapper {
-    transform: scale(1.1);
-    background: linear-gradient(135deg, #0d6efd33, #0d6efd11);
-}
-
-
-/* ==== Phần dành cho biểu tượng về chúng tôi===== */
-
-.icon-circle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.icon-circle:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
-}
-
-
-
-/* ==============================
-   🎬 PHẦN CSS CHO "TIN KHUYẾN MÃI"
-   Dành cho: Dev front-end hoặc người bảo trì dự án sau này
-   Mục đích: Làm đẹp phần khuyến mãi (promo-section)
-   ============================== */
-
-/* ====== CARD CHỨA ẢNH KHUYẾN MÃI ====== */
-.promo-card {
-  position: relative; /* Để overlay và các phần tử con định vị tuyệt đối được */
-  cursor: pointer; /* Biến con trỏ thành bàn tay khi hover */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng mượt khi hover */
-}
-
-/* Hiệu ứng khi hover vào card */
-.promo-card:hover {
-  transform: translateY(-6px); /* Nổi lên nhẹ */
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3); /* Đổ bóng để nổi bật */
-}
-
-/* ====== HÌNH ẢNH TRONG CARD ====== */
-.promo-img {
-  height: 200px; /* Cố định chiều cao ảnh */
-  width: 100%; /* Chiếm toàn bộ chiều ngang */
-  object-fit: cover; /* Giữ tỉ lệ ảnh, không méo */
-  transition: transform 0.4s ease; /* Hiệu ứng phóng nhẹ khi hover */
-}
-
-/* Khi hover card thì ảnh zoom nhẹ */
-.promo-card:hover .promo-img {
-  transform: scale(1.05);
-}
-
-/* ====== PHẦN NỀN MỜ & TEXT TRÊN ẢNH ====== */
-.promo-overlay {
-  position: absolute; /* Đặt đè lên ảnh */
-  bottom: 0;
-  left: 0;
-  width: 100%; /* Trải hết chiều ngang ảnh */
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent); /* Hiệu ứng mờ tối phía dưới */
-  color: white; /* Chữ màu trắng cho nổi */
-  padding: 10px 15px; /* Tạo khoảng đệm cho text */
-}
-
-/* ====== NÚT MŨI TÊN ĐIỀU HƯỚNG SLIDE ====== */
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  background-size: 50%, 50%; /* Giảm kích thước icon mặc định của Bootstrap */
-}
-
-/* Có thể thêm tuỳ chỉnh màu, viền cho nút nếu muốn */
-</style>Allowance resets July 18, 2025
+<style src="./index.css"></style>
+Allowance resets July 18, 2025

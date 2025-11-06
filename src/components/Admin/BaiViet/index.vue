@@ -4,14 +4,14 @@
             <div class="card radius-10 border-top border-0 border-3 border-info">
                 <div class="card-header d-flex justify-content-between">
                     <h4 class="mt-2">DANH SÁCH BÀI VIẾT</h4>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
                         Thêm bài viết
                     </button>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table table-bordered table-hover">
+                    <table class="table  table-hover">
                         <thead>
-                            <tr class="bg-primary text-light text-nowrap">
+                            <tr class="bg-dark text-light text-nowrap">
                                 <th>#</th>
                                 <th>Tiêu Đề</th>
                                 <th>Mô Tả Ngắn</th>

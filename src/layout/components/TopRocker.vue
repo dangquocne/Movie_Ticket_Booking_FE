@@ -4,10 +4,10 @@
 		<nav class="navbar navbar-expand">
 			<div class="topbar-logo-header">
 				<div class="">
-					<img src="../../assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+					<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhRz39AfVIeuPAx2pdftcD3io6FaeRgieuxA&s" class="logo-icon" alt="logo icon">
 				</div>
 				<div class="">
-					<h4 class="logo-text">OIZOIOI Cinema</h4>
+					<h4 class="logo-text text-dark">OIZOIOI Cinema</h4>
 				</div>
 			</div>
 			<div class="mobile-toggle-menu"><i class='bx bx-menu'></i></div>

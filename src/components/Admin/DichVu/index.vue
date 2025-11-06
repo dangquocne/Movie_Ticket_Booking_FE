@@ -2,7 +2,7 @@
   <div class="row">
     <!-- FORM THÊM DỊCH VỤ -->
     <div class="col-lg-4">
-      <div class="card border-info border-top border-3">
+      <div class="card border-dark border-top border-3">
         <div class="card-header">
           <h4 class="card-title my-1">THÊM DỊCH VỤ</h4>
         </div>
@@ -42,14 +42,14 @@
 
     <!-- DANH SÁCH DỊCH VỤ -->
     <div class="col-lg-8">
-      <div class="card border-info border-top border-3">
+      <div class="card border-dark border-top border-3">
         <div class="card-header d-flex justify-content-between align-items-center">
           <h4 class="card-title my-1">DANH SÁCH DỊCH VỤ</h4>
         </div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-              <thead class="text-center bg-primary text-light">
+            <table class="table  table-hover">
+              <thead class="text-center bg-dark text-light">
                 <tr>
                   <th>#</th>
                   <th>Tên dịch vụ</th>
@@ -79,7 +79,7 @@
                       </button>
                     </td>
                     <td class="text-nowrap align-middle text-center" style="width: 150px;">
-                      <button type="button" class="btn btn-sm btn-info text-light" data-bs-toggle="modal"
+                      <button type="button" class="btn btn-sm btn-primary text-light" data-bs-toggle="modal"
                         data-bs-target="#capNhatModal" v-on:click="Object.assign(edit_dich_vu, item)">
                         Cập Nhật
                       </button>
