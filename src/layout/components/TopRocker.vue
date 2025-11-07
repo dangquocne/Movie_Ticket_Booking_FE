@@ -11,7 +11,7 @@
 				</div>
 			</div>
 			<div class="mobile-toggle-menu"><i class='bx bx-menu'></i></div>
-			<div class="search-bar flex-grow-1">
+			<!-- <div class="search-bar flex-grow-1">
 				<div class="position-relative search-bar-box">
 					<input type="text" class="form-control search-control" placeholder="Tìm Kiếm?">
 					<span class="position-absolute top-50 search-show translate-middle-y"><i
@@ -19,7 +19,7 @@
 					<span class="position-absolute top-50 search-close translate-middle-y"><i
 							class='bx bx-x'></i></span>
 				</div>
-			</div>
+			</div> -->
 			<div class="top-menu ms-auto">
 				<ul class="navbar-nav align-items-center">
 					<li class="nav-item mobile-search-icon">
