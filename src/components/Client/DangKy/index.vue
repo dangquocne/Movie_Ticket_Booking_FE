@@ -112,6 +112,31 @@ export default {
             errors: {}
         }
     },
+    mounted() {
+
+          // Load list khách hàng từ localStorage
+        this.list_khach_hang = JSON.parse(localStorage.getItem("list_khach_hang") || "[]");
+
+        // Nếu chưa có dữ liệu, thêm nhân viên mẫu
+        if (this.list_khach_hang.length === 0) {
+            const nhanVienMau = {
+                id: Date.now(),
+                ho_va_ten: "Nguyễn Thành An",
+                email: "An1234@gmail.com",
+                mat_khau: "123123",
+                xac_nhan_mat_khau: "123123",
+                ngay_sinh: "1995-05-15",
+                so_dien_thoai: "0123456789",
+                is_active:true,
+                is_block:false,
+                cccd:"123456789012"
+            };
+
+            this.list_khach_hang.push(nhanVienMau);
+            localStorage.setItem("list_khach_hang", JSON.stringify(this.list_khach_hang));
+        }
+        
+    },
     methods: {
         // ------------------ VALIDATIONS ------------------
        kiemTraHoTen() {

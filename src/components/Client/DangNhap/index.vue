@@ -15,7 +15,7 @@
                                         </router-link>
                                     </p>
                                 </div>
-                                <div class="d-grid">
+                                <!-- <div class="d-grid">
                                     <a class="btn my-3 shadow-sm btn-white" href="javascript:;"> <span
                                             class="d-flex justify-content-center align-items-center">
                                             <img class="me-2" src="../../../assets/images/icons/search.svg" width="16"
@@ -23,7 +23,7 @@
                                             <span>Đăng nhập bằng Google</span>
                                         </span>
                                     </a>
-                                </div>
+                                </div> -->
                                 <div class="login-separater text-center mb-4">
                                     <span>OR</span>
                                     <hr>
@@ -103,7 +103,7 @@ export default {
 
         }
 
-          // Load list nhân viên từ localStorage
+        // Load list khách hàng từ localStorage
         this.list_khach_hang = JSON.parse(localStorage.getItem("list_khach_hang") || "[]");
 
         // Nếu chưa có dữ liệu, thêm nhân viên mẫu
@@ -124,6 +124,8 @@ export default {
             this.list_khach_hang.push(nhanVienMau);
             localStorage.setItem("list_khach_hang", JSON.stringify(this.list_khach_hang));
         }
+
+
         
     },
     methods: {
