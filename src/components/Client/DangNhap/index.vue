@@ -52,7 +52,8 @@
                                         </div>
                                         <div class="col-md-6">
                                         </div>
-                                        <div class="col-md-6 text-end"> <a href="">Quên mật khẩu</a>
+                                        <div class="col-md-6 text-end"> <a href="/client/quen-mat-khau">Quên mật
+                                                khẩu</a>
                                         </div>
                                         <div class="col-12">
                                             <div class="d-grid">
@@ -101,6 +102,29 @@ export default {
             localStorage.setItem("list_nhan_vien", JSON.stringify(this.list_nhan_vien));
 
         }
+
+          // Load list nhân viên từ localStorage
+        this.list_khach_hang = JSON.parse(localStorage.getItem("list_khach_hang") || "[]");
+
+        // Nếu chưa có dữ liệu, thêm nhân viên mẫu
+        if (this.list_khach_hang.length === 0) {
+            const nhanVienMau = {
+                id: Date.now(),
+                ho_va_ten: "Nguyễn Thành An",
+                email: "An1234@gmail.com",
+                mat_khau: "123123",
+                xac_nhan_mat_khau: "123123",
+                ngay_sinh: "1995-05-15",
+                so_dien_thoai: "0123456789",
+                is_active:true,
+                is_block:false,
+                cccd:"123456789012"
+            };
+
+            this.list_khach_hang.push(nhanVienMau);
+            localStorage.setItem("list_khach_hang", JSON.stringify(this.list_khach_hang));
+        }
+        
     },
     methods: {
         dangNhap() {
@@ -149,6 +173,52 @@ export default {
                 }
             } else {
                 this.$toast.error("Email hoặc mật khẩu không đúng!");
+            }
+        },
+
+
+        layDataKhachHang() {
+            const data = localStorage.getItem("list_khach_hang");
+
+            if (data) {
+                this.list_khach_hang = JSON.parse(data);
+            } else {
+                // Dữ liệu mẫu
+                this.list_khach_hang = [
+                    {
+                        id: 1,
+                        ho_va_ten: "Nguyễn Văn A",
+                        email: "vana@example.com",
+                        so_dien_thoai: "0912345678",
+                        ngay_sinh: "1990-05-12",
+                        cccd: "123456789012",
+                        is_active: true,
+                        is_block: false,
+                    },
+                    {
+                        id: 2,
+                        ho_va_ten: "Trần Thị B",
+                        email: "thib@example.com",
+                        so_dien_thoai: "0987654321",
+                        ngay_sinh: "1995-10-20",
+                        cccd: "987654321098",
+                        is_active: false,
+                        is_block: false,
+                    },
+                    {
+                        id: 3,
+                        ho_va_ten: "Lê Minh C",
+                        email: "minhc@example.com",
+                        so_dien_thoai: "0909998888",
+                        ngay_sinh: "1988-03-08",
+                        cccd: "012345678912",
+                        is_active: true,
+                        is_block: true,
+                    },
+                ];
+
+                // Lưu vào localStorage
+                this.saveToStorage();
             }
         }
     },

@@ -815,6 +815,219 @@ export default {
                     tinh_trang: 1
                 },
             ],
+            
+            list_phong_chieu: [
+                {
+                    id: 1,
+                    ten_phong: 'Phòng 1',
+                    hang_ngang: 4,
+                    hang_doc: 4,
+                    tinh_trang: 1
+                },
+                {
+                    id: 2,
+                    ten_phong: 'Phòng 2',
+                    hang_ngang: 4,
+                    hang_doc: 4,
+                    tinh_trang: 1
+                }
+            ],
+            list_ghe: [{
+                id: 1,
+                ten_ghe: 'A1',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+
+                tinh_trang: '1'
+            }, {
+                id: 2,
+                ten_ghe: 'A2',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 3,
+                ten_ghe: 'A3',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 4,
+                ten_ghe: 'A4',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            }
+                ,
+
+            {
+                id: 5,
+                ten_ghe: 'B1',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 6,
+                ten_ghe: 'B2',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 7,
+                ten_ghe: 'B3',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 8,
+                ten_ghe: 'B4',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 9,
+                ten_ghe: 'C1',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 10,
+                ten_ghe: 'C2',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 11,
+                ten_ghe: 'C3',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 12,
+                ten_ghe: 'C4',
+                gia_ghe: 45000,
+                id_phong_chieu: 1,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+             {
+                id: 14,
+                ten_ghe: 'A1',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+
+                tinh_trang: '1'
+            }, {
+                id: 15,
+                ten_ghe: 'A2',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 16,
+                ten_ghe: 'A3',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 17,
+                ten_ghe: 'A4',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            }
+                ,
+
+            {
+                id: 18,
+                ten_ghe: 'B1',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 19,
+                ten_ghe: 'B2',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 20,
+                ten_ghe: 'B3',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 21,
+                ten_ghe: 'B4',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 22,
+                ten_ghe: 'C1',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 23,
+                ten_ghe: 'C2',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 24,
+                ten_ghe: 'C3',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            },
+            {
+                id: 25,
+                ten_ghe: 'C4',
+                gia_ghe: 45000,
+                id_phong_chieu: 2,
+                // ten_phong: 'Phòng 1',
+                tinh_trang: '1'
+            }
+            ],
+
 
         }
     },
@@ -857,6 +1070,43 @@ export default {
         } else {
             // Nếu localStorage rỗng, lưu lại mặc định
             localStorage.setItem('list_suat_chieu', JSON.stringify(this.list_suat_chieu));
+        }
+
+          // Lấy danh sách phòng chiếu từ localStorage
+        const storedPhong = localStorage.getItem('list_phong_chieu');
+
+        const defaultListP = this.list_phong_chieu.slice(); // clone ra
+
+        if (storedPhong) {
+            const storedList = JSON.parse(storedPhong);
+            const merged = [...defaultListP, ...storedList.filter(storedItem => {
+                return !defaultListP.some(defaultItem => defaultItem.id === storedItem.id);
+            })];
+
+            this.list_phong_chieu = merged;
+            localStorage.setItem('list_phong_chieu', JSON.stringify(this.list_phong_chieu));
+        } else {
+            // localStorage rỗng → lưu list mặc định
+            localStorage.setItem('list_phong_chieu', JSON.stringify(this.list_phong_chieu));
+        }
+
+
+        // Lấy danh sách ghế từ localStorage
+        const storedGhe = localStorage.getItem('list_ghe');
+
+        const defaultListGhe = this.list_ghe.slice(); // clone ra
+
+        if (storedGhe) {
+            const storedList = JSON.parse(storedGhe);
+            const merged = [...defaultListGhe, ...storedList.filter(storedItem => {
+                return !defaultListGhe.some(defaultItem => defaultItem.id === storedItem.id);
+            })];
+
+            this.list_ghe = merged;
+            localStorage.setItem('list_ghe', JSON.stringify(this.list_ghe));
+        } else {
+            // localStorage rỗng → lưu list mặc định
+            localStorage.setItem('list_ghe', JSON.stringify(this.list_ghe));
         }
 
     },

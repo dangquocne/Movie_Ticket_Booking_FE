@@ -62,7 +62,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                               <template v-for="(item, index) in filteredGhe" :key="item.id">
+                                <template v-for="(item, index) in filteredGhe" :key="item.id">
                                     <tr class="text-nowrap">
                                         <th class="align-middle text-center" style="width: 30px;">{{ index + 1 }}</th>
                                         <td class="align-middle text-center">{{ item.ten_ghe }}</td>
@@ -215,57 +215,92 @@ export default {
 
     },
     computed: {
-    filteredGhe() {
-        const q = this.searchQuery.trim().toLowerCase();
-        if (!q) return this.list_ghe;
-        return this.list_ghe.filter((ghe) =>
-            ghe.ten_ghe.toLowerCase().includes(q)
-        );
+        filteredGhe() {
+            const q = this.searchQuery.trim().toLowerCase();
+            if (!q) return this.list_ghe;
+            return this.list_ghe.filter((ghe) =>
+                ghe.ten_ghe.toLowerCase().includes(q)
+            );
+        },
     },
-},
     methods: {
 
+        isValidGiaGhe(gia) {
+            // Không được rỗng
+            if (!gia) return false;
+
+            // Chỉ cho phép số (0–9)
+            if (!/^[0-9]+$/.test(gia)) return false;
+
+            // Phải > 0
+            return Number(gia) > 0;
+        },
+
         // ✅ Validate chung cho thêm & cập nhật
-    validateGhe(ghe) {
-        if (
-            !ghe.ten_ghe &&
-            !ghe.gia_ghe &&
-            !ghe.id_phong_chieu
-        ) {
-            this.$toast?.error?.("⚠️ Vui lòng nhập đầy đủ thông tin ghế!");
-            return false;
-        }
-        if (!ghe.ten_ghe) {
-            this.$toast?.error?.("⚠️ Chưa nhập tên ghế!");
-            return false;
-        }
-        if (!ghe.gia_ghe) {
-            this.$toast?.error?.("⚠️ Chưa nhập giá ghế!");
-            return false;
-        }
-        if (!ghe.id_phong_chieu) {
-            this.$toast?.error?.("⚠️ Vui lòng chọn phòng chiếu!");
-            return false;
-        }
-        return true;
-    },
+        validateGhe(ghe) {
+            if (
+                !ghe.ten_ghe &&
+                !ghe.gia_ghe &&
+                !ghe.id_phong_chieu
+            ) {
+                this.$toast?.error?.("⚠️ Vui lòng nhập đầy đủ thông tin ghế!");
+                return false;
+            }
+            if (!ghe.ten_ghe) {
+                this.$toast?.error?.("⚠️ Chưa nhập tên ghế!");
+                return false;
+            }
+            if (!ghe.gia_ghe) {
+                this.$toast?.error?.("⚠️ Chưa nhập giá ghế!");
+                return false;
+            }
+            // 🔥 Validate giá ghế
+            if (!this.isValidGiaGhe(ghe.gia_ghe)) {
+                this.$toast?.error?.("⚠️ Giá ghế phải là số hợp lệ và lớn hơn 0!");
+                return false;
+            }
+            if (!ghe.id_phong_chieu) {
+                this.$toast?.error?.("⚠️ Vui lòng chọn phòng chiếu!");
+                return false;
+            }
+            return true;
+        },
 
-    // ✅ Thêm ghế mới
-    themGhe() {
-        if (!this.validateGhe(this.create_ghe)) return;
+        // Kiểm tra trùng tên ghế trong cùng phòng
+        isTrungGhe(ghe, isUpdate = false) {
+            return this.list_ghe.some(item => {
+                // Nếu đang update thì bỏ qua chính nó
+                if (isUpdate && item.id === ghe.id) return false;
 
-        const newGhe = {
-            ...this.create_ghe,
-            id: Date.now(),
-        };
+                return (
+                    item.ten_ghe.trim().toLowerCase() === ghe.ten_ghe.trim().toLowerCase() &&
+                    item.id_phong_chieu == ghe.id_phong_chieu
+                );
+            });
+        },
 
-        this.list_ghe.push(newGhe);
-        localStorage.setItem('list_ghe', JSON.stringify(this.list_ghe));
+        // ✅ Thêm ghế mới
+        themGhe() {
+            if (!this.validateGhe(this.create_ghe)) return;
 
-        this.create_ghe = { tinh_trang: '1' };
+            // 🔥 Kiểm tra trùng ghế cùng phòng
+            if (this.isTrungGhe(this.create_ghe)) {
+                this.$toast?.error?.("⚠️ Ghế này đã tồn tại trong phòng!");
+                return;
+            }
 
-        this.$toast?.success?.("✅ Thêm ghế thành công!");
-    },
+            const newGhe = {
+                ...this.create_ghe,
+                id: Date.now(),
+            };
+
+            this.list_ghe.push(newGhe);
+            localStorage.setItem('list_ghe', JSON.stringify(this.list_ghe));
+
+            this.create_ghe = { tinh_trang: '1' };
+
+            this.$toast?.success?.("✅ Thêm ghế thành công!");
+        },
 
 
         getTenPhong(id) {
