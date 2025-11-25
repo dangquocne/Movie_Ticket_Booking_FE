@@ -232,6 +232,8 @@ export default {
       if (!data.email?.trim()) errs.email = "Vui lòng nhập email!";
       else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email))
         errs.email = "Email không hợp lệ!";
+        else if (this.list_khach_hang.some(kh => kh.email === data.email))
+        errs.email = "Email này đã tồn tại!";
       if (!data.so_dien_thoai?.trim()) errs.so_dien_thoai = "Vui lòng nhập số điện thoại!";
       else if (!/^(0|\+84)\d{9,10}$/.test(data.so_dien_thoai))
         errs.so_dien_thoai = "Số điện thoại không hợp lệ!";

@@ -281,6 +281,8 @@ export default {
       if (!data.ho_va_ten?.trim()) errs.ho_va_ten = "Vui lòng nhập họ tên!";
       if (!data.email?.trim()) errs.email = "Vui lòng nhập email!";
       else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errs.email = "Email không hợp lệ!";
+      else if (this.list_nhan_vien.some(nv => nv.email === data.email))
+        errs.email = "Email này đã tồn tại!";
       if (!data.so_dien_thoai?.trim()) errs.so_dien_thoai = "Vui lòng nhập số điện thoại!";
       else if (!/^(0|\+84)\d{9,10}$/.test(data.so_dien_thoai)) errs.so_dien_thoai = "Số điện thoại không hợp lệ!";
       if (!data.mat_khau?.trim()) errs.mat_khau = "Vui lòng nhập mật khẩu!";

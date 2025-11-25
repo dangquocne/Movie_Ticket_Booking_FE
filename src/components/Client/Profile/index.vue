@@ -75,7 +75,7 @@
 													<div class="mb-3">
 														<label class="form-label">Email</label>
 														<input v-model="user.email" type="text"
-															class="form-control text-secondary" readonly
+															class="form-control" 
 															placeholder="Xác Nhận Mật Khẩu">
 													</div>
 
@@ -256,8 +256,101 @@ export default {
 			}).format(value);
 		},
 
+		validateProfile() {
+			
+
+			if (!this.user.ho_va_ten) {
+				this.$toast?.error?.("Không được để trống họ tên!")
+				
+				return false
+			}
+
+			if (!this.user.so_dien_thoai) {
+				this.$toast?.error?.("Không được để trống số điện thoại!")
+				
+				return false
+			}
+
+			if (!this.user.ngay_sinh) {
+				this.$toast?.error?.("Không được để trống ngày sinh!")
+				
+				return false
+			}
+
+			if (!this.user.cccd) {
+				this.$toast?.error?.("Không được để trống CCCD!")
+				
+				return false
+			}
+
+			if (!this.user.email) {
+				this.$toast?.error?.("Không được để trống email!")
+				
+				return false
+			}
+
+			if (!this.user.so_dien_thoai) {
+				this.$toast?.error?.("Không được để trống số điện thoại!")
+				
+				return false
+			}
+
+			if (!this.user.que_quan || this.user.que_quan.trim() === '') {
+				this.$toast?.error?.("Không được để trống quê quán!");
+				return false;
+			}
+
+			const nameRegex = /^[a-zA-ZÀ-ỹ\s]+$/;
+
+			if (!nameRegex.test(this.user.ho_va_ten)) {
+				this.$toast?.error?.("Họ tên không được chứa số hoặc ký tự đặc biệt!");
+				return false;
+			}
+
+
+
+			// Kiểm tra ngày sinh không lớn hơn hiện tại
+			const birthday = new Date(this.user.ngay_sinh);
+			const today = new Date();
+
+			// Đặt giờ về 0 để so đúng ngày
+			birthday.setHours(0, 0, 0, 0);
+			today.setHours(0, 0, 0, 0);
+
+			if (birthday > today) {
+				this.$toast?.error?.("Ngày sinh không hợp lệ!");
+				return false;
+			}
+
+			if (!this.user.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.user.email)) {
+				this.$toast?.error?.("Email không hợp lệ!");
+				return false;
+			}
+
+			// if (!this.user.so_dien_thoai) {
+			// 	this.$toast?.error?.("Vui lòng nhập số điện thoại!");
+			// 	return false;
+			// }
+			if (!/^(0[0-9]{9})$/.test(this.user.so_dien_thoai)) {
+				this.$toast?.error?.("Số điện thoại không hợp lệ!");
+				return false;
+			}
+
+		
+			if (!/^[0-9]{12}$/.test(this.user.cccd)) {
+				this.$toast?.error?.("CCCD phải gồm 12 chữ số!");
+				return false;
+			}
+
+
+			return true;
+		},
+
 		// ✅ Cập nhật thông tin user
 		capNhatUser() {
+			// ⛔ Nếu validate fail -> dừng ngay
+			if (!this.validateProfile()) return;
+
 			let danhSachUser = JSON.parse(localStorage.getItem('list_khach_hang')) || [];
 			const index = danhSachUser.findIndex(u => u.id === this.user.id);
 
@@ -271,8 +364,30 @@ export default {
 			}
 		},
 
+
+		validatePassword(password) {
+			if (!password) {
+				this.passWordError = "Vui lòng nhập mật khẩu!";
+				return false;
+			}
+
+			if (password.length < 6) {
+				this.passWordError = "Mật khẩu phải có ít nhất 6 ký tự!";
+				return false;
+			}
+
+			if (/\s/.test(password)) {
+				this.passWordError = "Mật khẩu không được chứa khoảng trắng!";
+				return false;
+			}
+
+			return true;
+		},
 		// ✅ Đổi mật khẩu user
 		doiMatKhau() {
+			// Clear lỗi
+			this.passWordError = "";
+
 			if (!this.currentPass || !this.newPass || !this.passConfirm) {
 				this.passWordError = "Vui lòng nhập đầy đủ mật khẩu!";
 				return;
@@ -289,6 +404,11 @@ export default {
 			// So sánh đúng field: `mat_khau`
 			if (this.currentPass !== this.user.mat_khau) {
 				this.passWordError = "Mật khẩu hiện tại không đúng!";
+				return;
+			}
+
+			// Validate mật khẩu mới
+			if (!this.validatePassword(this.newPass)) {
 				return;
 			}
 
