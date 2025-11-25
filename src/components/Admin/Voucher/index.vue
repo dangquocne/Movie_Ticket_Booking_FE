@@ -290,8 +290,61 @@ function chuanBiCapNhat(item) {
   Object.assign(edit_voucher.value, item);
 }
 
+
+function validateEdit(data, isEdit = false) {
+  if (
+    !data.ma_code &&
+    !data.thoi_gian_bat_dau &&
+    !data.thoi_gian_ket_thuc &&
+    !data.so_giam_gia &&
+    !data.so_tien_toi_da &&
+    !data.so_tien_giam_gia
+  ) {
+    proxy.$toast.error("Không được để trống toàn bộ các trường!");
+    return false;
+  }
+  if (!data.ma_code) return proxy.$toast.error("Mã voucher không được để trống!"), false;
+  if (!data.thoi_gian_bat_dau) return proxy.$toast.error("Chưa chọn thời gian bắt đầu!"), false;
+  if (!data.thoi_gian_ket_thuc) return proxy.$toast.error("Chưa chọn thời gian kết thúc!"), false;
+  if (!data.so_giam_gia) return proxy.$toast.error("Số giảm giá không được để trống!"), false;
+  if (!data.so_tien_toi_da) return proxy.$toast.error("Số tiền tối đa không được để trống!"), false;
+  if (!data.so_tien_giam_gia) return proxy.$toast.error("Số tiền giảm giá không được để trống!"), false;
+
+
+  // ✅ Kiểm tra định dạng và giá trị hợp lệ
+  if (isNaN(data.so_giam_gia) || data.so_giam_gia <= 0 || data.so_giam_gia > 100) {
+    return proxy.$toast.error("⚠️ Số giảm giá phải là số từ 1 đến 100!"), false;
+  }
+
+  if (isNaN(data.so_tien_toi_da) || data.so_tien_toi_da <= 0) {
+    return proxy.$toast.error("⚠️ Số tiền tối đa phải là số lớn hơn 0!"), false;
+  }
+
+  if (isNaN(data.so_tien_giam_gia) || data.so_tien_giam_gia <= 0) {
+    return proxy.$toast.error("⚠️ Số tiền giảm giá phải là số lớn hơn 0!"), false;
+  }
+
+  if (Number(data.so_tien_giam_gia) > Number(data.so_tien_toi_da)) {
+    return proxy.$toast.error("⚠️ Số tiền giảm giá không được lớn hơn số tiền tối đa!"), false;
+  }
+
+  // ✅ Kiểm tra ngày hợp lệ
+  const start = new Date(data.thoi_gian_bat_dau);
+  const end = new Date(data.thoi_gian_ket_thuc);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (start < today) {
+    return proxy.$toast.error("⚠️ Thời gian bắt đầu không được trước ngày hôm nay!"), false;
+  }
+  if (end <= start) {
+    return proxy.$toast.error("⚠️ Thời gian kết thúc phải sau thời gian bắt đầu!"), false;
+  }
+  return true;
+}
+
 function capNhatVoucher() {
-  if (!validate(edit_voucher.value)) return;
+  if (!validateEdit(edit_voucher.value)) return;
   const index = list_voucher.value.findIndex(v => v.ma_code === edit_voucher.value.ma_code);
   if (index !== -1) {
     list_voucher.value[index] = { ...edit_voucher.value };

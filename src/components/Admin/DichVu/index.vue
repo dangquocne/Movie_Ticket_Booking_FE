@@ -244,8 +244,33 @@ export default {
       this.$toast.success("✅ Thêm dịch vụ thành công!");
       this.create_dich_vu = { ten_dich_vu: "", hinh_anh: "", gia: "", mo_ta: "", tinh_trang: 1 };
     },
+
+     // ✅ HÀM KIỂM TRA DỮ LIỆU + TRÙNG TÊN
+    validateEditDichVu(dv,isEdit = false) {
+      const missing = [];
+      if (!dv.ten_dich_vu) missing.push("Tên dịch vụ");
+      if (!dv.hinh_anh) missing.push("Hình ảnh");
+      if (!dv.gia) missing.push("Giá dịch vụ");
+      if (!dv.mo_ta) missing.push("Mô tả");
+
+      if (missing.length === 4) return "⚠️ Vui lòng nhập đầy đủ thông tin!";
+      if (missing.length > 0) return `⚠️ Không được để trống: ${missing.join(", ")}`;
+
+      // ✅ Kiểm tra định dạng link hình ảnh
+      const urlPattern = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg))$/i;
+      if (!urlPattern.test(dv.hinh_anh.trim())) {
+        return "⚠️ Link hình ảnh không hợp lệ! Hãy nhập đường dẫn ảnh có đuôi .jpg, .png, .gif,...";
+      }
+
+      // ✅ Kiểm tra giá hợp lệ (phải là số > 0)
+      if (isNaN(dv.gia) || dv.gia <= 0) {
+        return "⚠️ Giá dịch vụ phải là số lớn hơn 0!";
+      }
+
+      return null;
+    },
     capNhatDichVu() {
-      const err = this.validateDichVu(this.edit_dich_vu);
+      const err = this.validateEditDichVu(this.edit_dich_vu);
       if (err) return this.$toast.error(err);
 
       const index = this.list_dich_vu.findIndex(dv => dv.id === this.edit_dich_vu.id);
